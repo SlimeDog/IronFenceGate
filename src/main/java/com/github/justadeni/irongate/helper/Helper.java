@@ -76,7 +76,7 @@ public class Helper {
             setId(getAdjacent().id + 4);
             removeBarriers();
         } else {
-            setId(getAdjacent().id - 4);
+            setId(getId() - 4);
             addBarriers();
         }
     }

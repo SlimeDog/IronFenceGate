@@ -25,7 +25,7 @@ public class GateMaker {
         stand.setSmall(true);
         stand.setArms(false);
 
-        stand.getEquipment().setHelmet(Recipe.getRecipe().getResult());
+        stand.getEquipment().setHelmet(Recipe.getUpperRecipe().getResult());
         stand.addEquipmentLock(EquipmentSlot.HEAD, ArmorStand.LockType.REMOVING_OR_CHANGING);
 
     }

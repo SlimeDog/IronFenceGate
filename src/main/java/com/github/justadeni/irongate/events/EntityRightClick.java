@@ -5,12 +5,17 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityInteractEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 public class EntityRightClick implements Listener {
 
     @EventHandler
-    public static void onEntityRightClick(PlayerInteractEntityEvent e){
+    public static void onEntityRightClick(PlayerInteractAtEntityEvent e){
+        if (e.getHand().equals(EquipmentSlot.OFF_HAND))
+            return;
+
         if (e.getRightClicked().getType() != EntityType.ARMOR_STAND)
             return;
 

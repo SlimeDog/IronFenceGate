@@ -4,15 +4,20 @@ import com.github.justadeni.irongate.helper.GateBreak;
 import com.github.justadeni.irongate.helper.GateMaker;
 import com.github.justadeni.irongate.helper.Helper;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 public class PlayerInteract implements Listener {
 
     @EventHandler
     public static void onPlayerInteract(PlayerInteractEvent e){
+        if (e.getHand().equals(EquipmentSlot.OFF_HAND))
+            return;
+
         if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
 
             if (e.getClickedBlock().getType() != Material.BARRIER)
@@ -39,7 +44,19 @@ public class PlayerInteract implements Listener {
                 return;
 
             new GateBreak(e.getClickedBlock().getLocation());
-        }
+
+        } /*else if (e.getAction().equals(Action.RIGHT_CLICK_AIR)){
+
+            Helper helper = new Helper(e.getClickedBlock().getLocation());
+
+            if (helper.stand == null)
+                return;
+
+            if (!helper.isOurs())
+                return;
+
+            helper.flipState();
+        }*/
     }
 
 }

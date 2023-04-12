@@ -19,7 +19,8 @@ public final class IronFenceGate extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        Bukkit.addRecipe(Recipe.getRecipe());
+        Bukkit.addRecipe(Recipe.getUpperRecipe());
+        Bukkit.addRecipe(Recipe.getLowerRecipe());
         getServer().getPluginManager().registerEvents(new BlockPlace(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteract(), this);
         getServer().getPluginManager().registerEvents(new EntityLeftClick(), this);
@@ -28,6 +29,7 @@ public final class IronFenceGate extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Bukkit.removeRecipe(Recipe.key);
+        Bukkit.removeRecipe(Recipe.upperKey);
+        Bukkit.removeRecipe(Recipe.lowerKey);
     }
 }

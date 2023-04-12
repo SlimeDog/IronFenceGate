@@ -12,10 +12,11 @@ import java.util.ArrayList;
 
 public class Recipe {
 
-    public static NamespacedKey upperKey;
-    public static NamespacedKey lowerKey;
+    public static ArrayList<NamespacedKey> keylist = new ArrayList<>();
 
-    public static ShapedRecipe getUpperRecipe() {
+    public static ArrayList<ShapedRecipe> recipes = new ArrayList<>();
+
+    public static void makeRecipes() {
         ItemStack itemStack = new ItemStack(Material.STONE);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&rIron Gate"));
@@ -25,32 +26,19 @@ public class Recipe {
         itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
 
-        upperKey = new NamespacedKey(IronFenceGate.getInstance(), "UpperIronFenceGate");
-        ShapedRecipe recipe = new ShapedRecipe(upperKey, itemStack);
-        recipe.shape("BIB", "BIB", "   ");
-        recipe.setIngredient('B', Material.IRON_BARS);
-        recipe.setIngredient('I', Material.IRON_INGOT);
+        keylist.add(new NamespacedKey(IronFenceGate.getInstance(), "UpperIronFenceGate"));
+        ShapedRecipe upperRecipe = new ShapedRecipe(keylist.get(0), itemStack);
+        upperRecipe.shape("BIB", "BIB", "   ");
+        upperRecipe.setIngredient('B', Material.IRON_BARS);
+        upperRecipe.setIngredient('I', Material.IRON_INGOT);
+        recipes.add(upperRecipe);
 
-        return recipe;
-    }
-
-    public static ShapedRecipe getLowerRecipe() {
-        ItemStack itemStack = new ItemStack(Material.STONE);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&rIron Gate"));
-        itemMeta.setCustomModelData(1);
-        ArrayList<String> lore = new ArrayList<String>();
-        lore.add("Connects to Iron Fences");
-        itemMeta.setLore(lore);
-        itemStack.setItemMeta(itemMeta);
-
-        lowerKey = new NamespacedKey(IronFenceGate.getInstance(), "LowerIronFenceGate");
-        ShapedRecipe recipe = new ShapedRecipe(lowerKey, itemStack);
-        recipe.shape("   ", "BIB", "BIB");
-        recipe.setIngredient('B', Material.IRON_BARS);
-        recipe.setIngredient('I', Material.IRON_INGOT);
-
-        return recipe;
+        keylist.add(new NamespacedKey(IronFenceGate.getInstance(), "LowerIronFenceGate"));
+        ShapedRecipe lowerRecipe = new ShapedRecipe(keylist.get(1), itemStack);
+        lowerRecipe.shape("   ", "BIB", "BIB");
+        lowerRecipe.setIngredient('B', Material.IRON_BARS);
+        lowerRecipe.setIngredient('I', Material.IRON_INGOT);
+        recipes.add(lowerRecipe);
     }
 
 }

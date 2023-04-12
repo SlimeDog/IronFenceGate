@@ -1,7 +1,7 @@
 package com.github.justadeni.irongate.events;
 
-import com.github.justadeni.irongate.helper.GateBreak;
-import com.github.justadeni.irongate.helper.Helper;
+import com.github.justadeni.irongate.logic.GateBreak;
+import com.github.justadeni.irongate.logic.Helper;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

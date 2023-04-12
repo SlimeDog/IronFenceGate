@@ -1,12 +1,10 @@
 package com.github.justadeni.irongate.events;
 
-import com.github.justadeni.irongate.helper.Helper;
+import com.github.justadeni.irongate.logic.Helper;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 public class EntityRightClick implements Listener {

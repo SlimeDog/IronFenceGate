@@ -1,10 +1,8 @@
 package com.github.justadeni.irongate.events;
 
-import com.github.justadeni.irongate.helper.GateBreak;
-import com.github.justadeni.irongate.helper.GateMaker;
-import com.github.justadeni.irongate.helper.Helper;
+import com.github.justadeni.irongate.logic.GateBreak;
+import com.github.justadeni.irongate.logic.Helper;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;

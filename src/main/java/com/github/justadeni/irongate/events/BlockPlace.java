@@ -1,8 +1,9 @@
 package com.github.justadeni.irongate.events;
 
-import com.github.justadeni.irongate.helper.GateMaker;
-import com.github.justadeni.irongate.helper.Helper;
-import com.github.justadeni.irongate.misc.Recipe;
+import com.github.justadeni.irongate.enums.Direction;
+import com.github.justadeni.irongate.logic.GateMaker;
+import com.github.justadeni.irongate.logic.Helper;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,6 +23,9 @@ public class BlockPlace implements Listener {
             return;
 
         e.getBlock().setType(Material.BARRIER);
+
+        Location location = e.getBlock().getLocation();
+        Direction opposite = Direction.getOpposite(Direction.getDirection(location.getYaw()));
 
         new GateMaker(e.getBlock().getLocation());
         new Helper(e.getBlock().getLocation()).addBarriers();

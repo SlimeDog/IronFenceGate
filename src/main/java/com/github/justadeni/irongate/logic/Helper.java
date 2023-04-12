@@ -1,4 +1,4 @@
-package com.github.justadeni.irongate.helper;
+package com.github.justadeni.irongate.logic;
 
 import com.github.justadeni.irongate.enums.Adjacent;
 import com.github.justadeni.irongate.enums.State;

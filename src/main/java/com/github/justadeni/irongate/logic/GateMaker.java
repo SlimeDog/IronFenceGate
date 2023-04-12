@@ -1,4 +1,4 @@
-package com.github.justadeni.irongate.helper;
+package com.github.justadeni.irongate.logic;
 
 import com.github.justadeni.irongate.misc.Recipe;
 import org.bukkit.Location;

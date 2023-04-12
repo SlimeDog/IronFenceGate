@@ -1,0 +1,4 @@
+name: IronGate
+version: '${project.version}'
+main: com.github.justadeni.irongate.IronGate
+api-version: 1.19

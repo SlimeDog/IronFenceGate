@@ -4,6 +4,7 @@ import com.github.justadeni.irongate.IronGate;
 import com.github.justadeni.irongate.enums.Adjacent;
 import com.github.justadeni.irongate.enums.State;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
@@ -16,9 +17,15 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class Helper {
 
-    //public ArmorStand stand;
+    private Location location;
+    public ArmorStand stand;
 
-    public ArmorStand findStand(Location location){
+    public Helper(Location location){
+        this.location = location;
+        stand = findStand();
+    }
+
+    private ArmorStand findStand(){
         for (Entity e : location.getChunk().getEntities()){
             if (e.getType() == EntityType.ARMOR_STAND){
                 if (e.getLocation().distance(location) <= 0.75){
@@ -30,21 +37,56 @@ public class Helper {
         return null;
     }
 
-    private int getId(ArmorStand stand){
+    private int getId(){
         ItemStack itemStack = stand.getEquipment().getItem(EquipmentSlot.HEAD);
         ItemMeta itemMeta = itemStack.getItemMeta();
         return itemMeta.getCustomModelData();
     }
 
-    public State getState(ArmorStand stand){
-        if (getId(stand) > 4)
+    private void setId(int id){
+        ItemStack itemStack = stand.getEquipment().getItem(EquipmentSlot.HEAD);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setCustomModelData(id);
+        itemStack.setItemMeta(itemMeta);
+        stand.getEquipment().setHelmet(itemStack);
+    }
+
+    public ArmorStand getStand(){
+        return stand;
+    }
+
+    public boolean isOurs(){
+        if (stand.isInvisible() && stand.isSmall() && !stand.hasBasePlate()){
+            try {
+                if (stand.getEquipment().getItem(EquipmentSlot.HEAD).getType() == Material.STONE)
+                    return true;
+            } catch (NullPointerException e){
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    public State getState(){
+        if (getId() > 4)
             return State.OPEN;
         else
             return State.CLOSED;
     }
 
-    public Adjacent getAdjacent(ArmorStand stand){
-        int id = getId(stand);
+    public void flipState(){
+        if (getState() == State.CLOSED){
+            setId(getAdjacent().id + 4);
+            removeBarriers();
+        } else {
+            setId(getAdjacent().id - 4);
+            addBarriers();
+        }
+    }
+
+    public Adjacent getAdjacent(){
+        int id = getId();
 
         if (id > 4)
             id -= 4;
@@ -56,5 +98,22 @@ public class Helper {
             default: return Adjacent.BOTH;
         }
     }
+
+    public void addBarriers(){
+        if (location.getBlock().getType() == Material.AIR)
+            location.getBlock().setType(Material.BARRIER);
+
+        if (location.add(0,1,0).getBlock().getType() == Material.AIR)
+            location.add(0,1,0).getBlock().setType(Material.BARRIER);
+    }
+
+    public void removeBarriers(){
+        if (location.getBlock().getType() == Material.BARRIER)
+            location.getBlock().setType(Material.AIR);
+
+        if (location.add(0,1,0).getBlock().getType() == Material.BARRIER)
+            location.add(0,1,0).getBlock().setType(Material.AIR);
+    }
+
 
 }

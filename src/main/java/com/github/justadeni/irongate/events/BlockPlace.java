@@ -1,6 +1,7 @@
 package com.github.justadeni.irongate.events;
 
 import com.github.justadeni.irongate.helper.GateMaker;
+import com.github.justadeni.irongate.helper.Helper;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -30,14 +31,7 @@ public class BlockPlace implements Listener {
 
         //e.setCancelled(true);
 
-        Location location = e.getBlock().getLocation();
-
-        e.getBlock().setType(Material.BARRIER);
-
-        Location uplocation = location.add(0,1,0);
-        if (uplocation.getBlock().getType() != Material.AIR)
-            e.getBlock().getWorld().setType(uplocation, Material.BARRIER);
-
         new GateMaker(e.getBlock().getLocation());
+        new Helper(e.getBlock().getLocation()).addBarriers();
     }
 }

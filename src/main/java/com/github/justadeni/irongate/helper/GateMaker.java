@@ -29,7 +29,6 @@ public class GateMaker {
         stand.addEquipmentLock(EquipmentSlot.HEAD, ArmorStand.LockType.REMOVING_OR_CHANGING);
         stand.teleport(this.location);
 
-
     }
 
 }

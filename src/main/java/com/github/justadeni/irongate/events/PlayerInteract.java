@@ -19,7 +19,8 @@ public class PlayerInteract implements Listener {
                 return;
 
             Helper helper = new Helper(e.getClickedBlock().getLocation());
-            if (e.getClickedBlock().getType() != Material.BARRIER)
+
+            if (!helper.isOurs())
                 return;
 
             helper.flipState();
@@ -29,10 +30,15 @@ public class PlayerInteract implements Listener {
             if (e.getClickedBlock().getType() != Material.BARRIER)
                 return;
 
-            if (new Helper(e.getClickedBlock().getLocation()).getStand() == null)
+            Helper helper = new Helper(e.getClickedBlock().getLocation());
+
+            if (helper.getStand() == null)
                 return;
 
-            new GateMaker(e.getClickedBlock().getLocation());
+            if (!helper.isOurs())
+                return;
+
+            new GateBreak(e.getClickedBlock().getLocation());
         }
     }
 

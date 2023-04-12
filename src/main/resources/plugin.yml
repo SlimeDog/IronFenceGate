@@ -1,4 +1,4 @@
-name: IronGate
+name: IronFenceGate
 version: '${project.version}'
-main: com.github.justadeni.irongate.IronGate
+main: com.github.justadeni.irongate.IronFenceGate
 api-version: 1.19

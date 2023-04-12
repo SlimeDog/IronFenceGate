@@ -14,8 +14,7 @@ public class GateMaker {
     public GateMaker(Location location){
         this.location = location.add(0.5,0,0.5);
 
-        Location impromptu = location.add(0,100,0);
-        stand = (ArmorStand) impromptu.getWorld().spawnEntity(impromptu, EntityType.ARMOR_STAND);
+        stand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
 
         stand.setGravity(false);
         stand.setBasePlate(false);
@@ -24,10 +23,10 @@ public class GateMaker {
         stand.setInvulnerable(true);
         stand.setInvisible(true);
         stand.setSmall(true);
+        stand.setArms(false);
 
         stand.getEquipment().setHelmet(Recipe.getRecipe().getResult());
         stand.addEquipmentLock(EquipmentSlot.HEAD, ArmorStand.LockType.REMOVING_OR_CHANGING);
-        stand.teleport(this.location);
 
     }
 

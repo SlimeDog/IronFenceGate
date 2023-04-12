@@ -1,19 +1,15 @@
 package com.github.justadeni.irongate.helper;
 
-import com.github.justadeni.irongate.IronGate;
 import com.github.justadeni.irongate.enums.Adjacent;
 import com.github.justadeni.irongate.enums.State;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 
 public class Helper {
 
@@ -56,14 +52,14 @@ public class Helper {
     }
 
     public boolean isOurs(){
-        if (stand.isInvisible() && stand.isSmall() && !stand.hasBasePlate()){
+        //if (stand.isInvisible() && stand.isSmall() && !stand.hasBasePlate()){
             try {
                 if (stand.getEquipment().getItem(EquipmentSlot.HEAD).getType() == Material.STONE)
                     return true;
             } catch (NullPointerException e){
                 return false;
             }
-        }
+        //}
 
         return false;
     }
@@ -102,17 +98,21 @@ public class Helper {
     public void addBarriers(){
         if (location.getBlock().getType() == Material.AIR)
             location.getBlock().setType(Material.BARRIER);
-
-        if (location.add(0,1,0).getBlock().getType() == Material.AIR)
-            location.add(0,1,0).getBlock().setType(Material.BARRIER);
+        
+        Location newloc = location.add(0,1,0);
+        
+        if (newloc.getBlock().getType() == Material.AIR)
+            newloc.getBlock().setType(Material.BARRIER);
     }
 
     public void removeBarriers(){
         if (location.getBlock().getType() == Material.BARRIER)
             location.getBlock().setType(Material.AIR);
 
-        if (location.add(0,1,0).getBlock().getType() == Material.BARRIER)
-            location.add(0,1,0).getBlock().setType(Material.AIR);
+        Location newloc = location.add(0,1,0);
+
+        if (newloc.getBlock().getType() == Material.BARRIER)
+            newloc.getBlock().setType(Material.AIR);
     }
 
 

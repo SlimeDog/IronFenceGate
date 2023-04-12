@@ -2,16 +2,11 @@ package com.github.justadeni.irongate.events;
 
 import com.github.justadeni.irongate.helper.GateMaker;
 import com.github.justadeni.irongate.helper.Helper;
-import org.bukkit.Location;
+import com.github.justadeni.irongate.misc.Recipe;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
 
 public class BlockPlace implements Listener {
 
@@ -20,16 +15,13 @@ public class BlockPlace implements Listener {
         if (e.getItemInHand().getType() != Material.STONE)
             return;
 
-        if (!e.getItemInHand().hasItemMeta())
+        if (e.getItemInHand().getItemMeta() == null)
             return;
 
-        if (!e.getItemInHand().getItemMeta().hasLore())
+        if (!e.getItemInHand().getItemMeta().hasCustomModelData())
             return;
 
-        if (!e.getItemInHand().getItemMeta().getLore().get(0).equals("Connects to Iron Fences"))
-            return;
-
-        //e.setCancelled(true);
+        e.getBlock().setType(Material.BARRIER);
 
         new GateMaker(e.getBlock().getLocation());
         new Helper(e.getBlock().getLocation()).addBarriers();

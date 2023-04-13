@@ -1,18 +1,34 @@
 package com.github.justadeni.irongate.events;
 
 import com.github.justadeni.irongate.enums.Direction;
+import com.github.justadeni.irongate.logic.Connect;
 import com.github.justadeni.irongate.logic.GateMaker;
-import com.github.justadeni.irongate.logic.Helper;
+import com.github.justadeni.irongate.logic.StandManager;
+import com.github.justadeni.irongate.misc.Helpers;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 public class BlockPlace implements Listener {
 
     @EventHandler
     public static void onBlockPlace(BlockPlaceEvent e){
+
+        if (e.getHand() == EquipmentSlot.OFF_HAND)
+            return;
+
+        Location location = e.getBlockPlaced().getLocation().add(0.5,0,0.5);
+
+        Connect connect = new Connect();
+        for (Location loc : Helpers.getLocsAround(location)) {
+            connect.reconnect(loc);
+        }
+
+        connect.reconnect(location);
+
         if (e.getItemInHand().getType() != Material.STONE)
             return;
 
@@ -24,14 +40,12 @@ public class BlockPlace implements Listener {
 
         e.getBlock().setType(Material.BARRIER);
 
-        Location location = e.getBlock().getLocation();
-
         Direction opposite = Direction.getOpposite(Direction.getDirection(e.getPlayer().getLocation()));
 
         new GateMaker(location);
-        Helper helper = new Helper(location);
-        helper.addBarriers();
+        StandManager standManager = new StandManager(location);
+        standManager.addBarriers();
 
-        helper.setYaw((int) Direction.getYaw(opposite));
+        standManager.setYaw((int) Direction.getYaw(opposite));
     }
 }

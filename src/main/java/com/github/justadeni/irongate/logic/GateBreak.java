@@ -7,9 +7,9 @@ public class GateBreak {
 
     public GateBreak(Location location){
 
-        Helper helper = new Helper(location);
-        ArmorStand stand = helper.getStand();
+        StandManager standManager = new StandManager(location);
+        ArmorStand stand = standManager.getStand();
         stand.remove();
-        helper.removeBarriers();
+        standManager.removeBarriers();
     }
 }

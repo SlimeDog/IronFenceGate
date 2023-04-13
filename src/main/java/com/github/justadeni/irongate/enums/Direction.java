@@ -1,6 +1,7 @@
 package com.github.justadeni.irongate.enums;
 
 import org.bukkit.Location;
+import org.bukkit.block.BlockFace;
 
 public enum Direction{
     SOUTH(0),
@@ -22,7 +23,7 @@ public enum Direction{
     }
 
     public static Direction getDirection(float yaw) {
-        if (yaw > 315 && yaw <= 45)
+        if (yaw > 315 || yaw <= 45)
             return SOUTH;
         else if (yaw > 45 && yaw <= 135)
             return WEST;
@@ -42,6 +43,7 @@ public enum Direction{
             case SOUTH -> NORTH;
         };
     }
+
     public static float getYaw(Direction direction){
         return direction.id;
     }

@@ -3,6 +3,7 @@ package com.github.justadeni.irongate;
 import com.github.justadeni.irongate.events.*;
 import com.github.justadeni.irongate.misc.Recipe;
 import org.bukkit.Bukkit;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class IronFenceGate extends JavaPlugin {
@@ -23,12 +24,13 @@ public final class IronFenceGate extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerInteract(), this);
         getServer().getPluginManager().registerEvents(new EntityLeftClick(), this);
         getServer().getPluginManager().registerEvents(new EntityRightClick(), this);
-        getServer().getPluginManager().registerEvents(new BlockUpdate(), this);
+        getServer().getPluginManager().registerEvents(new BlockBreak(), this);
     }
 
     @Override
     public void onDisable() {
         Bukkit.removeRecipe(Recipe.keylist.get(0));
         Bukkit.removeRecipe(Recipe.keylist.get(1));
+        HandlerList.unregisterAll(IronFenceGate.getInstance());
     }
 }

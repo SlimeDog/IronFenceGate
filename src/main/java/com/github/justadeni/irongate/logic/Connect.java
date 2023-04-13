@@ -1,65 +1,82 @@
 package com.github.justadeni.irongate.logic;
 
+import com.github.justadeni.irongate.IronFenceGate;
 import com.github.justadeni.irongate.enums.Direction;
 import com.github.justadeni.irongate.enums.State;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 
 public class Connect {
 
+    private static ArrayList<Location> list = new ArrayList<>();
+
     public void reconnect(Location location){
-        Helper helper = new Helper(location);
-        if (helper.getStand() == null)
+
+        if (list.contains(location))
             return;
 
-        if (!helper.isOurs())
-            return;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
 
-        //Location standLocation = helper.stand.getLocation();
-        Direction direction = Direction.getDirection(helper.getYaw());
+                StandManager standManager = new StandManager(location);
+                if (standManager.getStand() == null) {
+                    list.remove(location);
+                    return;
+                }
+                if (!standManager.isOurs()) {
+                    list.remove(location);
+                    return;
+                }
 
-        int id = 0;
-        if (helper.getState() == State.OPEN)
-            id = 4;
+                Direction direction = Direction.getDirection(standManager.getYaw());
 
-        boolean leftSolid = isLeftSolid(location, direction);
-        boolean rightSolid = isRightSolid(location, direction);
+                int id = 0;
+                if (standManager.getState() == State.OPEN)
+                    id = 4;
 
-        if (leftSolid && rightSolid)
-            id +=4;
-        else if (rightSolid)
-            id += 3;
-        else if (leftSolid)
-            id +=2;
-        else
-            id +=1;
+                boolean leftSolid = isLeftSolid(location, direction);
+                boolean rightSolid = isRightSolid(location, direction);
 
-        helper.setId(id);
+                if (leftSolid && rightSolid)
+                    id += 4;
+                else if (rightSolid)
+                    id += 2;
+                else if (leftSolid)
+                    id += 3;
+                else
+                    id += 1;
+
+                standManager.setId(id);
+                list.remove(location);
+            }
+
+
+        }.runTaskLater(IronFenceGate.getInstance(), 10);
     }
 
-    private boolean isLeftSolid(Location location, Direction direction){
-        return (new Location(location.getWorld(), location.getX()+xDelta(direction), location.getY(), location.getZ()+zDelta(direction)).getBlock().getType().isSolid());
-    }
+    public static boolean isLeftSolid(Location location, Direction direction){
+        Block block = switch (direction){
+            case SOUTH -> location.getBlock().getRelative(1,0,0);
+            case WEST -> location.getBlock().getRelative(0,0,1);
+            case NORTH -> location.getBlock().getRelative(-1,0,0);
+            case EAST -> location.getBlock().getRelative(0,0,-1);
 
-    private boolean isRightSolid(Location location, Direction direction){
-        return (new Location(location.getWorld(), location.getX()-xDelta(direction), location.getY(), location.getZ()-zDelta(direction)).getBlock().getType().isSolid());
-    }
-
-    private int xDelta(Direction direction){
-        return switch (direction){
-            case NORTH -> -1;
-            case SOUTH -> 1;
-            default -> 0;
         };
+        return block.getType().isSolid();
     }
-    private int zDelta(Direction direction){
-        return switch (direction){
-            case EAST -> -1;
-            case WEST -> 1;
-            default -> 0;
+
+    public static boolean isRightSolid(Location location, Direction direction){
+        Block block = switch (direction){
+            case SOUTH -> location.getBlock().getRelative(-1,0,0);
+            case WEST -> location.getBlock().getRelative(0,0,-1);
+            case NORTH -> location.getBlock().getRelative(1,0,0);
+            case EAST -> location.getBlock().getRelative(0,0,1);
+
         };
+        return block.getType().isSolid();
     }
 }

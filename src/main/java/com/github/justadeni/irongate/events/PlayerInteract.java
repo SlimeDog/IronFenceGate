@@ -1,7 +1,8 @@
 package com.github.justadeni.irongate.events;
 
 import com.github.justadeni.irongate.logic.GateBreak;
-import com.github.justadeni.irongate.logic.Helper;
+import com.github.justadeni.irongate.logic.StandManager;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,27 +22,29 @@ public class PlayerInteract implements Listener {
             if (e.getClickedBlock().getType() != Material.BARRIER)
                 return;
 
-            Helper helper = new Helper(e.getClickedBlock().getLocation());
+            Location location = e.getClickedBlock().getLocation().add(0.5,0,0.5);
+            StandManager standManager = new StandManager(location);
 
-            if (!helper.isOurs())
+            if (!standManager.isOurs())
                 return;
 
-            helper.flipState(e.getPlayer().getLocation());
+            standManager.flipState(e.getPlayer().getLocation());
 
         } else if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)){
 
             if (e.getClickedBlock().getType() != Material.BARRIER)
                 return;
 
-            Helper helper = new Helper(e.getClickedBlock().getLocation());
+            Location location = e.getClickedBlock().getLocation().add(0.5,0,0.5);
+            StandManager standManager = new StandManager(location);
 
-            if (helper.getStand() == null)
+            if (standManager.getStand() == null)
                 return;
 
-            if (!helper.isOurs())
+            if (!standManager.isOurs())
                 return;
 
-            new GateBreak(e.getClickedBlock().getLocation());
+            new GateBreak(location);
 
         } /*else if (e.getAction().equals(Action.RIGHT_CLICK_AIR)){
 

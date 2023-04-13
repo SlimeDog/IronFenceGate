@@ -13,12 +13,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.EulerAngle;
 
-public class Helper {
+public class StandManager {
 
     private Location location;
     public ArmorStand stand;
 
-    public Helper(Location location){
+    public StandManager(Location location){
         this.location = location;
         stand = findStand();
         if (stand != null)
@@ -29,7 +29,6 @@ public class Helper {
         for (Entity e : location.getChunk().getEntities()){
             if (e.getType() == EntityType.ARMOR_STAND){
                 if (e.getLocation().distance(location) <= 0.75){
-                    //stand = (ArmorStand) e;
                     return (ArmorStand) e;
                 }
             }
@@ -49,9 +48,7 @@ public class Helper {
         itemMeta.setCustomModelData(id);
         itemStack.setItemMeta(itemMeta);
 
-        System.out.println("id " + id);
-
-        //stand.getEquipment().setHelmet(itemStack);
+        stand.getEquipment().setHelmet(itemStack);
     }
 
     public ArmorStand getStand(){
@@ -117,12 +114,12 @@ public class Helper {
         if (id > 4)
             id -= 4;
 
-        switch (id){
-            case 1: return Adjacent.NEITHER;
-            case 2: return Adjacent.LEFT;
-            case 3: return Adjacent.RIGHT;
-            default: return Adjacent.BOTH;
-        }
+        return switch (id) {
+            case 1 -> Adjacent.NEITHER;
+            case 3 -> Adjacent.LEFT;
+            case 2 -> Adjacent.RIGHT;
+            default -> Adjacent.BOTH;
+        };
     }
 
     public void addBarriers(){

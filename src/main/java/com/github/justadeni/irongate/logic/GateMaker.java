@@ -8,11 +8,10 @@ import org.bukkit.inventory.EquipmentSlot;
 
 public class GateMaker {
 
-    private Location location;
+
     private ArmorStand stand;
 
     public GateMaker(Location location){
-        this.location = location.add(0.5,0,0.5);
 
         stand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
 

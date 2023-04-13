@@ -1,7 +1,8 @@
 package com.github.justadeni.irongate.events;
 
 import com.github.justadeni.irongate.logic.GateBreak;
-import com.github.justadeni.irongate.logic.Helper;
+import com.github.justadeni.irongate.logic.StandManager;
+import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,11 +18,13 @@ public class EntityLeftClick implements Listener {
         if (e.getEntity().getType() != EntityType.ARMOR_STAND)
             return;
 
-        Helper helper = new Helper(e.getEntity().getLocation());
-        if (!helper.isOurs())
+        Location location = e.getEntity().getLocation().add(0.5,0,0.5);
+
+        StandManager standManager = new StandManager(location);
+        if (!standManager.isOurs())
             return;
 
-        new GateBreak(e.getEntity().getLocation());
+        new GateBreak(location);
     }
 
 }

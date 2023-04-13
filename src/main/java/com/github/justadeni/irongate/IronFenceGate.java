@@ -1,6 +1,7 @@
 package com.github.justadeni.irongate;
 
 import com.github.justadeni.irongate.events.*;
+import com.github.justadeni.irongate.misc.Metrics;
 import com.github.justadeni.irongate.misc.Recipe;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
@@ -17,6 +18,7 @@ public final class IronFenceGate extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        Metrics metrics = new Metrics(this, 18193);
         Recipe.makeRecipes();
         Bukkit.addRecipe(Recipe.recipes.get(0));
         Bukkit.addRecipe(Recipe.recipes.get(1));

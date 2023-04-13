@@ -1,10 +1,12 @@
 package com.github.justadeni.irongate.events;
 
+import com.github.justadeni.irongate.IronFenceGate;
 import com.github.justadeni.irongate.logic.StandManager;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,7 +35,7 @@ public class BlockUpdate implements Listener {
             return;
         }
 
-        if (e.getBlock().isBlockPowered()){
+        if (e.getBlock().isBlockPowered()) {
 
             //TODO: This value into config
             if (e.getBlock().getBlockPower() > 0) {
@@ -44,9 +46,9 @@ public class BlockUpdate implements Listener {
             }
         } else {
             Iterator<Integer> iterator = redstoned.iterator();
-            while (iterator.hasNext()){
+            while (iterator.hasNext()) {
                 int hash = iterator.next();
-                if (location.hashCode() == hash){
+                if (location.hashCode() == hash) {
                     standManager.close();
                     iterator.remove();
                     locked.remove(Integer.valueOf(location.hashCode()));

@@ -11,12 +11,7 @@ import java.util.ArrayList;
 
 public class Connect {
 
-    private static ArrayList<Location> list = new ArrayList<>();
-
     public void reconnect(Location location){
-
-        if (list.contains(location))
-            return;
 
         new BukkitRunnable() {
             @Override
@@ -24,11 +19,9 @@ public class Connect {
 
                 StandManager standManager = new StandManager(location);
                 if (standManager.getStand() == null) {
-                    list.remove(location);
                     return;
                 }
                 if (!standManager.isOurs()) {
-                    list.remove(location);
                     return;
                 }
 
@@ -51,10 +44,7 @@ public class Connect {
                     id += 1;
 
                 standManager.setId(id);
-                list.remove(location);
             }
-
-
         }.runTaskLater(IronFenceGate.getInstance(), 5);
     }
 

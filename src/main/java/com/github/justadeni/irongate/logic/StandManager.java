@@ -73,14 +73,12 @@ public class StandManager {
     }
 
     public void flipState(Location playerLoc){
-
         Direction standDirection = Direction.getDirection(getYaw());
         Direction playerDirection = Direction.getDirection(playerLoc);
 
         if (playerDirection.equals(standDirection)) {
             setYaw((int) Direction.getYaw(Direction.getOpposite(playerDirection)));
         }
-
 
         if (getState() == State.CLOSED){
             setId(getAdjacentId() + 4);

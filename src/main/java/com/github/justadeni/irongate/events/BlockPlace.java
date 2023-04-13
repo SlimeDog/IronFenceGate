@@ -4,7 +4,7 @@ import com.github.justadeni.irongate.enums.Direction;
 import com.github.justadeni.irongate.logic.Connect;
 import com.github.justadeni.irongate.logic.GateMaker;
 import com.github.justadeni.irongate.logic.StandManager;
-import com.github.justadeni.irongate.misc.Helpers;
+import com.github.justadeni.irongate.misc.LocationHelp;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -23,10 +23,9 @@ public class BlockPlace implements Listener {
         Location location = e.getBlockPlaced().getLocation().add(0.5,0,0.5);
 
         Connect connect = new Connect();
-        for (Location loc : Helpers.getLocsAround(location)) {
+        for (Location loc : LocationHelp.getLocsAround(location)) {
             connect.reconnect(loc);
         }
-
         connect.reconnect(location);
 
         if (e.getItemInHand().getType() != Material.STONE)

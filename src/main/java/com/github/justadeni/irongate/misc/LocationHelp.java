@@ -3,7 +3,7 @@ package com.github.justadeni.irongate.misc;
 import org.bukkit.Location;
 import java.util.ArrayList;
 
-public class Helpers {
+public class LocationHelp {
 
     public static ArrayList<Location> getLocsAround(Location location){
         ArrayList<Location> locations = new ArrayList<>(4);

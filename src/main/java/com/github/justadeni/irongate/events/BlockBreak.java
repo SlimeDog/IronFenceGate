@@ -1,7 +1,7 @@
 package com.github.justadeni.irongate.events;
 
 import com.github.justadeni.irongate.logic.Connect;
-import com.github.justadeni.irongate.misc.Helpers;
+import com.github.justadeni.irongate.misc.LocationHelp;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,7 +16,7 @@ public class BlockBreak implements Listener {
 
         Location location = e.getBlock().getLocation().add(0.5,0,0.5);
 
-        for (Location loc : Helpers.getLocsAround(location)) {
+        for (Location loc : LocationHelp.getLocsAround(location)) {
             connect.reconnect(loc);
         }
     }

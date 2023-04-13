@@ -1,6 +1,7 @@
 package com.github.justadeni.irongate.logic;
 
 import com.github.justadeni.irongate.enums.Adjacent;
+import com.github.justadeni.irongate.enums.Direction;
 import com.github.justadeni.irongate.enums.State;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,6 +11,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.EulerAngle;
 
 public class Helper {
 
@@ -19,6 +21,8 @@ public class Helper {
     public Helper(Location location){
         this.location = location;
         stand = findStand();
+        if (stand != null)
+            this.location = stand.getLocation();
     }
 
     private ArmorStand findStand(){
@@ -39,12 +43,15 @@ public class Helper {
         return itemMeta.getCustomModelData();
     }
 
-    private void setId(int id){
+    public void setId(int id){
         ItemStack itemStack = stand.getEquipment().getItem(EquipmentSlot.HEAD);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setCustomModelData(id);
         itemStack.setItemMeta(itemMeta);
-        stand.getEquipment().setHelmet(itemStack);
+
+        System.out.println("id " + id);
+
+        //stand.getEquipment().setHelmet(itemStack);
     }
 
     public ArmorStand getStand(){
@@ -71,7 +78,18 @@ public class Helper {
             return State.CLOSED;
     }
 
-    public void flipState(){
+    public void flipState(Location playerLoc){
+
+        Direction standDirection = Direction.getDirection(getYaw());
+        Direction playerDirection = Direction.getDirection(playerLoc);
+
+        if (playerDirection.equals(standDirection)) {
+            //Location yawLocation = new Location(location.getWorld(), location.getX(), location.getY(), location.getZ(), Direction.getYaw(Direction.getOpposite(playerDirection)), location.getPitch());
+            //stand.teleport(yawLocation);
+            setYaw((int) Direction.getYaw(Direction.getOpposite(playerDirection)));
+        }
+            //stand.getEyeLocation().setYaw(Direction.getYaw(Direction.getOpposite(playerDirection)));
+
         if (getState() == State.CLOSED){
             setId(getAdjacent().id + 4);
             removeBarriers();
@@ -79,6 +97,18 @@ public class Helper {
             setId(getId() - 4);
             addBarriers();
         }
+    }
+
+    public void setYaw(int yaw){
+        //double x=0,y=0,z=0;
+        //x = Math.toRadians(location.getPitch());
+        //double y = Math.toRadians(yaw);
+        EulerAngle a = new EulerAngle(0,Math.toRadians(yaw),0);
+        stand.setHeadPose(a);
+    }
+
+    public int getYaw(){
+        return (int) Math.toDegrees(stand.getHeadPose().getY());
     }
 
     public Adjacent getAdjacent(){

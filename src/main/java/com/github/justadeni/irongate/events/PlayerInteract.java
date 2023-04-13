@@ -26,7 +26,7 @@ public class PlayerInteract implements Listener {
             if (!helper.isOurs())
                 return;
 
-            helper.flipState();
+            helper.flipState(e.getPlayer().getLocation());
 
         } else if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)){
 

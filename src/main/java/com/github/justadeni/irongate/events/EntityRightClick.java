@@ -22,7 +22,7 @@ public class EntityRightClick implements Listener {
         if (!helper.isOurs())
             return;
 
-        helper.flipState();
+        helper.flipState(e.getPlayer().getLocation());
     }
 
 }

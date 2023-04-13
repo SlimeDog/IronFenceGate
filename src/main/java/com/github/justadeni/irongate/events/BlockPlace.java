@@ -25,9 +25,13 @@ public class BlockPlace implements Listener {
         e.getBlock().setType(Material.BARRIER);
 
         Location location = e.getBlock().getLocation();
-        Direction opposite = Direction.getOpposite(Direction.getDirection(location.getYaw()));
 
-        new GateMaker(e.getBlock().getLocation());
-        new Helper(e.getBlock().getLocation()).addBarriers();
+        Direction opposite = Direction.getOpposite(Direction.getDirection(e.getPlayer().getLocation()));
+
+        new GateMaker(location);
+        Helper helper = new Helper(location);
+        helper.addBarriers();
+
+        helper.setYaw((int) Direction.getYaw(opposite));
     }
 }

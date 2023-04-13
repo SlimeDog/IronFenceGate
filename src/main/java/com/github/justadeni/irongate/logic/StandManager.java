@@ -91,6 +91,20 @@ public class StandManager {
         }
     }
 
+    public void open(){
+        if (getState() == State.CLOSED){
+            setId(getAdjacentId() + 4);
+            removeBarriers();
+        }
+    }
+
+    public void close(){
+        if (getState() == State.OPEN){
+            setId(getId() - 4);
+            addBarriers();
+        }
+    }
+
     public void setYaw(int yaw){
         EulerAngle a = new EulerAngle(0,Math.toRadians(yaw),0);
         stand.setHeadPose(a);

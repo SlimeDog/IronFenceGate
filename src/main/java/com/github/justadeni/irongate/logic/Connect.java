@@ -55,7 +55,7 @@ public class Connect {
             }
 
 
-        }.runTaskLater(IronFenceGate.getInstance(), 10);
+        }.runTaskLater(IronFenceGate.getInstance(), 5);
     }
 
     public static boolean isLeftSolid(Location location, Direction direction){

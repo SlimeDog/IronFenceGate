@@ -1,6 +1,5 @@
 package com.github.justadeni.irongate.logic;
 
-import com.github.justadeni.irongate.enums.Adjacent;
 import com.github.justadeni.irongate.enums.Direction;
 import com.github.justadeni.irongate.enums.State;
 import org.bukkit.Location;
@@ -56,14 +55,12 @@ public class StandManager {
     }
 
     public boolean isOurs(){
-        //if (stand.isInvisible() && stand.isSmall() && !stand.hasBasePlate()){
-            try {
-                if (stand.getEquipment().getItem(EquipmentSlot.HEAD).getType() == Material.STONE)
-                    return true;
-            } catch (NullPointerException e){
-                return false;
-            }
-        //}
+        try {
+            if (stand.getEquipment().getItem(EquipmentSlot.HEAD).getType() == Material.STONE)
+                return true;
+        } catch (NullPointerException e){
+            return false;
+        }
 
         return false;
     }
@@ -81,14 +78,12 @@ public class StandManager {
         Direction playerDirection = Direction.getDirection(playerLoc);
 
         if (playerDirection.equals(standDirection)) {
-            //Location yawLocation = new Location(location.getWorld(), location.getX(), location.getY(), location.getZ(), Direction.getYaw(Direction.getOpposite(playerDirection)), location.getPitch());
-            //stand.teleport(yawLocation);
             setYaw((int) Direction.getYaw(Direction.getOpposite(playerDirection)));
         }
-            //stand.getEyeLocation().setYaw(Direction.getYaw(Direction.getOpposite(playerDirection)));
+
 
         if (getState() == State.CLOSED){
-            setId(getAdjacent().id + 4);
+            setId(getAdjacentId() + 4);
             removeBarriers();
         } else {
             setId(getId() - 4);
@@ -97,9 +92,6 @@ public class StandManager {
     }
 
     public void setYaw(int yaw){
-        //double x=0,y=0,z=0;
-        //x = Math.toRadians(location.getPitch());
-        //double y = Math.toRadians(yaw);
         EulerAngle a = new EulerAngle(0,Math.toRadians(yaw),0);
         stand.setHeadPose(a);
     }
@@ -108,18 +100,13 @@ public class StandManager {
         return (int) Math.toDegrees(stand.getHeadPose().getY());
     }
 
-    public Adjacent getAdjacent(){
+    public int getAdjacentId(){
         int id = getId();
 
         if (id > 4)
             id -= 4;
 
-        return switch (id) {
-            case 1 -> Adjacent.NEITHER;
-            case 3 -> Adjacent.LEFT;
-            case 2 -> Adjacent.RIGHT;
-            default -> Adjacent.BOTH;
-        };
+        return id;
     }
 
     public void addBarriers(){

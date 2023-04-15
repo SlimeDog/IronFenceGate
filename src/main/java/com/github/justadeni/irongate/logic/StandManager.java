@@ -2,6 +2,7 @@ package com.github.justadeni.irongate.logic;
 
 import com.github.justadeni.irongate.enums.Direction;
 import com.github.justadeni.irongate.enums.State;
+import com.github.justadeni.irongate.misc.ConfigManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -42,21 +43,21 @@ public class StandManager {
         return manager.getStand() != null && manager.isOurs();
     }
 
-    //TODO: Add this value to config
     public static int getIdFirst(){
-        return 5463;
+        ConfigManager cm = ConfigManager.get();
+        return cm.getInt("resourcepack-id");
     }
 
     private int getId(){
         ItemStack itemStack = stand.getEquipment().getItem(EquipmentSlot.HEAD);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        return itemMeta.getCustomModelData()-5463;
+        return itemMeta.getCustomModelData()-getIdFirst();
     }
 
     public void setId(int id){
         ItemStack itemStack = stand.getEquipment().getItem(EquipmentSlot.HEAD);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setCustomModelData(id+5463);
+        itemMeta.setCustomModelData(id+getIdFirst());
         itemStack.setItemMeta(itemMeta);
 
         stand.getEquipment().setHelmet(itemStack);
@@ -99,12 +100,12 @@ public class StandManager {
         }
     }
 
-    //TODO: Add sounds to config
     public void open(){
         if (getState() == State.CLOSED){
             setId(getAdjacentId() + 4);
             removeBarriers();
-            location.getWorld().playSound(location, Sound.BLOCK_IRON_TRAPDOOR_OPEN, 2.0F, 1.0F);
+            ConfigManager cm = ConfigManager.get();
+            location.getWorld().playSound(location, Sound.valueOf(cm.getString("sound.open.name")), cm.getFloat("sound.open.volume"), cm.getFloat("sound.open.pitch"));
         }
     }
 
@@ -112,7 +113,8 @@ public class StandManager {
         if (getState() == State.OPEN){
             setId(getId() - 4);
             addBarriers();
-            location.getWorld().playSound(location, Sound.BLOCK_IRON_TRAPDOOR_CLOSE, 2.0F, 1.0F);
+            ConfigManager cm = ConfigManager.get();
+            location.getWorld().playSound(location, Sound.valueOf(cm.getString("sound.close.name")), cm.getFloat("sound.close.volume"), cm.getFloat("sound.close.pitch"));
         }
     }
 

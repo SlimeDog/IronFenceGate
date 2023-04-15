@@ -1,7 +1,9 @@
 package com.github.justadeni.irongate.logic;
 
+import com.github.justadeni.irongate.misc.ConfigManager;
 import com.github.justadeni.irongate.misc.Recipe;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
@@ -33,6 +35,8 @@ public class GateMaker {
 
         stand.getEquipment().setHelmet(itemStack);
         stand.addEquipmentLock(EquipmentSlot.HEAD, ArmorStand.LockType.REMOVING_OR_CHANGING);
+        ConfigManager cm = ConfigManager.get();
+        location.getWorld().playSound(location, Sound.valueOf(cm.getString("sound.place.name")), cm.getFloat("sound.place.volume"), cm.getFloat("sound.place.pitch"));
     }
 
 }

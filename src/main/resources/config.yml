@@ -1,0 +1,64 @@
+# IronFenceGate configuration
+#
+# Updated and maintained by justADeni and SlimeDog
+
+# Supported MC versions:
+# https://github.com/SlimeDog/IronFenceGate/wiki
+# Default configuration:
+# https://github.com/SlimeDog/IronFenceGate/blob/master/main/src/main/resources/config.yml
+#
+# IronFenceGate does not rewrite the configuration files if they exist, so changes must be made
+# manually.
+
+# ========== CHECK FOR UPDATES =====================================================================
+# If you do not want notification of available updates in the console log, you may disable it here.
+check-for-updates: true
+
+# ========== BSTATS METRICS ========================================================================
+# By default, the plugin collects and transmits anonymous statistics to bstats.org.
+# Data collection may be disabled here, or generally in the bStats/config.yml.
+#
+enable-metrics: true
+
+# ========== ITEM ========================================================================
+# Change name and lore of the item
+# Lore can have multiple lines
+# If you want lore to be empty, simply put [] after lore:
+# These accept traditional '&' colorcodes
+item:
+  name: "&rIron Gate"
+  lore:
+    - "Connects to Iron Fences"
+
+# ========== SOUND ========================================================================
+# List of all available sounds can be found at https://www.digminecraft.com/lists/sound_list_pc.php
+sound:
+  place:
+    name: BLOCK_STONE_PLACE
+    volume: 2.0
+    pitch: 1.0
+  break:
+    name: BLOCK_STONE_BREAK
+    volume: 2.0
+    pitch: 1.0
+  open:
+    name: BLOCK_IRON_TRAPDOOR_OPEN
+    volume: 2.0
+    pitch: 1.0
+  close:
+    name: BLOCK_IRON_TRAPDOOR_CLOSE
+    volume: 2.0
+    pitch: 1.0
+
+# ========== REDSTONE ========================================================================
+# Minimum activation strenght for redstone. Set to > 15 to disable redstone function entirely
+# Default is 1 for any strenght greater than 0
+redstone-activation-strenght: 1
+
+# ========== RESOURCEPACK ========================================================================
+# DO NOT touch this if you don't know what you're doing
+# This is the custom model data of the first of models
+# Warning: This will break the appearance of Iron Fence Gates
+# placed when this number was different. Requires restart.
+resourcepack-id: 5463
+

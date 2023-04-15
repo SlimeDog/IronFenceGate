@@ -1,13 +1,16 @@
 package com.github.justadeni.irongate.misc;
 
 import com.github.justadeni.irongate.IronFenceGate;
+import com.github.justadeni.irongate.logic.StandManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.checkerframework.checker.units.qual.A;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class Recipe {
@@ -17,15 +20,18 @@ public class Recipe {
     public static ArrayList<ShapedRecipe> recipes = new ArrayList<>();
 
     public static void makeRecipes() {
+        ConfigManager cm = ConfigManager.get();
+
         ItemStack itemStack = new ItemStack(Material.STONE);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&rIron Gate"));
-        itemMeta.setCustomModelData(5463);
-        ArrayList<String> lore = new ArrayList<>(1);
+        itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', cm.getString("item.name")));
+        itemMeta.setCustomModelData(StandManager.getIdFirst());
 
-        //TODO: Add this option in config
-        lore.add("Connects to Iron Fences");
-        itemMeta.setLore(lore);
+        ArrayList<String> colored = new ArrayList<>();
+        for (String line : cm.getList("item.lore")){
+            colored.add(ChatColor.translateAlternateColorCodes('&', line));
+        }
+        itemMeta.setLore(colored);
         itemStack.setItemMeta(itemMeta);
 
         keylist.add(new NamespacedKey(IronFenceGate.getInstance(), "UpperIronFenceGate"));

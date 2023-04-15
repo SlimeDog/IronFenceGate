@@ -62,3 +62,11 @@ redstone-activation-strenght: 1
 # placed when this number was different. Requires restart.
 resourcepack-id: 5463
 
+# ========== UNCONNECTED BLOCKS ========================================================================
+# Blacklist of solid Materials Iron Fence Gate will not connect to
+# Works with key words such as FENCE_GATE too
+unconnected:
+  - BARRIER
+  - FENCE_GATE
+  - _BED
+

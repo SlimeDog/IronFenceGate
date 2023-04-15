@@ -3,6 +3,7 @@ package com.github.justadeni.irongate.logic;
 import com.github.justadeni.irongate.IronFenceGate;
 import com.github.justadeni.irongate.enums.Direction;
 import com.github.justadeni.irongate.enums.State;
+import com.github.justadeni.irongate.misc.ConfigManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -44,7 +45,7 @@ public class Connect {
 
                 standManager.setId(id);
             }
-        }.runTaskLater(IronFenceGate.getInstance(), 5);
+        }.runTaskLater(IronFenceGate.getInstance(), 3);
     }
 
     public static boolean isSolid(Location location, Direction direction, boolean right){
@@ -58,7 +59,13 @@ public class Connect {
             case NORTH -> location.getBlock().getRelative(-i,0,0);
             case EAST -> location.getBlock().getRelative(0,0,-i);
         };
-        //TODO: Add list of unconnectible materials to config
+
+        ConfigManager cm = ConfigManager.get();
+        Material material = block.getType();
+        for (String potential : cm.getList("unconnected"))
+            if (material.toString().contains(potential))
+                return false;
+
         return block.getType().isSolid();
     }
 }

@@ -16,6 +16,7 @@ public class PlayerInteract implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public static void onPlayerInteract(PlayerInteractEvent e){
+
         if (e.getHand().equals(EquipmentSlot.OFF_HAND))
             return;
 
@@ -56,7 +57,9 @@ public class PlayerInteract implements Listener {
 
         switch (e.getAction()){
             case RIGHT_CLICK_BLOCK -> {
-                standManager.flipState(e.getPlayer().getLocation());
+                System.out.println(e.getMaterial());
+                if (e.getMaterial().equals(Material.AIR))
+                    standManager.flipState(e.getPlayer().getLocation());
             }
             case LEFT_CLICK_BLOCK -> {
                 new GateBreak(location);

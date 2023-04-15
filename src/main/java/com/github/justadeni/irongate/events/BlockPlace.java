@@ -55,8 +55,9 @@ public class BlockPlace implements Listener {
                     againstLoc.add(0,1,0);
                     e.setCancelled(true);
 
-                    Bukkit.getPluginManager().callEvent(new BlockPlaceEvent(againstLoc.getBlock(), e.getBlockReplacedState(),
-                            againstLoc.getBlock(), e.getItemInHand(), e.getPlayer(), true, e.getHand()));
+
+                    new BlockPlaceEvent(againstLoc.getBlock(), e.getBlockReplacedState(),
+                            againstLoc.getBlock(), e.getItemInHand(), e.getPlayer(), true, e.getHand());
 
                 }
             }

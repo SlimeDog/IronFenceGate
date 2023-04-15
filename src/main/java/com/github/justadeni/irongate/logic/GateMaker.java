@@ -9,6 +9,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.EulerAngle;
 
 public class GateMaker {
 
@@ -23,7 +24,7 @@ public class GateMaker {
         stand.setBasePlate(false);
         stand.setRemoveWhenFarAway(false);
         stand.setPersistent(true);
-        stand.setInvulnerable(true);
+        //stand.setInvulnerable(true);
         stand.setInvisible(true);
         stand.setSmall(true);
         stand.setArms(false);

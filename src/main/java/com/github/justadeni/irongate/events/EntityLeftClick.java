@@ -14,19 +14,23 @@ public class EntityLeftClick implements Listener {
 
     @EventHandler
     public static void onEntityLeftClick(EntityDamageByEntityEvent e){
-        if (e.getDamager().getType() != EntityType.PLAYER)
-            return;
 
-        if (e.getEntity().getType() != EntityType.ARMOR_STAND)
-            return;
+        if (e.getEntity().getType() == EntityType.ARMOR_STAND) {
 
-        Location location = e.getEntity().getLocation();//.add(0.5,0,0.5);
+            Location location = e.getEntity().getLocation();//.add(0.5,0,0.5);
 
-        StandManager standManager = new StandManager(location);
-        if (!standManager.isOurs())
-            return;
+            StandManager standManager = new StandManager(location);
+            if (standManager.isOurs()) {
+                if (e.getDamager().getType() == EntityType.PLAYER) {
+                    new GateBreak(location, ((Player) e.getDamager()).getGameMode() != GameMode.CREATIVE);
+                    return;
+                }
 
-        new GateBreak(location, ((Player) e.getDamager()).getGameMode() != GameMode.CREATIVE);
+                //This ensures armorstands only break when it's player damaging them
+                e.setCancelled(true);
+            }
+        }
+
     }
 
 }

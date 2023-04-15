@@ -13,16 +13,20 @@ public class IFGCommand implements CommandExecutor {
         if (!s.equalsIgnoreCase("ifg") && !s.equalsIgnoreCase("ironfencegate"))
             return true;
 
+        ConfigManager cm = ConfigManager.get();
+
         if (sender instanceof Player)
-            if (!sender.hasPermission("ironfencegate.admin"))
+            if (!sender.hasPermission("ironfencegate.admin")) {
+                cm.sendMessage(sender, "command.nopermission");
                 return true;
+            }
 
         if (args.length == 0) {
-            sendMessage(sender, "command.tooshort");
+            cm.sendMessage(sender, "command.tooshort");
             return true;
         }
         if (args.length > 1) {
-            sendMessage(sender, "command.toolong");
+            cm.sendMessage(sender, "command.toolong");
             return true;
         }
 
@@ -32,33 +36,28 @@ public class IFGCommand implements CommandExecutor {
                 if (p.getInventory().getItemInMainHand().getType().isAir()){
 
                     p.getInventory().setItemInMainHand(Recipe.recipes.get(0).getResult());
-                    sendMessage(sender, "command.itemrecieved");
+                    cm.sendMessage(sender, "command.itemrecieved");
 
                 } else if (p.getInventory().getItemInOffHand().getType().isAir()){
                     p.getInventory().setItemInOffHand(Recipe.recipes.get(0).getResult());
-                    sendMessage(sender, "command.itemrecieved");
+                    cm.sendMessage(sender, "command.itemrecieved");
                 } else {
-                    sendMessage(sender, "command.handsfull");
+                    cm.sendMessage(sender, "command.handsfull");
                 }
             } else {
-                sendMessage(sender, "command.consolecant");
+                cm.sendMessage(sender, "command.consolecant");
             }
             return true;
         }
 
         if (args[0].equalsIgnoreCase("reload")) {
             ConfigManager.get().reload();
-            sendMessage(sender, "command.configreloaded");
+            cm.sendMessage(sender, "command.configreloaded");
             return true;
         }
 
-        return true;
-    }
+        cm.sendMessage(sender, "command.invalidargs");
 
-    private void sendMessage(CommandSender sender, String path){
-        ConfigManager cm = ConfigManager.get();
-        String message = cm.getStringColors(path);
-        if (!message.equalsIgnoreCase("blank"))
-            sender.sendMessage(message);
+        return true;
     }
 }

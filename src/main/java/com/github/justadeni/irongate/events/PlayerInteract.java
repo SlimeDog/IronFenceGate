@@ -3,6 +3,7 @@ package com.github.justadeni.irongate.events;
 import com.github.justadeni.irongate.enums.State;
 import com.github.justadeni.irongate.logic.GateBreak;
 import com.github.justadeni.irongate.logic.StandManager;
+import com.github.justadeni.irongate.misc.ConfigManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -58,7 +59,10 @@ public class PlayerInteract implements Listener {
         switch (e.getAction()){
             case RIGHT_CLICK_BLOCK -> {
                 if (e.getMaterial().equals(Material.AIR))
-                    standManager.flipState(e.getPlayer().getLocation());
+                    if (e.getPlayer().hasPermission("ironfencegate.use"))
+                        standManager.flipState(e.getPlayer().getLocation());
+                    else
+                        ConfigManager.get().sendMessage(e.getPlayer(), "ingame.nopermission");
             }
             case LEFT_CLICK_BLOCK -> {
                 new GateBreak(location);

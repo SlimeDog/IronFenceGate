@@ -2,6 +2,7 @@ package com.github.justadeni.irongate.misc;
 
 import com.github.justadeni.irongate.IronFenceGate;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
@@ -65,5 +66,11 @@ public class ConfigManager {
 
     public ArrayList<String> getList(String path){
         return new ArrayList<>(main().getConfig().getStringList(path));
+    }
+
+    public void sendMessage(CommandSender sender, String path){
+        String message = this.getStringColors(path);
+        if (!message.equalsIgnoreCase("blank") && !message.isBlank())
+            sender.sendMessage(message);
     }
 }

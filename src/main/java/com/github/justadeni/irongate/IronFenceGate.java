@@ -1,6 +1,7 @@
 package com.github.justadeni.irongate;
 
 import com.github.justadeni.irongate.command.IFGCommand;
+import com.github.justadeni.irongate.command.TabComplete;
 import com.github.justadeni.irongate.events.*;
 import com.github.justadeni.irongate.misc.ConfigManager;
 import com.github.justadeni.irongate.misc.Metrics;
@@ -30,6 +31,7 @@ public final class IronFenceGate extends JavaPlugin {
         Bukkit.addRecipe(Recipe.recipes.get(0));
         Bukkit.addRecipe(Recipe.recipes.get(1));
         getCommand("ironfencegate").setExecutor(new IFGCommand());
+        getCommand("ironfencegate").setTabCompleter(new TabComplete());
         getServer().getPluginManager().registerEvents(new BlockPlace(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteract(), this);
         getServer().getPluginManager().registerEvents(new EntityLeftClick(), this);

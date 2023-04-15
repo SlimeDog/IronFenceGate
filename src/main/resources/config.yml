@@ -70,3 +70,20 @@ unconnected:
   - FENCE_GATE
   - _BED
 
+# ========== MESSAGES ========================================================================
+# First part relates to command messages
+# Second part to ingame messages (such as not being able to open fence gate)
+# Put "blank" to send no message
+command:
+  consolecant: "&4Console cannot get item"
+  handsfull: "&4Your hands are full"
+  nopermission: "&4Insufficient permissions"
+  invalidargs: "&4Invalid arguments"
+  tooshort: "&4Insufficient arguments"
+  toolong: "&4Too many arguments"
+  configreloaded: "&2Config reloaded"
+  itemrecieved: "&2Item recieved"
+ingame:
+  nopermission: "blank"
+
+

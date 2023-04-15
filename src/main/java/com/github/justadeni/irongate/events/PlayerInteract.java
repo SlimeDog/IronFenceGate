@@ -14,7 +14,7 @@ import org.bukkit.inventory.EquipmentSlot;
 
 public class PlayerInteract implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler
     public static void onPlayerInteract(PlayerInteractEvent e){
 
         if (e.getHand().equals(EquipmentSlot.OFF_HAND))
@@ -57,7 +57,6 @@ public class PlayerInteract implements Listener {
 
         switch (e.getAction()){
             case RIGHT_CLICK_BLOCK -> {
-                System.out.println(e.getMaterial());
                 if (e.getMaterial().equals(Material.AIR))
                     standManager.flipState(e.getPlayer().getLocation());
             }

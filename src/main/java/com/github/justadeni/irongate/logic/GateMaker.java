@@ -33,7 +33,6 @@ public class GateMaker {
 
         stand.getEquipment().setHelmet(itemStack);
         stand.addEquipmentLock(EquipmentSlot.HEAD, ArmorStand.LockType.REMOVING_OR_CHANGING);
-
     }
 
 }

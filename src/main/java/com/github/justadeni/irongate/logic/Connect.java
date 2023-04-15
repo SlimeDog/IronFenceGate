@@ -53,11 +53,12 @@ public class Connect {
             i = -1;
 
         Block block = switch (direction){
-            case SOUTH -> location.getBlock().getRelative(1*i,0,0);
-            case WEST -> location.getBlock().getRelative(0,0,1*i);
-            case NORTH -> location.getBlock().getRelative(-1*i,0,0);
-            case EAST -> location.getBlock().getRelative(0,0,-1*i);
+            case SOUTH -> location.getBlock().getRelative(i,0,0);
+            case WEST -> location.getBlock().getRelative(0,0,i);
+            case NORTH -> location.getBlock().getRelative(-i,0,0);
+            case EAST -> location.getBlock().getRelative(0,0,-i);
         };
-        return block.getType().isSolid() && !block.getType().equals(Material.BARRIER);
+        //TODO: Add list of unconnectible materials to config
+        return block.getType().isSolid();
     }
 }

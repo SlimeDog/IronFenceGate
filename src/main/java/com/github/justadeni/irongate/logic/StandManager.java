@@ -36,6 +36,12 @@ public class StandManager {
         return null;
     }
 
+    //Convenience method
+    public static boolean hasStand(Location loc){
+        StandManager manager = new StandManager(loc);
+        return manager.getStand() != null && manager.isOurs();
+    }
+
     //TODO: Add this value to config
     public static int getIdFirst(){
         return 5463;

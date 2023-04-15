@@ -18,7 +18,7 @@ public class EntityRightClick implements Listener {
         if (e.getRightClicked().getType() != EntityType.ARMOR_STAND)
             return;
 
-        Location location = e.getRightClicked().getLocation().add(0.5,0,0.5);
+        Location location = e.getRightClicked().getLocation();
 
         StandManager standManager = new StandManager(location);
 

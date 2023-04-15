@@ -1,10 +1,12 @@
 package com.github.justadeni.irongate.events;
 
+import com.github.justadeni.irongate.enums.State;
 import com.github.justadeni.irongate.logic.GateBreak;
 import com.github.justadeni.irongate.logic.StandManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -12,52 +14,54 @@ import org.bukkit.inventory.EquipmentSlot;
 
 public class PlayerInteract implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public static void onPlayerInteract(PlayerInteractEvent e){
         if (e.getHand().equals(EquipmentSlot.OFF_HAND))
             return;
 
-        if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
+        Location location;
+        StandManager standManager;
 
-            if (e.getClickedBlock().getType() != Material.BARRIER)
-                return;
+        switch (e.getAction()){
+            case RIGHT_CLICK_BLOCK, LEFT_CLICK_BLOCK -> {
+                if (e.getClickedBlock().getType() != Material.BARRIER) {
 
-            Location location = e.getClickedBlock().getLocation().add(0.5,0,0.5);
-            StandManager standManager = new StandManager(location);
+                    location = e.getClickedBlock().getLocation().add(0.5, 1, 0.5);
+                    StandManager manager = new StandManager(location);
+                    if (manager.getStand() != null)
+                        standManager = manager;
+                    else
+                        return;
+                } else {
+                    location = e.getClickedBlock().getLocation().add(0.5, 0, 0.5);
+                    StandManager manager = new StandManager(location);
 
-            if (!standManager.isOurs())
-                return;
+                    if (manager.getStand() != null) {
+                        standManager = manager;
+                    } else {
+                        location.add(0, -1, 0);
+                        manager = new StandManager(location);
+                        if (manager.getStand() != null)
+                            standManager = manager;
+                        else
+                            return;
+                    }
+                }
+            }
+            default -> {return;}
+        }
 
-            standManager.flipState(e.getPlayer().getLocation());
+        if (!standManager.isOurs())
+            return;
 
-        } else if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)){
-
-            if (e.getClickedBlock().getType() != Material.BARRIER)
-                return;
-
-            Location location = e.getClickedBlock().getLocation().add(0.5,0,0.5);
-            StandManager standManager = new StandManager(location);
-
-            if (standManager.getStand() == null)
-                return;
-
-            if (!standManager.isOurs())
-                return;
-
-            new GateBreak(location);
-
-        } /*else if (e.getAction().equals(Action.RIGHT_CLICK_AIR)){
-
-            Helper helper = new Helper(e.getClickedBlock().getLocation());
-
-            if (helper.stand == null)
-                return;
-
-            if (!helper.isOurs())
-                return;
-
-            helper.flipState();
-        }*/
+        switch (e.getAction()){
+            case RIGHT_CLICK_BLOCK -> {
+                standManager.flipState(e.getPlayer().getLocation());
+            }
+            case LEFT_CLICK_BLOCK -> {
+                new GateBreak(location);
+            }
+        }
     }
 
 }

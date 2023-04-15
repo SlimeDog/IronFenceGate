@@ -1,11 +1,16 @@
 package com.github.justadeni.irongate.events;
 
+import com.github.justadeni.irongate.IronFenceGate;
+import com.github.justadeni.irongate.enums.State;
 import com.github.justadeni.irongate.logic.Connect;
+import com.github.justadeni.irongate.logic.StandManager;
 import com.github.justadeni.irongate.misc.LocationHelp;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class BlockBreak implements Listener {
 
@@ -19,6 +24,24 @@ public class BlockBreak implements Listener {
         for (Location loc : LocationHelp.getLocsAround(location)) {
             connect.reconnect(loc);
         }
+
+        location.add(0,-1,0);
+
+        StandManager standManager = new StandManager(location);
+        if (standManager.getStand() == null)
+            return;
+
+        if (standManager.getState() == State.OPEN)
+            return;
+
+        location.add(0,1,0);
+
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                location.getBlock().setType(Material.BARRIER);
+            }
+        }.runTaskLater(IronFenceGate.getInstance(), 2);
     }
 
 }

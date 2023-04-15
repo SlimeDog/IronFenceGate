@@ -20,8 +20,10 @@ public class Recipe {
         ItemStack itemStack = new ItemStack(Material.STONE);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&rIron Gate"));
-        itemMeta.setCustomModelData(1);
-        ArrayList<String> lore = new ArrayList<String>();
+        itemMeta.setCustomModelData(5463);
+        ArrayList<String> lore = new ArrayList<>(1);
+
+        //TODO: Add this option in config
         lore.add("Connects to Iron Fences");
         itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);

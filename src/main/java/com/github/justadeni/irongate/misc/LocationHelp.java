@@ -1,6 +1,9 @@
 package com.github.justadeni.irongate.misc;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+
 import java.util.ArrayList;
 
 public class LocationHelp {

@@ -4,6 +4,7 @@ import com.github.justadeni.irongate.enums.Direction;
 import com.github.justadeni.irongate.enums.State;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -15,7 +16,7 @@ import org.bukkit.util.EulerAngle;
 public class StandManager {
 
     private Location location;
-    public ArmorStand stand;
+    private ArmorStand stand;
 
     public StandManager(Location location){
         this.location = location;
@@ -35,16 +36,21 @@ public class StandManager {
         return null;
     }
 
+    //TODO: Add this value to config
+    public static int getIdFirst(){
+        return 5463;
+    }
+
     private int getId(){
         ItemStack itemStack = stand.getEquipment().getItem(EquipmentSlot.HEAD);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        return itemMeta.getCustomModelData();
+        return itemMeta.getCustomModelData()-5463;
     }
 
     public void setId(int id){
         ItemStack itemStack = stand.getEquipment().getItem(EquipmentSlot.HEAD);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setCustomModelData(id);
+        itemMeta.setCustomModelData(id+5463);
         itemStack.setItemMeta(itemMeta);
 
         stand.getEquipment().setHelmet(itemStack);
@@ -81,18 +87,18 @@ public class StandManager {
         }
 
         if (getState() == State.CLOSED){
-            setId(getAdjacentId() + 4);
-            removeBarriers();
+            open();
         } else {
-            setId(getId() - 4);
-            addBarriers();
+            close();
         }
     }
 
+    //TODO: Add sounds to config
     public void open(){
         if (getState() == State.CLOSED){
             setId(getAdjacentId() + 4);
             removeBarriers();
+            location.getWorld().playSound(location, Sound.BLOCK_IRON_TRAPDOOR_OPEN, 2.0F, 1.0F);
         }
     }
 
@@ -100,6 +106,7 @@ public class StandManager {
         if (getState() == State.OPEN){
             setId(getId() - 4);
             addBarriers();
+            location.getWorld().playSound(location, Sound.BLOCK_IRON_TRAPDOOR_CLOSE, 2.0F, 1.0F);
         }
     }
 

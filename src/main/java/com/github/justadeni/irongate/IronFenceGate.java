@@ -35,5 +35,6 @@ public final class IronFenceGate extends JavaPlugin {
         Bukkit.removeRecipe(Recipe.keylist.get(0));
         Bukkit.removeRecipe(Recipe.keylist.get(1));
         HandlerList.unregisterAll(IronFenceGate.getInstance());
+        instance = null;
     }
 }

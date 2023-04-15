@@ -24,7 +24,7 @@ public class Recipe {
 
         ItemStack itemStack = new ItemStack(Material.STONE);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', cm.getString("item.name")));
+        itemMeta.setDisplayName(cm.getStringColors("item.name"));
         itemMeta.setCustomModelData(StandManager.getIdFirst());
 
         ArrayList<String> colored = new ArrayList<>();

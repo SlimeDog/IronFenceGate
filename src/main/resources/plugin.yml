@@ -2,3 +2,9 @@ name: IronFenceGate
 version: '${project.version}'
 main: com.github.justadeni.irongate.IronFenceGate
 api-version: 1.19
+commands:
+  ironfencegate:
+    aliases:
+      - ifg
+    usage: use /ironfencegate get to get item and /ironfencegate reload to reload config
+    permission: ironfencegate.admin

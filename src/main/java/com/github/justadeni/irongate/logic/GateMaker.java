@@ -24,7 +24,6 @@ public class GateMaker {
         stand.setBasePlate(false);
         stand.setRemoveWhenFarAway(false);
         stand.setPersistent(true);
-        //stand.setInvulnerable(true);
         stand.setInvisible(true);
         stand.setSmall(true);
         stand.setArms(false);

@@ -45,7 +45,7 @@ public class Connect {
 
                 standManager.setId(id);
             }
-        }.runTaskLater(IronFenceGate.getInstance(), 3);
+        }.runTaskLaterAsynchronously(IronFenceGate.getInstance(), 3);
     }
 
     public static boolean isSolid(Location location, Direction direction, boolean right){

@@ -28,7 +28,7 @@ public class BlockUpdate implements Listener {
 
         locked.add(location.hashCode());
 
-        StandManager standManager = new StandManager(e.getBlock().getLocation());
+        StandManager standManager = new StandManager(location);
         if (standManager.getStand() == null) {
             locked.remove(Integer.valueOf(location.hashCode()));
             return;

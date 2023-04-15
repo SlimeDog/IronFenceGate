@@ -29,7 +29,7 @@ public class StandManager {
     private ArmorStand findStand(){
         for (Entity e : location.getChunk().getEntities()){
             if (e.getType() == EntityType.ARMOR_STAND){
-                if (e.getLocation().distance(location) <= 0.75){
+                if (e.getLocation().distance(location) <= 0.51){
                     return (ArmorStand) e;
                 }
             }
@@ -91,6 +91,12 @@ public class StandManager {
 
         if (playerDirection.equals(standDirection)) {
             setYaw((int) Direction.getYaw(Direction.getOpposite(playerDirection)));
+
+            setId(switch (getId()){
+                case 2,6 -> getId()+1;
+                case 3,7 -> getId()-1;
+                default -> getId();
+            });
         }
 
         if (getState() == State.CLOSED){

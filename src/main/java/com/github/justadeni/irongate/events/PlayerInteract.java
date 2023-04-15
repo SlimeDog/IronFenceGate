@@ -59,7 +59,7 @@ public class PlayerInteract implements Listener {
         switch (e.getAction()){
             case RIGHT_CLICK_BLOCK -> {
                 if (e.getMaterial().equals(Material.AIR))
-                    if (e.getPlayer().hasPermission("ironfencegate.use"))
+                    if (e.getPlayer().hasPermission("ironfencegate.use") || e.getPlayer().hasPermission("ironfencegate.admin"))
                         standManager.flipState(e.getPlayer().getLocation());
                     else
                         ConfigManager.get().sendMessage(e.getPlayer(), "ingame.nopermission");

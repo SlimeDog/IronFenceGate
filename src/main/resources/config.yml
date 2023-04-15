@@ -74,6 +74,7 @@ unconnected:
 # First part relates to command messages
 # Second part to ingame messages (such as not being able to open fence gate)
 # Put "blank" to send no message
+prefix: "&l&3IFG &8>&r "
 command:
   consolecant: "&4Console cannot get item"
   handsfull: "&4Your hands are full"

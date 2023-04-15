@@ -2,8 +2,10 @@ package com.github.justadeni.irongate.events;
 
 import com.github.justadeni.irongate.logic.GateBreak;
 import com.github.justadeni.irongate.logic.StandManager;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -24,7 +26,7 @@ public class EntityLeftClick implements Listener {
         if (!standManager.isOurs())
             return;
 
-        new GateBreak(location);
+        new GateBreak(location, ((Player) e.getDamager()).getGameMode() != GameMode.CREATIVE);
     }
 
 }

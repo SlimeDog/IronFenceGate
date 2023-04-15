@@ -71,6 +71,6 @@ public class ConfigManager {
     public void sendMessage(CommandSender sender, String path){
         String message = this.getStringColors(path);
         if (!message.equalsIgnoreCase("blank") && !message.isBlank())
-            sender.sendMessage(message);
+            sender.sendMessage(getStringColors("prefix") + message);
     }
 }

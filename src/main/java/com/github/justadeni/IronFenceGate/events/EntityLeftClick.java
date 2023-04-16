@@ -1,7 +1,7 @@
-package com.github.justadeni.irongate.events;
+package com.github.justadeni.IronFenceGate.events;
 
-import com.github.justadeni.irongate.logic.GateBreak;
-import com.github.justadeni.irongate.logic.StandManager;
+import com.github.justadeni.IronFenceGate.logic.GateBreak;
+import com.github.justadeni.IronFenceGate.logic.StandManager;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;

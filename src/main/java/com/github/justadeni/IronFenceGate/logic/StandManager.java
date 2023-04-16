@@ -1,8 +1,8 @@
-package com.github.justadeni.irongate.logic;
+package com.github.justadeni.IronFenceGate.logic;
 
-import com.github.justadeni.irongate.enums.Direction;
-import com.github.justadeni.irongate.enums.State;
-import com.github.justadeni.irongate.misc.ConfigManager;
+import com.github.justadeni.IronFenceGate.enums.Direction;
+import com.github.justadeni.IronFenceGate.enums.State;
+import com.github.justadeni.IronFenceGate.files.MainConfig;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -44,8 +44,7 @@ public class StandManager {
     }
 
     public static int getIdFirst(){
-        ConfigManager cm = ConfigManager.get();
-        return cm.getInt("resourcepack-id");
+        return 5463;
     }
 
     private int getId(){
@@ -110,8 +109,8 @@ public class StandManager {
         if (getState() == State.CLOSED){
             setId(getAdjacentId() + 4);
             removeBarriers();
-            ConfigManager cm = ConfigManager.get();
-            location.getWorld().playSound(location, Sound.valueOf(cm.getString("sound.open.name")), cm.getFloat("sound.open.volume"), cm.getFloat("sound.open.pitch"));
+            MainConfig mc = MainConfig.get();
+            location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.open.name")), mc.getFloat("sound.open.volume"), mc.getFloat("sound.open.pitch"));
         }
     }
 
@@ -119,8 +118,8 @@ public class StandManager {
         if (getState() == State.OPEN){
             setId(getId() - 4);
             addBarriers();
-            ConfigManager cm = ConfigManager.get();
-            location.getWorld().playSound(location, Sound.valueOf(cm.getString("sound.close.name")), cm.getFloat("sound.close.volume"), cm.getFloat("sound.close.pitch"));
+            MainConfig mc = MainConfig.get();
+            location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.close.name")), mc.getFloat("sound.close.volume"), mc.getFloat("sound.close.pitch"));
         }
     }
 

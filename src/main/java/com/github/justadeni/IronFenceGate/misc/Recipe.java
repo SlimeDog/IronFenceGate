@@ -1,16 +1,15 @@
-package com.github.justadeni.irongate.misc;
+package com.github.justadeni.IronFenceGate.misc;
 
-import com.github.justadeni.irongate.IronFenceGate;
-import com.github.justadeni.irongate.logic.StandManager;
+import com.github.justadeni.IronFenceGate.IronFenceGate;
+import com.github.justadeni.IronFenceGate.files.MainConfig;
+import com.github.justadeni.IronFenceGate.logic.StandManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.checkerframework.checker.units.qual.A;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class Recipe {
@@ -20,15 +19,15 @@ public class Recipe {
     public static ArrayList<ShapedRecipe> recipes = new ArrayList<>();
 
     public static void makeRecipes() {
-        ConfigManager cm = ConfigManager.get();
+        MainConfig mc = MainConfig.get();
 
         ItemStack itemStack = new ItemStack(Material.STONE);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(cm.getStringColors("item.name"));
+        itemMeta.setDisplayName(mc.getStringColors("item.name"));
         itemMeta.setCustomModelData(StandManager.getIdFirst());
 
         ArrayList<String> colored = new ArrayList<>();
-        for (String line : cm.getList("item.lore")){
+        for (String line : mc.getList("item.lore")){
             colored.add(ChatColor.translateAlternateColorCodes('&', line));
         }
         itemMeta.setLore(colored);

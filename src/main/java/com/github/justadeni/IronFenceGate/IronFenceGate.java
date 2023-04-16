@@ -1,11 +1,12 @@
-package com.github.justadeni.irongate;
+package com.github.justadeni.IronFenceGate;
 
-import com.github.justadeni.irongate.command.IFGCommand;
-import com.github.justadeni.irongate.command.TabComplete;
-import com.github.justadeni.irongate.events.*;
-import com.github.justadeni.irongate.misc.ConfigManager;
-import com.github.justadeni.irongate.misc.Metrics;
-import com.github.justadeni.irongate.misc.Recipe;
+import com.github.justadeni.IronFenceGate.command.IFGCommand;
+import com.github.justadeni.IronFenceGate.command.TabComplete;
+import com.github.justadeni.IronFenceGate.events.*;
+import com.github.justadeni.IronFenceGate.files.MainConfig;
+import com.github.justadeni.IronFenceGate.files.MessageConfig;
+import com.github.justadeni.IronFenceGate.misc.Metrics;
+import com.github.justadeni.IronFenceGate.misc.Recipe;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,9 +23,10 @@ public final class IronFenceGate extends JavaPlugin {
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
-        ConfigManager.setup();
-        ConfigManager cm = ConfigManager.get();
-        if (cm.getBoolean("enable-metrics")) {
+        MessageConfig.setup();
+        MainConfig.setup();
+        MainConfig mc = MainConfig.get();
+        if (mc.getBoolean("enable-metrics")) {
             Metrics metrics = new Metrics(this, 18193);
         }
         Recipe.makeRecipes();

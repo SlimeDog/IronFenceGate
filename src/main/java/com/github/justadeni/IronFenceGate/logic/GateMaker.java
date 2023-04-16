@@ -1,7 +1,7 @@
-package com.github.justadeni.irongate.logic;
+package com.github.justadeni.IronFenceGate.logic;
 
-import com.github.justadeni.irongate.misc.ConfigManager;
-import com.github.justadeni.irongate.misc.Recipe;
+import com.github.justadeni.IronFenceGate.files.MainConfig;
+import com.github.justadeni.IronFenceGate.misc.Recipe;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.ArmorStand;
@@ -9,7 +9,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.util.EulerAngle;
 
 public class GateMaker {
 
@@ -35,8 +34,8 @@ public class GateMaker {
 
         stand.getEquipment().setHelmet(itemStack);
         stand.addEquipmentLock(EquipmentSlot.HEAD, ArmorStand.LockType.REMOVING_OR_CHANGING);
-        ConfigManager cm = ConfigManager.get();
-        location.getWorld().playSound(location, Sound.valueOf(cm.getString("sound.place.name")), cm.getFloat("sound.place.volume"), cm.getFloat("sound.place.pitch"));
+        MainConfig mc = MainConfig.get();
+        location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.place.name")), mc.getFloat("sound.place.volume"), mc.getFloat("sound.place.pitch"));
     }
 
 }

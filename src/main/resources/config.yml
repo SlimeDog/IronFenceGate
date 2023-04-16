@@ -34,57 +34,24 @@ item:
 # List of all available sounds can be found at https://www.digminecraft.com/lists/sound_list_pc.php
 sound:
   place:
-    name: BLOCK_STONE_PLACE
-    volume: 2.0
-    pitch: 1.0
+    name: BLOCK_METAL_PLACE
+    volume: 1.0
+    pitch: 1.2
   break:
-    name: BLOCK_STONE_BREAK
-    volume: 2.0
-    pitch: 1.0
+    name: BLOCK_METAL_BREAK
+    volume: 1.0
+    pitch: 1.2
+  breaking:
+    name: BLOCK_METAL_HIT
+    volume: 0.25
+    pitch: 0.75
   open:
-    name: BLOCK_IRON_TRAPDOOR_OPEN
-    volume: 2.0
+    name: BLOCK_IRON_DOOR_OPEN
+    volume: 0.9
     pitch: 1.0
   close:
-    name: BLOCK_IRON_TRAPDOOR_CLOSE
-    volume: 2.0
+    name: BLOCK_IRON_DOOR_CLOSE
+    volume: 0.9
     pitch: 1.0
-
-# ========== REDSTONE ========================================================================
-# Minimum activation strenght for redstone. Set to > 15 to disable redstone function entirely
-# Default is 1 for any strenght greater than 0
-redstone-activation-strenght: 1
-
-# ========== RESOURCEPACK ========================================================================
-# DO NOT touch this if you don't know what you're doing
-# This is the custom model data of the first of models
-# Warning: This will break the appearance of Iron Fence Gates
-# placed when this number was different. Requires restart.
-resourcepack-id: 5463
-
-# ========== UNCONNECTED BLOCKS ========================================================================
-# Blacklist of solid Materials Iron Fence Gate will not connect to
-# Works with key words such as FENCE_GATE too
-unconnected:
-  - BARRIER
-  - FENCE_GATE
-  - _BED
-
-# ========== MESSAGES ========================================================================
-# First part relates to command messages
-# Second part to ingame messages (such as not being able to open fence gate)
-# Put "blank" to send no message
-prefix: "&l&3IFG &8>&r "
-command:
-  consolecant: "&4Console cannot get item"
-  handsfull: "&4Your hands are full"
-  nopermission: "&4Insufficient permissions"
-  invalidargs: "&4Invalid arguments"
-  tooshort: "&4Insufficient arguments"
-  toolong: "&4Too many arguments"
-  configreloaded: "&2Config reloaded"
-  itemrecieved: "&2Item recieved"
-ingame:
-  nopermission: "blank"
 
 

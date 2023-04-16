@@ -1,7 +1,6 @@
-package com.github.justadeni.irongate.enums;
+package com.github.justadeni.IronFenceGate.enums;
 
 import org.bukkit.Location;
-import org.bukkit.block.BlockFace;
 
 public enum Direction{
     SOUTH(0),

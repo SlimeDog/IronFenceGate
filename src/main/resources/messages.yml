@@ -1,0 +1,17 @@
+# ========== MESSAGES ==============================================================================
+prefix: "[IronFenceGate ] "
+
+# Command-related messages
+command:
+  consolecant: "Console cannot get item"
+  handsfull: "Your hands are full"
+  nopermission: "Insufficient permissions"
+  invalidargs: "Invalid arguments"
+  tooshort: "Insufficient arguments"
+  toolong: "Too many arguments"
+  configreloaded: "Config reloaded"
+  itemrecieved: "Item recieved"
+
+# In-game messages, such as not being able to open fence gate
+ingame:
+  nopermission: ""

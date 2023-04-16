@@ -1,7 +1,7 @@
-package com.github.justadeni.irongate.events;
+package com.github.justadeni.IronFenceGate.events;
 
-import com.github.justadeni.irongate.logic.StandManager;
-import com.github.justadeni.irongate.misc.ConfigManager;
+import com.github.justadeni.IronFenceGate.logic.StandManager;
+import com.github.justadeni.IronFenceGate.files.MainConfig;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,8 +36,8 @@ public class BlockUpdate implements Listener {
 
         if (e.getBlock().isBlockPowered()) {
             if (!redstoned.contains(location.hashCode())) {
-                ConfigManager cm = ConfigManager.get();
-                if (e.getBlock().getBlockPower() >= cm.getInt("redstone-activation-strenght")) {
+                MainConfig mc = MainConfig.get();
+                if (e.getBlock().getBlockPower() >= mc.getInt("redstone-activation-strenght")) {
                     redstoned.add(location.hashCode());
                     standManager.open();
                 }

@@ -1,16 +1,13 @@
-package com.github.justadeni.irongate.events;
+package com.github.justadeni.IronFenceGate.events;
 
-import com.github.justadeni.irongate.enums.State;
-import com.github.justadeni.irongate.logic.GateBreak;
-import com.github.justadeni.irongate.logic.StandManager;
-import com.github.justadeni.irongate.misc.ConfigManager;
+import com.github.justadeni.IronFenceGate.files.MessageConfig;
+import com.github.justadeni.IronFenceGate.logic.GateBreak;
+import com.github.justadeni.IronFenceGate.logic.StandManager;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
@@ -63,7 +60,7 @@ public class PlayerInteract implements Listener {
                     if (e.getPlayer().hasPermission("ironfencegate.use") || e.getPlayer().hasPermission("ironfencegate.admin"))
                         standManager.flipState(e.getPlayer().getLocation());
                     else
-                        ConfigManager.get().sendMessage(e.getPlayer(), "ingame.nopermission");
+                        MessageConfig.get().sendMessage(e.getPlayer(), "ingame.nopermission");
             }
             case LEFT_CLICK_BLOCK -> {
                 new GateBreak(location, e.getPlayer().getGameMode() != GameMode.CREATIVE);

@@ -1,9 +1,8 @@
-package com.github.justadeni.irongate.command;
+package com.github.justadeni.IronFenceGate.command;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,7 @@ public class TabComplete implements TabCompleter {
             if (sender.hasPermission("ironfencegate.admin")) {
                 completions.add("reload");
                 completions.add("get");
+                completions.add("help");
             }
         }
         return completions;

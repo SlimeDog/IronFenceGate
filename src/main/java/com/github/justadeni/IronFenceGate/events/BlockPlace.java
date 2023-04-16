@@ -1,18 +1,15 @@
-package com.github.justadeni.irongate.events;
+package com.github.justadeni.IronFenceGate.events;
 
-import com.github.justadeni.irongate.enums.Direction;
-import com.github.justadeni.irongate.logic.Connect;
-import com.github.justadeni.irongate.logic.GateMaker;
-import com.github.justadeni.irongate.logic.StandManager;
-import com.github.justadeni.irongate.misc.LocationHelp;
+import com.github.justadeni.IronFenceGate.enums.Direction;
+import com.github.justadeni.IronFenceGate.logic.Connect;
+import com.github.justadeni.IronFenceGate.logic.GateMaker;
+import com.github.justadeni.IronFenceGate.logic.StandManager;
+import com.github.justadeni.IronFenceGate.misc.LocationHelp;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
 
 public class BlockPlace implements Listener {
 

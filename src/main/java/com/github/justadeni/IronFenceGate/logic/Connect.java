@@ -1,9 +1,9 @@
-package com.github.justadeni.irongate.logic;
+package com.github.justadeni.IronFenceGate.logic;
 
-import com.github.justadeni.irongate.IronFenceGate;
-import com.github.justadeni.irongate.enums.Direction;
-import com.github.justadeni.irongate.enums.State;
-import com.github.justadeni.irongate.misc.ConfigManager;
+import com.github.justadeni.IronFenceGate.IronFenceGate;
+import com.github.justadeni.IronFenceGate.enums.Direction;
+import com.github.justadeni.IronFenceGate.enums.State;
+import com.github.justadeni.IronFenceGate.files.MainConfig;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -11,6 +11,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Connect {
 
+    /**
+     * Figures out orientation of the fence gate and connection to blocks to the right and left
+     * @param location location of gate
+     */
     public void reconnect(Location location){
 
         new BukkitRunnable() {
@@ -48,6 +52,13 @@ public class Connect {
         }.runTaskLaterAsynchronously(IronFenceGate.getInstance(), 3);
     }
 
+    /**
+     * Checks whether blocks to the right and left are solid and if they're not blacklisted in config
+     * @param location location of the gate
+     * @param direction direction in which the gate is facing
+     * @param right whether it should check to it's right, if not then left
+     * @return
+     */
     public static boolean isSolid(Location location, Direction direction, boolean right){
         int i = 1;
         if (right)
@@ -60,9 +71,9 @@ public class Connect {
             case EAST -> location.getBlock().getRelative(0,0,-i);
         };
 
-        ConfigManager cm = ConfigManager.get();
+        MainConfig mc = MainConfig.get();
         Material material = block.getType();
-        for (String potential : cm.getList("unconnected"))
+        for (String potential : mc.getList("unconnected"))
             if (material.toString().contains(potential))
                 return false;
 

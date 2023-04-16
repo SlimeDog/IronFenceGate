@@ -1,4 +1,4 @@
-package com.github.justadeni.irongate.misc;
+package com.github.justadeni.IronFenceGate.misc;
 
 /*
  * This Metrics class was auto-generated and can be copied into your project if you are

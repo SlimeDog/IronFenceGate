@@ -1,10 +1,40 @@
-name: IronFenceGate
-version: '${project.version}'
-main: com.github.justadeni.irongate.IronFenceGate
+name: ${project.name}
+version: ${project.version}
+main: ${project.groupId}.${project.artifactId}.${project.name}
+description: ${project.description}
+authors: [justADeni, SlimeDog]
 api-version: 1.19
+load: POSTWORLD
+depend: [ProtocolLib]
 commands:
   ironfencegate:
-    aliases:
-      - ifg
-    usage: use /ironfencegate get to get item and /ironfencegate reload to reload config
-    permission: ironfencegate.admin
+    aliases: [ifg]
+    description: Finally, an iron fence gate
+    usage: /ironfencegate
+  ironfencegate get:
+    description: Get an iron fence gate
+    usage: /ironfencegate get [<number>]
+  ironfencegate reload:
+    description: Reload the configuration
+    usage: /ironfencegate reload to reload config
+  ironfencegate help:
+    description: Show command help
+    usage: /ironfencegate help
+permissions:
+  ironfencegate.*:
+    description: Allows use of all commands.
+    default: false
+    children:
+      ironfencegate.get: true
+      ironfencegate.help: true
+      ironfencegate.use: true
+      ironfencegate.reload: true
+  ironfencegate.admin:
+    description: Allows reload
+    default: op
+  ironfencegate.get:
+    description: Allows getting an item
+    default: true
+  ironfencegate.use:
+    description: Allows using a fence gate
+    default: true

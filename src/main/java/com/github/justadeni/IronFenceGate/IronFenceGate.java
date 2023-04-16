@@ -40,6 +40,8 @@ public final class IronFenceGate extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EntityRightClick(), this);
         getServer().getPluginManager().registerEvents(new BlockBreak(), this);
         getServer().getPluginManager().registerEvents(new BlockUpdate(), this);
+        getServer().getPluginManager().registerEvents(new ResourcesCheck(), this);
+        getServer().getPluginManager().registerEvents(new Craft(), this);
     }
 
     @Override

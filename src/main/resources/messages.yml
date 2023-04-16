@@ -11,8 +11,10 @@ command:
   toolong: "Too many arguments"
   configreloaded: "Config reloaded"
   itemrecieved: "Item recieved"
-  help: "Use /ironfencegate get to get the item \nUse /ironfencegate reload to reload configuration files \nUse /ironfencegate help to get this command"
+  help: "\nUse /ironfencegate get to get the item \nUse /ironfencegate reload to reload configuration files \nUse /ironfencegate help to get this message"
 
 # In-game messages, such as not being able to open fence gate
 ingame:
   nopermission: ""
+  packdeclined: ""
+  packfailedload: ""

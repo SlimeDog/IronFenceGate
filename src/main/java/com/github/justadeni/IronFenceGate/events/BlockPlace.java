@@ -77,9 +77,15 @@ public class BlockPlace implements Listener {
         }
 
         if (e.getBlockAgainst().getType() == Material.BARRIER){
-
-            placeInsideAgainst(e);
-            return;
+            Location againstLoc = e.getBlockAgainst().getLocation().add(0.5, 0, 0.5);
+            if (!StandManager.hasStand(againstLoc)) {
+                if (StandManager.hasStand(againstLoc.add(0, -1, 0))) {
+                    againstLoc.add(0, 1, 0);
+                    e.setCancelled(true);
+                    againstLoc.getBlock().setType(e.getItemInHand().getType());
+                    e.getItemInHand().setAmount(e.getItemInHand().getAmount() - 1);
+                }
+            }
         }
     }
 }

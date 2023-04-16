@@ -74,10 +74,13 @@ public class Connect {
             case EAST -> location.getBlock().getRelative(0,0,-i);
         };
 
-        return whitelisted.contains(block.getType());
+        String materialName = block.getType().name();
+        for (String potential : whitelisted)
+            if (materialName.endsWith(potential))
+                return true;
+
+        return false;
     }
 
-    private static ArrayList<Material> whitelisted = new ArrayList<>(Arrays.asList(Material.ACACIA_FENCE, Material.BAMBOO_FENCE,
-            Material.BIRCH_FENCE, Material.CRIMSON_FENCE, Material.JUNGLE_FENCE, Material.MANGROVE_FENCE, Material.OAK_FENCE,
-            Material.WARPED_FENCE, Material.NETHER_BRICK_FENCE, Material.SPRUCE_FENCE, Material.CHERRY_FENCE, Material.IRON_BARS));
+    private static ArrayList<String> whitelisted = new ArrayList<>(Arrays.asList("_FENCE", "_WALL", "IRON_BARS"));
 }

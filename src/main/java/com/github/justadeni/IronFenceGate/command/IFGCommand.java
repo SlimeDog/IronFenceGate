@@ -68,7 +68,7 @@ public class IFGCommand implements CommandExecutor {
                 return true;
             }
 
-            //TODO: Add help message
+            mc.sendMessage(sender, "command.help");
         }
 
         mc.sendMessage(sender, "command.invalidargs");

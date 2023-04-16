@@ -43,7 +43,7 @@ public class StandManager {
         return manager.getStand() != null && manager.isOurs();
     }
 
-    //Hardcoded first id of the first item in resourcepack
+    //Hardcoded the first id of item in resource pack
     public static int getIdFirst(){
         return 5463;
     }

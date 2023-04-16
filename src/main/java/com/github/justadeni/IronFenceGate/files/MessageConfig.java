@@ -41,14 +41,6 @@ public class MessageConfig extends Config{
 
     @Override
     public void reload(){
-        File datafolder = Bukkit.getServer().getPluginManager().getPlugin("IronFenceGate").getDataFolder();
-        File potentialfile = new File(datafolder, "messages.yml");
-
-        if (potentialfile.exists()) {
-            messageConfiguration = YamlConfiguration.loadConfiguration(file);
-            return;
-        }
-
         setup();
     }
 

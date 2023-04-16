@@ -36,11 +36,8 @@ public class BlockUpdate implements Listener {
 
         if (e.getBlock().isBlockPowered()) {
             if (!redstoned.contains(location.hashCode())) {
-                MainConfig mc = MainConfig.get();
-                if (e.getBlock().getBlockPower() >= mc.getInt("redstone-activation-strenght")) {
-                    redstoned.add(location.hashCode());
-                    standManager.open();
-                }
+                redstoned.add(location.hashCode());
+                standManager.open();
             }
         } else {
             Iterator<Integer> iterator = redstoned.iterator();

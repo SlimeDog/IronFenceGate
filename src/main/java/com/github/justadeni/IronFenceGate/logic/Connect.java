@@ -9,6 +9,9 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Connect {
 
     /**
@@ -59,7 +62,7 @@ public class Connect {
      * @param right whether it should check to it's right, if not then left
      * @return
      */
-    public static boolean isSolid(Location location, Direction direction, boolean right){
+    private static boolean isSolid(Location location, Direction direction, boolean right){
         int i = 1;
         if (right)
             i = -1;
@@ -71,12 +74,10 @@ public class Connect {
             case EAST -> location.getBlock().getRelative(0,0,-i);
         };
 
-        MainConfig mc = MainConfig.get();
-        Material material = block.getType();
-        for (String potential : mc.getList("unconnected"))
-            if (material.toString().contains(potential))
-                return false;
-
-        return block.getType().isSolid();
+        return whitelisted.contains(block.getType());
     }
+
+    private static ArrayList<Material> whitelisted = new ArrayList<>(Arrays.asList(Material.ACACIA_FENCE, Material.BAMBOO_FENCE,
+            Material.BIRCH_FENCE, Material.CRIMSON_FENCE, Material.JUNGLE_FENCE, Material.MANGROVE_FENCE, Material.OAK_FENCE,
+            Material.WARPED_FENCE, Material.NETHER_BRICK_FENCE, Material.SPRUCE_FENCE, Material.CHERRY_FENCE, Material.IRON_BARS));
 }

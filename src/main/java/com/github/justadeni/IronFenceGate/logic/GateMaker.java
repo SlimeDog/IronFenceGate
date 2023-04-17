@@ -29,7 +29,7 @@ public class GateMaker {
 
         ItemStack itemStack = Recipe.recipes.get(0).getResult();
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setCustomModelData(StandManager.getIdFirst());
+        itemMeta.setCustomModelData(StandManager.getIdFirst()+1);
         itemStack.setItemMeta(itemMeta);
 
         stand.getEquipment().setHelmet(itemStack);

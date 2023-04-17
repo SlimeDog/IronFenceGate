@@ -45,7 +45,7 @@ public class StandManager {
 
     //Hardcoded the first id of item in resource pack
     public static int getIdFirst(){
-        return 5464;
+        return 5464-1;
     }
 
     private int getId(){

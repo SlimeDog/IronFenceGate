@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
@@ -22,34 +23,36 @@ public class PlayerInteract implements Listener {
         Location location;
         StandManager standManager;
 
-        switch (e.getAction()){
-            case RIGHT_CLICK_BLOCK, LEFT_CLICK_BLOCK -> {
-                if (e.getClickedBlock().getType() != Material.BARRIER) {
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK)
+            return;
 
-                    location = e.getClickedBlock().getLocation().add(0.5, 1, 0.5);
-                    StandManager manager = new StandManager(location);
-                    if (manager.getStand() != null)
-                        standManager = manager;
-                    else
-                        return;
-                } else {
-                    location = e.getClickedBlock().getLocation().add(0.5, 0, 0.5);
-                    StandManager manager = new StandManager(location);
+        if (e.getClickedBlock().getType() == Material.BARRIER) {
+            location = e.getClickedBlock().getLocation().add(0.5, 0, 0.5);
+            StandManager manager = new StandManager(location);
 
-                    if (manager.getStand() != null) {
-                        standManager = manager;
-                    } else {
-                        location.add(0, -1, 0);
-                        manager = new StandManager(location);
-                        if (manager.getStand() != null)
-                            standManager = manager;
-                        else
-                            return;
-                    }
-                }
+            if (manager.getStand() != null) {
+                standManager = manager;
+            } else {
+                location.add(0, -1, 0);
+                manager = new StandManager(location);
+                if (manager.getStand() != null)
+                    standManager = manager;
+                else
+                    return;
             }
-            default -> {return;}
-        }
+        } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK){
+            if (e.getClickedBlock().getType() != Material.BARRIER) {
+
+                location = e.getClickedBlock().getLocation().add(0.5, 1, 0.5);
+                StandManager manager = new StandManager(location);
+                if (manager.getStand() != null)
+                    standManager = manager;
+                else
+                    return;
+            } else
+                return;
+        } else
+            return;
 
         if (!standManager.isOurs())
             return;

@@ -26,8 +26,7 @@ public class BlockBreak implements Listener {
 
         location.add(0,-1,0);
 
-        StandManager standManager = new StandManager(location);
-        if (standManager.getStand() == null)
+        if (!StandManager.hasStand(location))
             return;
 
         location.add(0,1,0);

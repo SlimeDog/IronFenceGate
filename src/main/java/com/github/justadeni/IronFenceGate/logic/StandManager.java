@@ -29,7 +29,7 @@ public class StandManager {
     private ArmorStand findStand(){
         for (Entity e : location.getChunk().getEntities()){
             if (e.getType() == EntityType.ARMOR_STAND){
-                if (e.getLocation().distance(location) <= 0.51){
+                if (e.getLocation().distance(location) <= 0.49){
                     return (ArmorStand) e;
                 }
             }
@@ -45,7 +45,7 @@ public class StandManager {
 
     //Hardcoded the first id of item in resource pack
     public static int getIdFirst(){
-        return 5463;
+        return 5464;
     }
 
     private int getId(){

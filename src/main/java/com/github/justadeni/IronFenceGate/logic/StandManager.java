@@ -69,7 +69,7 @@ public class StandManager {
 
     public boolean isOurs(){
         try {
-            if (stand.getEquipment().getItem(EquipmentSlot.HEAD).getType() == Material.STONE)
+            if (stand.getEquipment().getItem(EquipmentSlot.HEAD).getType() == Material.WARPED_FENCE_GATE)
                 return true;
         } catch (NullPointerException e){
             return false;

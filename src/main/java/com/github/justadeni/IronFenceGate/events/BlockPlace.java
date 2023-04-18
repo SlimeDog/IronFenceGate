@@ -63,7 +63,7 @@ public class BlockPlace implements Listener {
         if (e.getItemInHand().getType().equals(Material.SHULKER_BOX))
             return;
 
-        if (e.getItemInHand().getType() == Material.STONE && e.getItemInHand().getItemMeta() != null && e.getItemInHand().getItemMeta().hasCustomModelData()) {
+        if (e.getItemInHand().getType() == Material.WARPED_FENCE_GATE && e.getItemInHand().getItemMeta() != null && e.getItemInHand().getItemMeta().hasCustomModelData()) {
 
             if (e.getBlockAgainst().getType() != Material.BARRIER) {
 

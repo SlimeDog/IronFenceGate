@@ -21,10 +21,10 @@ public class Recipe {
     public static void makeRecipes() {
         MainConfig mc = MainConfig.get();
 
-        ItemStack itemStack = new ItemStack(Material.STONE);
+        ItemStack itemStack = new ItemStack(Material.WARPED_FENCE_GATE);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(mc.getStringColors("item.name"));
-        itemMeta.setCustomModelData(StandManager.getIdFirst());
+        itemMeta.setCustomModelData(StandManager.getIdFirst()+1);
 
         ArrayList<String> colored = new ArrayList<>();
         for (String line : mc.getList("item.lore")){

@@ -36,11 +36,11 @@ public class IFGCommand implements CommandExecutor {
                 if (p.getInventory().getItemInMainHand().getType().isAir()){
 
                     p.getInventory().setItemInMainHand(Recipe.recipes.get(0).getResult());
-                    mc.sendMessage(sender, "command.itemrecieved");
+                    mc.sendMessage(sender, "command.itemreceived");
 
                 } else if (p.getInventory().getItemInOffHand().getType().isAir()){
                     p.getInventory().setItemInOffHand(Recipe.recipes.get(0).getResult());
-                    mc.sendMessage(sender, "command.itemrecieved");
+                    mc.sendMessage(sender, "command.itemreceived");
                 } else {
                     mc.sendMessage(sender, "command.handsfull");
                 }

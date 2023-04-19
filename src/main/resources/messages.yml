@@ -3,18 +3,18 @@ prefix: "[IronFenceGate ] "
 
 # Command-related messages
 command:
-  consolecant: "Console cannot get item"
+  consolecant: "Console cannot get an item"
   handsfull: "Your hands are full"
-  nopermission: "Insufficient permissions"
-  invalidargs: "Invalid arguments"
-  tooshort: "Insufficient arguments"
+  nopermission: "You do not have permission for execute this command"
+  invalidargs: "Invalid command arguments"
+  tooshort: "Insufficient command arguments"
   toolong: "Too many arguments"
-  configreloaded: "Config reloaded"
-  itemrecieved: "Item recieved"
+  configreloaded: "Config and messages reloaded"
+  itemreceived: "Item received"
   help: "\nUse /ironfencegate get to get the item \nUse /ironfencegate reload to reload configuration files \nUse /ironfencegate help to get this message"
 
 # In-game messages, such as not being able to open fence gate
-ingame:
-  nopermission: ""
-  packdeclined: ""
-  packfailedload: ""
+in-game:
+  nopermission: "You do not have permission for execute this command"
+  packdeclined: "IronFenceGate resource pack was not available"
+  packfailedload: "IronFenceGate resource pack failed to load"

@@ -26,9 +26,10 @@ enable-metrics: true
 # If you want lore to be empty, simply put [] after lore:
 # These accept traditional '&' colorcodes
 item:
-  name: "&rIron Gate"
+  name: "Iron gate"
   lore:
-    - "Connects to Iron Fences"
+    - "Connects to iron fences"
+    - "wooden fences and walls"
 
 # ========== SOUND ========================================================================
 # List of all available sounds can be found at https://www.digminecraft.com/lists/sound_list_pc.php

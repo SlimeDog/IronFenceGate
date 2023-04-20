@@ -16,5 +16,6 @@ command:
 # In-game messages, such as not being able to open fence gate
 in-game:
   nopermission: "You do not have permission for execute this command"
+  creativeonly: "This action is only accessible to players in creative mode"
   packdeclined: "IronFenceGate resource pack was not available"
   packfailedload: "IronFenceGate resource pack failed to load"

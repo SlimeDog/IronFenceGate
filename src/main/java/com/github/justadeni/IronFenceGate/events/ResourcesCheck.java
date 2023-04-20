@@ -28,13 +28,13 @@ public class ResourcesCheck implements Listener {
         Player p = e.getPlayer();
 
         if (e.getStatus().equals(DECLINED)){
-            mc.sendMessage(p, "ingame.packdeclined");
+            mc.sendMessage(p, "in-game.packdeclined");
             unloadedPlayers.add(p.getName().hashCode());
             return;
         }
 
         if (e.getStatus().equals(FAILED_DOWNLOAD)){
-            mc.sendMessage(p, "ingame.packfailedload");
+            mc.sendMessage(p, "in-game.packfailedload");
             unloadedPlayers.add(p.getName().hashCode());
             return;
         }

@@ -29,7 +29,7 @@ public class EntityRightClick implements Listener {
         if (e.getPlayer().hasPermission("ironfencegate.use") || e.getPlayer().hasPermission("ironfencegate.admin"))
             standManager.flipState(e.getPlayer().getLocation());
         else
-            MessageConfig.get().sendMessage(e.getPlayer(), "ingame.nopermission");
+            MessageConfig.get().sendMessage(e.getPlayer(), "in-game.nopermission");
     }
 
 }

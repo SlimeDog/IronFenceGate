@@ -108,6 +108,8 @@ public class BlockBreaking {
 
                 BlockPosition bp = packet.getBlockPositionModifier().read(0);
                 Location location = bp.toLocation(player.getWorld()).add(0.5,0,0.5);
+                Location aboveLoc = new Location(location.getWorld(), location.getX(), location.getY()+1, location.getZ());
+                Location belowLoc = new Location(location.getWorld(), location.getX(), location.getY()+1, location.getZ());
 
                 if (!location.getBlock().getType().equals(Material.BARRIER))
                     return;
@@ -120,25 +122,30 @@ public class BlockBreaking {
                 //Stopped breaking
                 if (action == 1){
                     if (tracker.containsKey(location)) {
-                        toRemove.add(location);
-                        manager.setId(manager.getId());
-                    }
-
-                    if (manager.getState() == State.OPEN) {
-                        if (location.getBlock().getType().equals(Material.BARRIER)) {
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    location.getBlock().setType(Material.AIR);
-                                }
-                            }.runTask(IronFenceGate.getInstance());
+                        if (StandManager.hasStand(aboveLoc) || !aboveLoc.getBlock().getType().equals(Material.BARRIER)) {
+                            toRemove.add(location);
+                            manager.setId(manager.getId());
                         }
                     }
+
+                    if (location.getBlock().getType().equals(Material.BARRIER)) {
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                if (manager.getState() == State.OPEN)
+                                    location.getBlock().setType(Material.AIR);
+                            }
+                        }.runTaskLater(IronFenceGate.getInstance(), 5);
+                    }
+
                     return;
                 }
 
                 //Started breaking
                 if (tracker.containsKey(location))
+                    return;
+
+                if (tracker.containsKey(belowLoc) && location.getBlock().getType().equals(Material.BARRIER))
                     return;
 
                 tracker.put(location, new Store(player, manager, System.currentTimeMillis()));

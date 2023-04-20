@@ -23,6 +23,7 @@ public class PlayerInteract implements Listener {
 
         Location location;
         StandManager standManager;
+        boolean direct = false;
 
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK)
             return;
@@ -33,6 +34,7 @@ public class PlayerInteract implements Listener {
 
             if (manager.getStand() != null) {
                 standManager = manager;
+                direct = true;
             } else {
                 location.add(0, -1, 0);
                 manager = new StandManager(location);
@@ -60,11 +62,11 @@ public class PlayerInteract implements Listener {
 
         switch (e.getAction()){
             case RIGHT_CLICK_BLOCK -> {
-                if (e.getMaterial().equals(Material.AIR))
+                if (!e.isBlockInHand() || direct)
                     if (e.getPlayer().hasPermission("ironfencegate.use") || e.getPlayer().hasPermission("ironfencegate.admin"))
                         standManager.flipState(e.getPlayer().getLocation());
                     else
-                        MessageConfig.get().sendMessage(e.getPlayer(), "ingame.nopermission");
+                        MessageConfig.get().sendMessage(e.getPlayer(), "in-game.nopermission");
             }
             case LEFT_CLICK_BLOCK -> {
                 if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))

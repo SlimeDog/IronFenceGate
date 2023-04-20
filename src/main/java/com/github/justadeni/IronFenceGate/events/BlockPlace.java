@@ -1,6 +1,7 @@
 package com.github.justadeni.IronFenceGate.events;
 
 import com.github.justadeni.IronFenceGate.enums.Direction;
+import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.logic.Connect;
 import com.github.justadeni.IronFenceGate.logic.GateMaker;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
@@ -62,6 +63,14 @@ public class BlockPlace implements Listener {
 
         if (e.getItemInHand().getType().equals(Material.SHULKER_BOX))
             return;
+
+        StandManager manager = new StandManager(location);
+        if (manager.getStand() != null)
+            if (manager.getState() == State.OPEN){
+                e.setCancelled(true);
+                return;
+            }
+
 
         if (e.getItemInHand().getType() == Material.WARPED_FENCE_GATE && e.getItemInHand().getItemMeta() != null && e.getItemInHand().getItemMeta().hasCustomModelData()) {
 

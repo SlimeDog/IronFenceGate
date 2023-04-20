@@ -34,6 +34,7 @@ public class EntityLeftClick implements Listener {
                     else {
                         location.getBlock().setType(Material.BARRIER);
 
+                        /*
                         new BukkitRunnable() {
                             @Override
                             public void run() {
@@ -46,7 +47,8 @@ public class EntityLeftClick implements Listener {
                                 if (!BlockBreaking.isBreaking(location))
                                     location.getBlock().setType(Material.AIR);
                             }
-                        }.runTaskLater(IronFenceGate.getInstance(), 5);
+                        }.runTaskLater(IronFenceGate.getInstance(), 10);
+                        */
                     }
                     return;
                 }

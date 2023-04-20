@@ -3,6 +3,7 @@ package com.github.justadeni.IronFenceGate.command;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
 import com.github.justadeni.IronFenceGate.files.MessageConfig;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,6 +33,10 @@ public class IFGCommand implements CommandExecutor {
             }
 
             if (sender instanceof Player p){
+                if (!p.getGameMode().equals(GameMode.CREATIVE)){
+                    mc.sendMessage(p,"in-game.creativeonly");
+                    return true;
+                }
 
                 if (p.getInventory().getItemInMainHand().getType().isAir()){
 

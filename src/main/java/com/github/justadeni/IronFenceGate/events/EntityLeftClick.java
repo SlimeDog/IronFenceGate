@@ -21,16 +21,9 @@ public class EntityLeftClick implements Listener {
 
         if (e.getEntity().getType() == EntityType.ARMOR_STAND) {
 
-            Location location = e.getEntity().getLocation();//.add(0.5,0,0.5);
-            //Location eloc = e.getEntity().getLocation();
-            //Location location = new Location(e.getEntity().getWorld(), Math.floor(eloc.getX())+0.5, Math.floor(eloc.getY()), Math.floor(eloc.getZ())+0.5);
-
-            Bukkit.broadcastMessage("Entity 1");
-
+            Location location = e.getEntity().getLocation();
             StandManager standManager = new StandManager(location);
             if (standManager.getStand() != null) {
-
-                Bukkit.broadcastMessage("Entity 2");
 
                 if (e.getDamager().getType() == EntityType.PLAYER) {
                     Player player = ((Player) e.getDamager());
@@ -38,25 +31,8 @@ public class EntityLeftClick implements Listener {
                         Gate.delete(location, false, standManager);
                     else {
 
-                        /*
-                        location.getBlock().setType(Material.BARRIER);
-
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                if (!Task.isBreaking(location)) {
-                                    location.getBlock().setType(Material.AIR);
-                                }
-                            }
-                        }.runTaskLater(IronFenceGate.getInstance(), 10);
-                        */
-                        //Started breaking
-                        Bukkit.broadcastMessage("Entity 3");
-
                         if (Task.tracker.contains(location))
                             return;
-
-                        Bukkit.broadcastMessage("Entity 4");
 
                         Task.tracker.add(location);
                         Task.track(location, player, standManager);

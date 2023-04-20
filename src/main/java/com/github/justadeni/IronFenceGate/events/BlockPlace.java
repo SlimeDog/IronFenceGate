@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class BlockPlace implements Listener {
 
@@ -61,7 +62,9 @@ public class BlockPlace implements Listener {
         }
         connect.reconnect(location);
 
-        if (e.getItemInHand().getType().equals(Material.SHULKER_BOX))
+        ItemStack itemStack = e.getItemInHand();
+
+        if (itemStack.getType().equals(Material.SHULKER_BOX))
             return;
 
         StandManager manager = new StandManager(location);
@@ -71,31 +74,31 @@ public class BlockPlace implements Listener {
                 return;
             }
 
-
         Location againstLoc = e.getBlockAgainst().getLocation().add(0.5, 0, 0.5);
         if (StandManager.hasStand(againstLoc))
             return;
 
-        if (e.getItemInHand().getType() == Material.WARPED_FENCE_GATE && e.getItemInHand().getItemMeta() != null && e.getItemInHand().getItemMeta().hasCustomModelData()) {
+        if (itemStack.getType() == Material.WARPED_FENCE_GATE && itemStack.getItemMeta() != null && itemStack.getItemMeta().hasCustomModelData()) {
+
             if (!ResourcesCheck.isLoaded(e.getPlayer().getName()))
                 return;
 
-            if (e.getBlockAgainst().getType() != Material.BARRIER) {
-
-                placeNormally(e);
-            } else {
-
+            if (e.getBlockAgainst().getType() == Material.BARRIER) {
                 placeInsideAgainst(e);
+            } else {
+                placeNormally(e);
             }
             return;
         }
 
         if (e.getBlockAgainst().getType() == Material.BARRIER){
             if (StandManager.hasStand(againstLoc.add(0, -1, 0))) {
-                againstLoc.add(0, 1, 0);
-                e.setCancelled(true);
-                againstLoc.getBlock().setType(e.getItemInHand().getType());
-                e.getItemInHand().setAmount(e.getItemInHand().getAmount() - 1);
+                if(itemStack.getType().isOccluding() || itemStack.getType().name().endsWith("GLASS")) {
+                    againstLoc.add(0, 1, 0);
+                    e.setCancelled(true);
+                    againstLoc.getBlock().setType(e.getItemInHand().getType());
+                    e.getItemInHand().setAmount(e.getItemInHand().getAmount() - 1);
+                }
             }
         }
     }

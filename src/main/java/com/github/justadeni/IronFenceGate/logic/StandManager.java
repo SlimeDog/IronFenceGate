@@ -33,7 +33,7 @@ public class StandManager {
     private ArmorStand findStand(){
         for (Entity e : location.getChunk().getEntities()){
             if (e.getType() == EntityType.ARMOR_STAND){
-                if (e.getLocation().distanceSquared(location) <= 0.2){
+                if (e.getLocation().distanceSquared(location) <= 0.22){
                     ArmorStand armorStand = (ArmorStand) e;
                     if (isOurs(armorStand))
                         return armorStand;

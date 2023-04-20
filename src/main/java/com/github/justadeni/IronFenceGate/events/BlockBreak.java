@@ -1,6 +1,7 @@
 package com.github.justadeni.IronFenceGate.events;
 
 import com.github.justadeni.IronFenceGate.IronFenceGate;
+import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.logic.Connect;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
 import com.github.justadeni.IronFenceGate.misc.LocationHelp;
@@ -26,7 +27,11 @@ public class BlockBreak implements Listener {
 
         location.add(0,-1,0);
 
-        if (!StandManager.hasStand(location))
+        StandManager manager = new StandManager(location);
+        if (manager.getStand() == null)
+            return;
+
+        if (manager.getState() == State.OPEN)
             return;
 
         location.add(0,1,0);

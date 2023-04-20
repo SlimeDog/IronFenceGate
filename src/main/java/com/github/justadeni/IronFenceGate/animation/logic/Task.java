@@ -26,25 +26,13 @@ public class Task {
             //first index marks start time, second gets updated every function run
             long start=System.currentTimeMillis();
             long current = System.currentTimeMillis();
+            Material material = player.getInventory().getItemInMainHand().getType();
+
             @Override
             public void run() {
                 try {
-                    //Timeout if block isn't broken after 6 seconds
-                    if (start + 3*1000 < current){
-                        end(location);
-                        cancel();
-                        return;
-                    }
-
-                    //Could have been removed or is due to be removed
-                    if (!tracker.contains(location)) {
-                        end(location);
-                        cancel();
-                        return;
-                    }
-
-                    //Stand could've been broken or deleted
-                    if (player == null || location.getBlock().isEmpty()) {
+                    //Was removed and timeout checks
+                    if (!tracker.contains(location) || player == null || start + 2000 < current) {
                         end(location);
                         cancel();
                         return;
@@ -63,12 +51,7 @@ public class Task {
                         return;
                     }
 
-                    /*
-                    //should be 0.1 second but supports auto-throttle should that be implemented
-                    double delta = (System.currentTimeMillis() - start[1]) / 1000f;
-                    start[1] = System.currentTimeMillis();
-                    */
-                    Material material = player.getInventory().getItemInMainHand().getType();
+                    current = System.currentTimeMillis();
 
                     progress += 0.1 * switch (material) {
                         case IRON_PICKAXE -> 7; //takes about 1.6 sec to break
@@ -80,9 +63,9 @@ public class Task {
                     //Total of 9 stages, how fast you reach them depends on pickaxe
                     int decaProgress = (int) Math.floor(progress) * 10;
                     if (decaProgress > manager.getDecaId()) {
-                        //Bukkit.broadcastMessage("stage:"+(store.manager.getId() + decaProgress));
                         manager.setId(manager.getId() + decaProgress);
                     }
+
                 } catch (NullPointerException e){
                     end(location);
                     cancel();
@@ -101,14 +84,5 @@ public class Task {
             return;
 
         manager.setId(manager.getId());
-
-        if (location.getBlock().getType().equals(Material.BARRIER)) {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    location.getBlock().setType(Material.AIR);
-                }
-            }.runTask(IronFenceGate.getInstance());
-        }
     }
 }

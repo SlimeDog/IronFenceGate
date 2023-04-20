@@ -1,8 +1,10 @@
 package com.github.justadeni.IronFenceGate.logic;
 
+import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
@@ -20,6 +22,11 @@ public class Gate {
         location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.break.name")), mc.getFloat("sound.break.volume"), mc.getFloat("sound.break.pitch"));
         if (drop)
             location.getWorld().dropItemNaturally(new Location(location.getWorld(), location.getX(), location.getY()+0.5, location.getZ()), Recipe.recipes.get(0).getResult());
+
+        location.add(0,-1,0);
+        StandManager lowerStand = new StandManager(location);
+        if (lowerStand.getStand() != null && lowerStand.getState() == State.CLOSED)
+            location.add(0,1,0).getBlock().setType(Material.BARRIER);
     }
 
     public static void create(Location location){

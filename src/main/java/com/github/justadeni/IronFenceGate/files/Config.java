@@ -28,7 +28,7 @@ public abstract class Config {
     public String getStringColors(String path){
         try {
             return ChatColor.translateAlternateColorCodes('&', fileConfiguration().getString(path));
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
             return "";
         }
     }

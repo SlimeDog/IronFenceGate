@@ -7,6 +7,7 @@ import com.github.justadeni.IronFenceGate.files.MainConfig;
 import com.github.justadeni.IronFenceGate.files.MessageConfig;
 import com.github.justadeni.IronFenceGate.misc.Metrics;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
+import com.github.justadeni.IronFenceGate.nms.BlockBreaking;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,6 +42,7 @@ public final class IronFenceGate extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockBreak(), this);
         getServer().getPluginManager().registerEvents(new BlockUpdate(), this);
         getServer().getPluginManager().registerEvents(new ResourcesCheck(), this);
+        new BlockBreaking();
     }
 
     @Override
@@ -49,5 +51,9 @@ public final class IronFenceGate extends JavaPlugin {
         Bukkit.removeRecipe(Recipe.keylist.get(1));
         HandlerList.unregisterAll(IronFenceGate.getInstance());
         instance = null;
+    }
+
+    public void log(String msg){
+        getLogger().info(msg);
     }
 }

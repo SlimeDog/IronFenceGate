@@ -1,5 +1,6 @@
 package com.github.justadeni.IronFenceGate.logic;
 
+import com.github.justadeni.IronFenceGate.IronFenceGate;
 import com.github.justadeni.IronFenceGate.enums.Direction;
 import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
@@ -45,13 +46,20 @@ public class StandManager {
 
     //Hardcoded the first id of item in resource pack
     public static int getIdFirst(){
-        return 5464-1;
+        return 5000;
     }
 
-    private int getId(){
+    public int getDecaId(){
         ItemStack itemStack = stand.getEquipment().getItem(EquipmentSlot.HEAD);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        return itemMeta.getCustomModelData()-getIdFirst();
+        int total = itemMeta.getCustomModelData()-getIdFirst();
+        return Math.floorDiv(total,10)*10;
+    }
+
+    public int getId(){
+        ItemStack itemStack = stand.getEquipment().getItem(EquipmentSlot.HEAD);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        return itemMeta.getCustomModelData()-getIdFirst()-getDecaId();
     }
 
     public void setId(int id){
@@ -59,7 +67,6 @@ public class StandManager {
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setCustomModelData(id+getIdFirst());
         itemStack.setItemMeta(itemMeta);
-
         stand.getEquipment().setHelmet(itemStack);
     }
 
@@ -92,7 +99,7 @@ public class StandManager {
         if (playerDirection.equals(standDirection)) {
             setYaw((int) Direction.getYaw(Direction.getOpposite(playerDirection)));
 
-            setId(switch (getId()){
+            setId(switch (getId() + getDecaId()){
                 case 2,6 -> getId()+1;
                 case 3,7 -> getId()-1;
                 default -> getId();
@@ -108,7 +115,7 @@ public class StandManager {
 
     public void open(){
         if (getState() == State.CLOSED){
-            setId(getAdjacentId() + 4);
+            setId(getId() + 4 + getDecaId());
             removeBarriers();
             MainConfig mc = MainConfig.get();
             location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.open.name")), mc.getFloat("sound.open.volume"), mc.getFloat("sound.open.pitch"));
@@ -117,7 +124,7 @@ public class StandManager {
 
     public void close(){
         if (getState() == State.OPEN){
-            setId(getId() - 4);
+            setId(getId() - 4 + getDecaId());
             addBarriers();
             MainConfig mc = MainConfig.get();
             location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.close.name")), mc.getFloat("sound.close.volume"), mc.getFloat("sound.close.pitch"));

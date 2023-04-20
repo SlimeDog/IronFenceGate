@@ -1,5 +1,6 @@
 package com.github.justadeni.IronFenceGate.events;
 
+import com.github.justadeni.IronFenceGate.IronFenceGate;
 import com.github.justadeni.IronFenceGate.files.MessageConfig;
 import com.github.justadeni.IronFenceGate.logic.GateBreak;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
@@ -66,7 +67,8 @@ public class PlayerInteract implements Listener {
                         MessageConfig.get().sendMessage(e.getPlayer(), "ingame.nopermission");
             }
             case LEFT_CLICK_BLOCK -> {
-                new GateBreak(location, e.getPlayer().getGameMode() != GameMode.CREATIVE);
+                if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
+                    new GateBreak(location, false);
             }
         }
     }

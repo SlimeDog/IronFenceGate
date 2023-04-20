@@ -50,7 +50,7 @@ public class Connect {
                 else
                     id += 1;
 
-                standManager.setId(id);
+                standManager.setId(id+standManager.getDecaId());
             }
         }.runTaskLaterAsynchronously(IronFenceGate.getInstance(), 3);
     }

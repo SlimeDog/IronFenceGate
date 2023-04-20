@@ -3,7 +3,7 @@ package com.github.justadeni.IronFenceGate.events;
 import com.github.justadeni.IronFenceGate.enums.Direction;
 import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.logic.Connect;
-import com.github.justadeni.IronFenceGate.logic.GateMaker;
+import com.github.justadeni.IronFenceGate.logic.Gate;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
 import com.github.justadeni.IronFenceGate.misc.LocationHelp;
 import org.bukkit.Location;
@@ -20,7 +20,7 @@ public class BlockPlace implements Listener {
 
         e.getBlock().setType(Material.BARRIER);
 
-        new GateMaker(location);
+        Gate.create(location);
         StandManager standManager = new StandManager(location);
         standManager.addBarriers();
 
@@ -35,7 +35,7 @@ public class BlockPlace implements Listener {
                 againstLoc.add(0, 1, 0);
 
                 e.setCancelled(true);
-                new GateMaker(againstLoc);
+                Gate.create(againstLoc);
                 StandManager standManager = new StandManager(againstLoc);
                 standManager.addBarriers();
 
@@ -72,28 +72,30 @@ public class BlockPlace implements Listener {
             }
 
 
+        Location againstLoc = e.getBlockAgainst().getLocation().add(0.5, 0, 0.5);
+        if (StandManager.hasStand(againstLoc))
+            return;
+
         if (e.getItemInHand().getType() == Material.WARPED_FENCE_GATE && e.getItemInHand().getItemMeta() != null && e.getItemInHand().getItemMeta().hasCustomModelData()) {
+            if (!ResourcesCheck.isLoaded(e.getPlayer().getName()))
+                return;
 
             if (e.getBlockAgainst().getType() != Material.BARRIER) {
 
                 placeNormally(e);
-                return;
             } else {
 
                 placeInsideAgainst(e);
-                return;
             }
+            return;
         }
 
         if (e.getBlockAgainst().getType() == Material.BARRIER){
-            Location againstLoc = e.getBlockAgainst().getLocation().add(0.5, 0, 0.5);
-            if (!StandManager.hasStand(againstLoc)) {
-                if (StandManager.hasStand(againstLoc.add(0, -1, 0))) {
-                    againstLoc.add(0, 1, 0);
-                    e.setCancelled(true);
-                    againstLoc.getBlock().setType(e.getItemInHand().getType());
-                    e.getItemInHand().setAmount(e.getItemInHand().getAmount() - 1);
-                }
+            if (StandManager.hasStand(againstLoc.add(0, -1, 0))) {
+                againstLoc.add(0, 1, 0);
+                e.setCancelled(true);
+                againstLoc.getBlock().setType(e.getItemInHand().getType());
+                e.getItemInHand().setAmount(e.getItemInHand().getAmount() - 1);
             }
         }
     }

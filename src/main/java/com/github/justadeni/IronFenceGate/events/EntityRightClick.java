@@ -23,7 +23,7 @@ public class EntityRightClick implements Listener {
 
         StandManager standManager = new StandManager(location);
 
-        if (!standManager.isOurs())
+        if (standManager.getStand() == null)
             return;
 
         if (e.getPlayer().hasPermission("ironfencegate.use") || e.getPlayer().hasPermission("ironfencegate.admin"))

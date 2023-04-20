@@ -1,8 +1,7 @@
 package com.github.justadeni.IronFenceGate.events;
 
-import com.github.justadeni.IronFenceGate.IronFenceGate;
 import com.github.justadeni.IronFenceGate.files.MessageConfig;
-import com.github.justadeni.IronFenceGate.logic.GateBreak;
+import com.github.justadeni.IronFenceGate.logic.Gate;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -43,21 +42,14 @@ public class PlayerInteract implements Listener {
                 else
                     return;
             }
-        } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK){
-            if (e.getClickedBlock().getType() != Material.BARRIER) {
-
-                location = e.getClickedBlock().getLocation().add(0.5, 1, 0.5);
-                StandManager manager = new StandManager(location);
-                if (manager.getStand() != null)
-                    standManager = manager;
-                else
-                    return;
-            } else
+        } /*else if (e.getAction() == Action.RIGHT_CLICK_BLOCK){
+            location = e.getClickedBlock().getLocation().add(0.5, 1, 0.5);
+            StandManager manager = new StandManager(location);
+            if (manager.getStand() != null)
+                standManager = manager;
+            else
                 return;
-        } else
-            return;
-
-        if (!standManager.isOurs())
+        } */else
             return;
 
         switch (e.getAction()){
@@ -70,7 +62,7 @@ public class PlayerInteract implements Listener {
             }
             case LEFT_CLICK_BLOCK -> {
                 if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
-                    new GateBreak(location, false);
+                    Gate.delete(location, false, standManager);
             }
         }
     }

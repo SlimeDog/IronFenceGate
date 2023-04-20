@@ -10,14 +10,21 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class GateMaker {
+public class Gate {
 
+    public static void delete(Location location, boolean drop, StandManager standManager){
+        ArmorStand stand = standManager.getStand();
+        stand.remove();
+        standManager.removeBarriers();
+        MainConfig mc = MainConfig.get();
+        location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.break.name")), mc.getFloat("sound.break.volume"), mc.getFloat("sound.break.pitch"));
+        if (drop)
+            location.getWorld().dropItemNaturally(new Location(location.getWorld(), location.getX(), location.getY()+0.5, location.getZ()), Recipe.recipes.get(0).getResult());
+    }
 
-    private ArmorStand stand;
+    public static void create(Location location){
 
-    public GateMaker(Location location){
-
-        stand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
+        ArmorStand stand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
 
         stand.setGravity(false);
         stand.setBasePlate(false);
@@ -37,5 +44,4 @@ public class GateMaker {
         MainConfig mc = MainConfig.get();
         location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.place.name")), mc.getFloat("sound.place.volume"), mc.getFloat("sound.place.pitch"));
     }
-
 }

@@ -17,11 +17,11 @@ public class ResourcesCheck implements Listener {
     public static boolean isLoaded(String playername){
         return !unloadedPlayers.contains(playername.hashCode());
     }
-
+    /*
     public static void removeLoaded(String playername){
         unloadedPlayers.remove(Integer.valueOf(playername.hashCode()));
     }
-
+    */
     @EventHandler
     public static void onResourcesCheck(PlayerResourcePackStatusEvent e){
         MessageConfig mc = MessageConfig.get();
@@ -38,5 +38,7 @@ public class ResourcesCheck implements Listener {
             unloadedPlayers.add(p.getName().hashCode());
             return;
         }
+
+        unloadedPlayers.remove(e.getPlayer().getName().hashCode());
     }
 }

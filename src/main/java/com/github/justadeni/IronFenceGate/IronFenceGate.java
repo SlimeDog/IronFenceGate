@@ -1,5 +1,7 @@
 package com.github.justadeni.IronFenceGate;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import com.github.justadeni.IronFenceGate.command.IFGCommand;
 import com.github.justadeni.IronFenceGate.command.TabComplete;
 import com.github.justadeni.IronFenceGate.events.*;
@@ -7,7 +9,7 @@ import com.github.justadeni.IronFenceGate.files.MainConfig;
 import com.github.justadeni.IronFenceGate.files.MessageConfig;
 import com.github.justadeni.IronFenceGate.misc.Metrics;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
-import com.github.justadeni.IronFenceGate.nms.BlockBreaking;
+import com.github.justadeni.IronFenceGate.animation.nms.BlockBreaking;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -49,8 +51,8 @@ public final class IronFenceGate extends JavaPlugin {
     public void onDisable() {
         Bukkit.removeRecipe(Recipe.keylist.get(0));
         Bukkit.removeRecipe(Recipe.keylist.get(1));
-        HandlerList.unregisterAll(IronFenceGate.getInstance());
-        instance = null;
+        ProtocolManager manager = ProtocolLibrary.getProtocolManager();
+        manager.removePacketListener(BlockBreaking.adapter);
     }
 
     public void log(String msg){

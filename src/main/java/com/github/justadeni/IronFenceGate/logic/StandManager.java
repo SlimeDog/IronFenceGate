@@ -15,6 +15,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.EulerAngle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StandManager {
 
     private Location location;
@@ -30,8 +33,10 @@ public class StandManager {
     private ArmorStand findStand(){
         for (Entity e : location.getChunk().getEntities()){
             if (e.getType() == EntityType.ARMOR_STAND){
-                if (e.getLocation().distance(location) <= 0.49){
-                    return (ArmorStand) e;
+                if (e.getLocation().distanceSquared(location) <= 0.2){
+                    ArmorStand armorStand = (ArmorStand) e;
+                    if (isOurs(armorStand))
+                        return armorStand;
                 }
             }
         }
@@ -41,7 +46,7 @@ public class StandManager {
     //Convenience method
     public static boolean hasStand(Location loc){
         StandManager manager = new StandManager(loc);
-        return manager.getStand() != null && manager.isOurs();
+        return manager.getStand() != null;
     }
 
     //Hardcoded the first id of item in resource pack
@@ -74,9 +79,9 @@ public class StandManager {
         return stand;
     }
 
-    public boolean isOurs(){
+    private boolean isOurs(ArmorStand armorStand){
         try {
-            if (stand.getEquipment().getItem(EquipmentSlot.HEAD).getType() == Material.WARPED_FENCE_GATE)
+            if (armorStand.getEquipment().getItem(EquipmentSlot.HEAD).getType() == Material.WARPED_FENCE_GATE)
                 return true;
         } catch (NullPointerException e){
             return false;

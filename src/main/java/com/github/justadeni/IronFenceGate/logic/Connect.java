@@ -28,9 +28,6 @@ public class Connect {
                 if (standManager.getStand() == null) {
                     return;
                 }
-                if (!standManager.isOurs()) {
-                    return;
-                }
 
                 Direction direction = Direction.getDirection(standManager.getYaw());
 

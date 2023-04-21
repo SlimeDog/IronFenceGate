@@ -33,11 +33,6 @@ public class IFGCommand implements CommandExecutor {
             }
 
             if (sender instanceof Player p){
-                if (!p.getGameMode().equals(GameMode.CREATIVE)){
-                    mc.sendMessage(p,"in-game.creativeonly");
-                    return true;
-                }
-
                 if (p.getInventory().getItemInMainHand().getType().isAir()){
 
                     p.getInventory().setItemInMainHand(Recipe.recipes.get(0).getResult());

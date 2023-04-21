@@ -34,7 +34,7 @@ permissions:
     default: op
   ironfencegate.get:
     description: Allows getting an item
-    default: true
+    default: op
   ironfencegate.use:
     description: Allows using a fence gate
     default: true

@@ -44,7 +44,7 @@ public final class IronFenceGate extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockBreak(), this);
         getServer().getPluginManager().registerEvents(new BlockUpdate(), this);
         getServer().getPluginManager().registerEvents(new ResourcesCheck(), this);
-        new BlockBreaking();
+        //new BlockBreaking();
     }
 
     @Override
@@ -52,7 +52,7 @@ public final class IronFenceGate extends JavaPlugin {
         Bukkit.removeRecipe(Recipe.keylist.get(0));
         Bukkit.removeRecipe(Recipe.keylist.get(1));
         ProtocolManager manager = ProtocolLibrary.getProtocolManager();
-        manager.removePacketListener(BlockBreaking.adapter);
+        //manager.removePacketListener(BlockBreaking.adapter);
     }
 
     public void log(String msg){

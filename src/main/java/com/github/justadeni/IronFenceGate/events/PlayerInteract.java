@@ -1,5 +1,6 @@
 package com.github.justadeni.IronFenceGate.events;
 
+import com.github.justadeni.IronFenceGate.animation.logic.Task;
 import com.github.justadeni.IronFenceGate.files.MessageConfig;
 import com.github.justadeni.IronFenceGate.logic.Gate;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
@@ -22,47 +23,54 @@ public class PlayerInteract implements Listener {
             return;
 
         ItemStack itemStack = e.getItem();
-        Location location;
-        StandManager standManager;
+        StandManager manager;
+        if (e.getClickedBlock() == null)
+            return;
+        else
+            manager = new StandManager(e.getClickedBlock().getLocation());
 
-        if (e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK)
+        Location location = e.getClickedBlock().getLocation().add(0.5,0,0.5);
+
+        if (e.getClickedBlock().getType() != Material.BARRIER)
             return;
 
-        if (e.getClickedBlock().getType() == Material.BARRIER) {
-            location = e.getClickedBlock().getLocation().add(0.5, 0, 0.5);
-            StandManager manager = new StandManager(location);
+        if (e.getAction() == Action.RIGHT_CLICK_BLOCK){
 
-            if (manager.getStand() != null) {
-                standManager = manager;
-
-                if (e.getAction() == Action.RIGHT_CLICK_BLOCK)
-                    if (itemStack != null && (itemStack.getType().isOccluding() || itemStack.getType().name().endsWith("GLASS"))) {
-                        e.setCancelled(true);
-                        return;
-                    }
+            if (manager.getStand() != null){
+                if (itemStack != null && (StandManager.isValidBlock(itemStack.getType())))
+                    e.setCancelled(true);
+                else
+                    if (e.getPlayer().hasPermission("ironfencegate.use") || e.getPlayer().hasPermission("ironfencegate.admin"))
+                        manager.flipState(location);
 
             } else {
-                location.add(0, -1, 0);
-                manager = new StandManager(location);
-                if (manager.getStand() != null)
-                    standManager = manager;
-                else
-                    return;
-            }
-        } else
-            return;
+                Location downLoc = new Location(location.getWorld(), location.getX(), location.getY()-1, location.getZ());
+                StandManager downmanager = new StandManager(downLoc);
 
-        switch (e.getAction()){
-            case RIGHT_CLICK_BLOCK -> {
-                if (e.getPlayer().hasPermission("ironfencegate.use") || e.getPlayer().hasPermission("ironfencegate.admin"))
-                    if (itemStack == null || (!itemStack.getType().isOccluding() && !itemStack.getType().name().endsWith("GLASS")))
-                        standManager.flipState(e.getPlayer().getLocation());
-                else
-                    MessageConfig.get().sendMessage(e.getPlayer(), "in-game.nopermission");
+                if (downmanager.getStand() != null){
+                    if (itemStack != null && (StandManager.isValidBlock(itemStack.getType())))
+                        e.setCancelled(true);
+                    else
+                        if (e.getPlayer().hasPermission("ironfencegate.use") || e.getPlayer().hasPermission("ironfencegate.admin"))
+                            downmanager.flipState(location);
+
+                }
             }
-            case LEFT_CLICK_BLOCK -> {
-                if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
-                    Gate.delete(location, false, standManager);
+        }
+
+        if (e.getAction() == Action.LEFT_CLICK_BLOCK){
+
+            if (manager.getStand() != null){
+                if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
+                    Gate.delete(location, false, manager);
+                } else {
+                    if (Task.tracker.contains(location))
+                        return;
+
+                    Task.tracker.add(location);
+                    Task.track(location, e.getPlayer(), manager);
+                }
+
             }
         }
     }

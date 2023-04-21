@@ -6,6 +6,7 @@ import com.github.justadeni.IronFenceGate.logic.Connect;
 import com.github.justadeni.IronFenceGate.logic.Gate;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
 import com.github.justadeni.IronFenceGate.misc.LocationHelp;
+import com.github.justadeni.IronFenceGate.misc.Recipe;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -78,7 +79,7 @@ public class BlockPlace implements Listener {
         if (StandManager.hasStand(againstLoc))
             return;
 
-        if (itemStack.getType() == Material.WARPED_FENCE_GATE && itemStack.getItemMeta() != null && itemStack.getItemMeta().hasCustomModelData()) {
+        if (itemStack.isSimilar(Recipe.recipes.get(0).getResult())) {
 
             if (!ResourcesCheck.isLoaded(e.getPlayer().getName()))
                 return;
@@ -93,7 +94,7 @@ public class BlockPlace implements Listener {
 
         if (e.getBlockAgainst().getType() == Material.BARRIER){
             if (StandManager.hasStand(againstLoc.add(0, -1, 0))) {
-                if(itemStack.getType().isOccluding() || itemStack.getType().name().endsWith("GLASS")) {
+                if(StandManager.isValidBlock(itemStack.getType())) {
                     againstLoc.add(0, 1, 0);
                     e.setCancelled(true);
                     againstLoc.getBlock().setType(e.getItemInHand().getType());

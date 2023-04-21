@@ -13,9 +13,11 @@ import java.util.List;
 
 public class Task {
 
+    /*
     public static boolean isBreaking(Location location){
-        return tracker.contains(location)/* && !toRemove.contains(location)*/;
+        return tracker.contains(location);
     }
+    */
 
     public static List<Location> tracker = new ArrayList<>();
 
@@ -31,7 +33,7 @@ public class Task {
             @Override
             public void run() {
                 try {
-                    //Was removed and timeout checks
+                    //If was removed and timeout checks
                     if (!tracker.contains(location) || player == null || start + 2000 < current) {
                         end(location);
                         cancel();
@@ -75,9 +77,6 @@ public class Task {
     }
 
     private static void end(Location location){
-
-        //Bukkit.broadcastMessage("end animation");
-
         tracker.remove(location);
         StandManager manager = new StandManager(location);
         if (manager.getStand() == null)

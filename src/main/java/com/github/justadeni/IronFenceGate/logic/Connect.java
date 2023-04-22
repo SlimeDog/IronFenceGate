@@ -12,11 +12,22 @@ import java.util.Arrays;
 
 public class Connect {
 
+    public static void one(Location location){
+        new Connect().reconnect(location);
+    }
+
+    public static void around(Location location){
+        Connect connect = new Connect();
+        for (Location loc : getLocsAround(location)) {
+            connect.reconnect(loc);
+        }
+    }
+
     /**
      * Figures out orientation of the fence gate and connection to blocks to the right and left
      * @param location location of gate
      */
-    public void reconnect(Location location){
+    private void reconnect(Location location){
 
         new BukkitRunnable() {
             @Override
@@ -78,4 +89,13 @@ public class Connect {
     }
 
     private static final ArrayList<String> whitelisted = new ArrayList<>(Arrays.asList("_FENCE", "_WALL", "IRON_BARS"));
+
+    private static ArrayList<Location> getLocsAround(Location location){
+        ArrayList<Location> locations = new ArrayList<>(4);
+        locations.add(new Location(location.getWorld(), location.getX()-1, location.getY(), location.getZ()));
+        locations.add(new Location(location.getWorld(), location.getX()+1, location.getY(), location.getZ()));
+        locations.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ()-1));
+        locations.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ()+1));
+        return locations;
+    }
 }

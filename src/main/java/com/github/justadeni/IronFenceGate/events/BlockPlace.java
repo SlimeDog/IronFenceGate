@@ -1,7 +1,6 @@
 package com.github.justadeni.IronFenceGate.events;
 
 import com.github.justadeni.IronFenceGate.logic.Connect;
-import com.github.justadeni.IronFenceGate.misc.LocationHelp;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,10 +12,7 @@ public class BlockPlace implements Listener {
 
         Location location = e.getBlockPlaced().getLocation().add(0.5, 0, 0.5);
 
-        Connect connect = new Connect();
-        for (Location loc : LocationHelp.getLocsAround(location)) {
-            connect.reconnect(loc);
-        }
-        connect.reconnect(location);
+        Connect.around(location);
+        Connect.one(location);
     }
 }

@@ -4,7 +4,6 @@ import com.github.justadeni.IronFenceGate.IronFenceGate;
 import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.logic.Connect;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
-import com.github.justadeni.IronFenceGate.misc.LocationHelp;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -17,13 +16,9 @@ public class BlockBreak implements Listener {
     @EventHandler
     public static void onBlockBreak(BlockBreakEvent e){
 
-        Connect connect = new Connect();
-
         Location location = e.getBlock().getLocation().add(0.5,0,0.5);
 
-        for (Location loc : LocationHelp.getLocsAround(location)) {
-            connect.reconnect(loc);
-        }
+        Connect.around(location);
 
         location.add(0,-1,0);
 

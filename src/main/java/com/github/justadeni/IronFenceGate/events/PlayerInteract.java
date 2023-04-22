@@ -6,7 +6,6 @@ import com.github.justadeni.IronFenceGate.enums.Direction;
 import com.github.justadeni.IronFenceGate.logic.Connect;
 import com.github.justadeni.IronFenceGate.logic.Gate;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
-import com.github.justadeni.IronFenceGate.misc.LocationHelp;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -216,11 +215,8 @@ public class PlayerInteract implements Listener {
 
         standManager.addBarriers(2);
 
-        Connect connect = new Connect();
-        for (Location loc : LocationHelp.getLocsAround(location)) {
-            connect.reconnect(loc);
-        }
-        connect.reconnect(location);
+        Connect.around(location);
+        Connect.one(location);
     }
 
 }

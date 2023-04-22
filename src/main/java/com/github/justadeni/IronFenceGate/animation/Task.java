@@ -19,7 +19,7 @@ public class Task {
 
     public static void track(Location location, Player player, StandManager manager){
         new BukkitRunnable() {
-            MainConfig mc = MainConfig.get();
+            final MainConfig mc = MainConfig.get();
             //from 1 to 9 stages of breaking
             double progress=0.0;
             //first index marks start time, second gets updated every function run

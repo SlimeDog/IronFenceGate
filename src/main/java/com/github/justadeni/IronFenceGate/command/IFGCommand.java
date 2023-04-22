@@ -3,6 +3,7 @@ package com.github.justadeni.IronFenceGate.command;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
 import com.github.justadeni.IronFenceGate.files.MessageConfig;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -27,12 +28,11 @@ public class IFGCommand implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("get")){
-            if (!sender.hasPermission("ironfencegate.get") && !sender.hasPermission("ironfencegate.admin")) {
-                mc.sendMessage(sender, "command.nopermission");
-                return true;
-            }
-
             if (sender instanceof Player p){
+                if (((Player) sender).getGameMode() != GameMode.CREATIVE && !sender.hasPermission("ironfencegate.get") && !sender.hasPermission("ironfencegate.admin")){
+                    mc.sendMessage(sender, "command.nopermission");
+                    return true;
+                }
 
                 if (addItem(p))
                     mc.sendMessage(sender, "command.itemreceived");

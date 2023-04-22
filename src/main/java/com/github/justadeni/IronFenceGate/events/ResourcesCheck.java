@@ -12,16 +12,12 @@ import static org.bukkit.event.player.PlayerResourcePackStatusEvent.Status.*;
 
 public class ResourcesCheck implements Listener {
 
-    private static ArrayList<Integer> unloadedPlayers = new ArrayList<>();
+    private static ArrayList<String> unloadedPlayers = new ArrayList<>();
 
-    public static boolean isLoaded(String playername){
-        return !unloadedPlayers.contains(playername.hashCode());
+    public static boolean isLoaded(Player player){
+        return !unloadedPlayers.contains(player.getName());
     }
-    /*
-    public static void removeLoaded(String playername){
-        unloadedPlayers.remove(Integer.valueOf(playername.hashCode()));
-    }
-    */
+
     @EventHandler
     public static void onResourcesCheck(PlayerResourcePackStatusEvent e){
         MessageConfig mc = MessageConfig.get();
@@ -29,16 +25,16 @@ public class ResourcesCheck implements Listener {
 
         if (e.getStatus().equals(DECLINED)){
             mc.sendMessage(p, "in-game.packdeclined");
-            unloadedPlayers.add(p.getName().hashCode());
+            unloadedPlayers.add(p.getName());
             return;
         }
 
         if (e.getStatus().equals(FAILED_DOWNLOAD)){
             mc.sendMessage(p, "in-game.packfailedload");
-            unloadedPlayers.add(p.getName().hashCode());
+            unloadedPlayers.add(p.getName());
             return;
         }
 
-        unloadedPlayers.remove(e.getPlayer().getName().hashCode());
+        unloadedPlayers.remove(e.getPlayer().getName());
     }
 }

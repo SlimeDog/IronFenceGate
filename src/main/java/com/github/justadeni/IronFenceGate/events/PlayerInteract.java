@@ -76,13 +76,15 @@ public class PlayerInteract implements Listener {
                     return;
 
                 if (manager.hasStand()){
-                    manager.flipState(e.getPlayer().getLocation());
+                    if(hasPermission(e))
+                        manager.flipState(e.getPlayer().getLocation());
                     return;
                 } else {
                     Location belowLoc = new Location(location.getWorld(), location.getX(), location.getY()-1, location.getZ());
                     StandManager belowManager = new StandManager(belowLoc);
                     if (belowManager.hasStand()){
-                        belowManager.flipState(e.getPlayer().getLocation());
+                        if(hasPermission(e))
+                            belowManager.flipState(e.getPlayer().getLocation());
                         return;
                     }
                 }
@@ -92,14 +94,16 @@ public class PlayerInteract implements Listener {
                 if (!StandManager.isValidBlock(itemStack)) {
                     if (manager.hasStand()){
                         e.setCancelled(true);
-                        manager.flipState(e.getPlayer().getLocation());
+                        if(hasPermission(e))
+                            manager.flipState(e.getPlayer().getLocation());
                         return;
                     }
 
                     StandManager insideManager = new StandManager(againstLoc);
                     if (insideManager.hasStand()) {
                         e.setCancelled(true);
-                        insideManager.flipState(e.getPlayer().getLocation());
+                        if(hasPermission(e))
+                            insideManager.flipState(e.getPlayer().getLocation());
                         return;
                     }
 
@@ -108,7 +112,8 @@ public class PlayerInteract implements Listener {
                     if (belowManager.hasStand()) {
                         if (location.getBlock().getType() == Material.BARRIER) {
                             e.setCancelled(true);
-                            belowManager.flipState(e.getPlayer().getLocation());
+                            if(hasPermission(e))
+                                belowManager.flipState(e.getPlayer().getLocation());
                             return;
                         }
                     }
@@ -145,7 +150,8 @@ public class PlayerInteract implements Listener {
                 StandManager insideManager = new StandManager(againstLoc);
                 if (insideManager.hasStand()) {
                     e.setCancelled(true);
-                    insideManager.flipState(e.getPlayer().getLocation());
+                    if(hasPermission(e))
+                        insideManager.flipState(e.getPlayer().getLocation());
                     return;
                 }
 
@@ -196,6 +202,10 @@ public class PlayerInteract implements Listener {
 
             }
         }
+    }
+
+    private static boolean hasPermission(PlayerInteractEvent e){
+        return e.getPlayer().hasPermission("ironfencegate.use") || e.getPlayer().hasPermission("ironfencegate.admin");
     }
 
     private static boolean isAir(EquipmentSlot hand, PlayerInteractEvent e){

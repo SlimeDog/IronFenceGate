@@ -22,7 +22,7 @@ public class EntityRightClick implements Listener {
 
         StandManager standManager = new StandManager(location);
 
-        if (standManager.hasStand())
+        if (!standManager.hasStand())
             return;
 
         standManager.flipState(e.getPlayer());

@@ -23,7 +23,7 @@ public class Connect {
             public void run() {
 
                 StandManager standManager = new StandManager(location);
-                if (standManager.hasStand()) {
+                if (!standManager.hasStand()) {
                     return;
                 }
 

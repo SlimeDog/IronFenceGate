@@ -19,14 +19,13 @@ public class Task {
 
     public static void track(Location location, Player player, StandManager manager){
         new BukkitRunnable() {
-            final MainConfig mc = MainConfig.get();
-
+            MainConfig mc = MainConfig.get();
             //from 1 to 9 stages of breaking
             double progress=0.0;
             //first index marks start time, second gets updated every function run
-            final long start=System.currentTimeMillis();
+            long start=System.currentTimeMillis();
             long current = System.currentTimeMillis();
-            final Material material = player.getInventory().getItemInMainHand().getType();
+            Material material = player.getInventory().getItemInMainHand().getType();
 
             @Override
             public void run() {
@@ -64,9 +63,8 @@ public class Task {
                     int decaProgress = (int) Math.floor(progress) * 10;
                     if (decaProgress > manager.getDecaId()) {
                         manager.setId(manager.getId() + decaProgress);
+                        location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.breaking.name")), mc.getFloat("sound.breaking.volume"), mc.getFloat("sound.breaking.pitch"));
                     }
-
-                    location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.breaking.name")), mc.getFloat("sound.breaking.volume"), mc.getFloat("sound.breaking.pitch"));
 
                 } catch (NullPointerException e){
                     end(location);

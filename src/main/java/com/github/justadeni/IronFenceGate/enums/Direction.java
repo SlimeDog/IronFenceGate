@@ -8,8 +8,6 @@ public enum Direction{
     NORTH(180),
     EAST(270);
 
-    //private static final Direction[] directions = {SOUTH, WEST, NORTH, EAST};
-
     public static Direction getDirection(Location location) {
 
         float yaw = location.getYaw();

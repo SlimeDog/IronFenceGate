@@ -8,6 +8,7 @@ import com.github.justadeni.IronFenceGate.logic.Gate;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
 import com.github.justadeni.IronFenceGate.misc.LocationHelp;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,6 +20,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
 
 import static org.bukkit.inventory.EquipmentSlot.*;
 
@@ -46,7 +49,6 @@ public class PlayerInteract implements Listener {
 
     @EventHandler
     public static void onPlayerInteract(PlayerInteractEvent e){
-
         if (e.getHand() == HAND)
             if (isAir(HAND, e))
                 if (!isAir(OFF_HAND,e))
@@ -77,6 +79,7 @@ public class PlayerInteract implements Listener {
                 if (manager.hasStand()){
                     if(hasPermission(e))
                         manager.flipState(e.getPlayer());
+
                     return;
                 } else {
                     Location belowLoc = new Location(location.getWorld(), location.getX(), location.getY()-1, location.getZ());
@@ -211,12 +214,7 @@ public class PlayerInteract implements Listener {
         StandManager standManager = new StandManager(location);
         standManager.setYaw((int) Direction.getYaw(Direction.getOpposite(Direction.getDirection(e.getPlayer().getLocation()))));
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                standManager.addBarriers();
-            }
-        }.runTaskLater(IronFenceGate.getInstance(), 2);
+        standManager.addBarriers(2);
 
         Connect connect = new Connect();
         for (Location loc : LocationHelp.getLocsAround(location)) {

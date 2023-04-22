@@ -1,5 +1,6 @@
 package com.github.justadeni.IronFenceGate.logic;
 
+import com.github.justadeni.IronFenceGate.IronFenceGate;
 import com.github.justadeni.IronFenceGate.enums.Direction;
 import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
@@ -14,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 
 public class StandManager {
@@ -142,7 +144,7 @@ public class StandManager {
     public void open(){
         if (getState() == State.CLOSED){
             setId(getId() + 4 + getDecaId());
-            removeBarriers();
+            removeBarriers(1);
             MainConfig mc = MainConfig.get();
             location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.open.name")), mc.getFloat("sound.open.volume"), mc.getFloat("sound.open.pitch"));
         }
@@ -151,7 +153,7 @@ public class StandManager {
     public void close(){
         if (getState() == State.OPEN){
             setId(getId() - 4 + getDecaId());
-            addBarriers();
+            addBarriers(1);
             MainConfig mc = MainConfig.get();
             location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.close.name")), mc.getFloat("sound.close.volume"), mc.getFloat("sound.close.pitch"));
         }
@@ -175,24 +177,34 @@ public class StandManager {
         return id;
     }
 
-    public void addBarriers(){
-        if (location.getBlock().getType() == Material.AIR)
-            location.getBlock().setType(Material.BARRIER);
-        
-        Location newloc = location.add(0,1,0);
-        
-        if (newloc.getBlock().getType() == Material.AIR)
-            newloc.getBlock().setType(Material.BARRIER);
+    public void addBarriers(int delay){
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (location.getBlock().getType() == Material.AIR)
+                    location.getBlock().setType(Material.BARRIER);
+
+                Location newloc = location.add(0, 1, 0);
+
+                if (newloc.getBlock().getType() == Material.AIR)
+                    newloc.getBlock().setType(Material.BARRIER);
+            }
+        }.runTaskLater(IronFenceGate.getInstance(), delay);
     }
 
-    public void removeBarriers(){
-        if (location.getBlock().getType() == Material.BARRIER)
-            location.getBlock().setType(Material.AIR);
+    public void removeBarriers(int delay){
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (location.getBlock().getType() == Material.BARRIER)
+                    location.getBlock().setType(Material.AIR);
 
-        Location newloc = location.add(0,1,0);
+                Location newloc = location.add(0,1,0);
 
-        if (newloc.getBlock().getType() == Material.BARRIER)
-            newloc.getBlock().setType(Material.AIR);
+                if (newloc.getBlock().getType() == Material.BARRIER)
+                    newloc.getBlock().setType(Material.AIR);
+            }
+        }.runTaskLater(IronFenceGate.getInstance(), delay);
     }
 
 

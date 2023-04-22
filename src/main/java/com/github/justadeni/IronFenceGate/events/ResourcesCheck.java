@@ -12,7 +12,7 @@ import static org.bukkit.event.player.PlayerResourcePackStatusEvent.Status.*;
 
 public class ResourcesCheck implements Listener {
 
-    private static final ArrayList<String> unloadedPlayers = new ArrayList<>();
+    private static ArrayList<String> unloadedPlayers = new ArrayList<>();
 
     public static boolean isLoaded(Player player){
         return !unloadedPlayers.contains(player.getName());

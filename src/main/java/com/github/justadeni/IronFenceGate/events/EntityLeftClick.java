@@ -20,7 +20,7 @@ public class EntityLeftClick implements Listener {
 
             Location location = e.getEntity().getLocation();
             StandManager standManager = new StandManager(location);
-            if (standManager.hasStand())
+            if (!standManager.hasStand())
                 return;
 
             if (e.getDamager().getType() != EntityType.PLAYER)

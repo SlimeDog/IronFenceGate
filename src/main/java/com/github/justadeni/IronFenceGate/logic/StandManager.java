@@ -49,8 +49,16 @@ public class StandManager {
         return manager.getStand() != null;
     }
 
+    public boolean hasStand(){
+        return getStand() != null;
+    }
+
     public static boolean isValidBlock(Material material){
-        return  (material.isOccluding() || material.name().endsWith("GLASS"));
+        return  material.isOccluding() || material.name().endsWith("GLASS");
+    }
+
+    public static boolean isValidBlock(ItemStack itemStack){
+        return  itemStack.getType().isOccluding() || itemStack.getType().name().endsWith("GLASS");
     }
 
     //Hardcoded the first id of item in resource pack

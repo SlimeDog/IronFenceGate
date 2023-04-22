@@ -5,7 +5,6 @@ description: ${project.description}
 authors: [justADeni, SlimeDog]
 api-version: 1.19
 load: POSTWORLD
-depend: [ProtocolLib]
 commands:
   ironfencegate:
     aliases: [ifg]

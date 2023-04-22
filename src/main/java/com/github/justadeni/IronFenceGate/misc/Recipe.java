@@ -18,6 +18,10 @@ public class Recipe {
 
     public static ArrayList<ShapedRecipe> recipes = new ArrayList<>();
 
+    public static ItemStack result(){
+        return recipes.get(0).getResult();
+    }
+
     public static void makeRecipes() {
         MainConfig mc = MainConfig.get();
 

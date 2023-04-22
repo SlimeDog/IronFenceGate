@@ -1,4 +1,4 @@
-package com.github.justadeni.IronFenceGate.animation.logic;
+package com.github.justadeni.IronFenceGate.animation;
 
 import com.github.justadeni.IronFenceGate.IronFenceGate;
 import com.github.justadeni.IronFenceGate.logic.Gate;
@@ -12,12 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Task {
-
-    /*
-    public static boolean isBreaking(Location location){
-        return tracker.contains(location);
-    }
-    */
 
     public static List<Location> tracker = new ArrayList<>();
 

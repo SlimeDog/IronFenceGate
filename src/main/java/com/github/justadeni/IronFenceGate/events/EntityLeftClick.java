@@ -1,6 +1,6 @@
 package com.github.justadeni.IronFenceGate.events;
 
-import com.github.justadeni.IronFenceGate.animation.logic.Task;
+import com.github.justadeni.IronFenceGate.animation.Task;
 import com.github.justadeni.IronFenceGate.logic.Gate;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
 import org.bukkit.GameMode;

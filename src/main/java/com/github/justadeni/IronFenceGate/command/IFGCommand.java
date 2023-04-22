@@ -79,16 +79,22 @@ public class IFGCommand implements CommandExecutor {
             return true;
         }
         if (inv.getItemInMainHand().isSimilar(Recipe.result())){
-            inv.getItemInMainHand().setAmount(inv.getItemInMainHand().getAmount()+1);
-            return true;
+            int amount = inv.getItemInMainHand().getAmount();
+            if (amount < 64) {
+                inv.getItemInMainHand().setAmount(amount + 1);
+                return true;
+            }
         }
         if (inv.getItemInOffHand().getType().isAir()){
             inv.setItemInOffHand(Recipe.result());
             return true;
         }
         if (inv.getItemInOffHand().isSimilar(Recipe.result())){
-            inv.getItemInOffHand().setAmount(inv.getItemInOffHand().getAmount()+1);
-            return true;
+            int amount = inv.getItemInOffHand().getAmount();
+            if (amount < 64) {
+                inv.getItemInOffHand().setAmount(amount + 1);
+                return true;
+            }
         }
         return false;
     }

@@ -35,6 +35,6 @@ public class ResourcesCheck implements Listener {
             return;
         }
 
-        unloadedPlayers.remove(e.getPlayer().getName());
+        unloadedPlayers.remove(p.getName());
     }
 }

@@ -8,7 +8,6 @@ import com.github.justadeni.IronFenceGate.logic.Gate;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
 import com.github.justadeni.IronFenceGate.misc.LocationHelp;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -43,7 +42,6 @@ public class PlayerInteract implements Listener {
      *              +-> Is gate +---------->Click on gate -----> Cancel, Flip state
      *                          +---------->Click above gate
      *                                                    -----> Is barrier -> Place
-     * @param e
      */
 
     @EventHandler
@@ -169,7 +167,7 @@ public class PlayerInteract implements Listener {
 
         if (e.getAction() == Action.LEFT_CLICK_BLOCK){
 
-            if (manager.getStand() != null){
+            if (manager.hasStand()){
                 if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
                     Gate.delete(location, false, manager);
                 } else {

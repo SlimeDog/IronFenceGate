@@ -3,9 +3,7 @@ package com.github.justadeni.IronFenceGate.logic;
 import com.github.justadeni.IronFenceGate.IronFenceGate;
 import com.github.justadeni.IronFenceGate.enums.Direction;
 import com.github.justadeni.IronFenceGate.enums.State;
-import com.github.justadeni.IronFenceGate.files.MainConfig;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -25,7 +23,7 @@ public class Connect {
             public void run() {
 
                 StandManager standManager = new StandManager(location);
-                if (standManager.getStand() == null) {
+                if (standManager.hasStand()) {
                     return;
                 }
 
@@ -57,7 +55,7 @@ public class Connect {
      * @param location location of the gate
      * @param direction direction in which the gate is facing
      * @param right whether it should check to it's right, if not then left
-     * @return
+     * @return returns true if our block can be connected to
      */
     private static boolean isSolid(Location location, Direction direction, boolean right){
         int i = 1;
@@ -79,5 +77,5 @@ public class Connect {
         return false;
     }
 
-    private static ArrayList<String> whitelisted = new ArrayList<>(Arrays.asList("_FENCE", "_WALL", "IRON_BARS"));
+    private static final ArrayList<String> whitelisted = new ArrayList<>(Arrays.asList("_FENCE", "_WALL", "IRON_BARS"));
 }

@@ -1,10 +1,12 @@
 package com.github.justadeni.IronFenceGate.animation;
 
 import com.github.justadeni.IronFenceGate.IronFenceGate;
+import com.github.justadeni.IronFenceGate.files.MainConfig;
 import com.github.justadeni.IronFenceGate.logic.Gate;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -17,12 +19,14 @@ public class Task {
 
     public static void track(Location location, Player player, StandManager manager){
         new BukkitRunnable() {
+            final MainConfig mc = MainConfig.get();
+
             //from 1 to 9 stages of breaking
             double progress=0.0;
             //first index marks start time, second gets updated every function run
-            long start=System.currentTimeMillis();
+            final long start=System.currentTimeMillis();
             long current = System.currentTimeMillis();
-            Material material = player.getInventory().getItemInMainHand().getType();
+            final Material material = player.getInventory().getItemInMainHand().getType();
 
             @Override
             public void run() {
@@ -62,6 +66,8 @@ public class Task {
                         manager.setId(manager.getId() + decaProgress);
                     }
 
+                    location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.breaking.name")), mc.getFloat("sound.breaking.volume"), mc.getFloat("sound.breaking.pitch"));
+
                 } catch (NullPointerException e){
                     end(location);
                     cancel();
@@ -73,7 +79,7 @@ public class Task {
     private static void end(Location location){
         tracker.remove(location);
         StandManager manager = new StandManager(location);
-        if (manager.getStand() == null)
+        if (manager.hasStand())
             return;
 
         manager.setId(manager.getId());

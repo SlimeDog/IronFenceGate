@@ -15,8 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class Gate {
 
     public static void delete(Location location, boolean drop, StandManager standManager){
-        ArmorStand stand = standManager.getStand();
-        stand.remove();
+        standManager.removeStand();
         standManager.removeBarriers();
         MainConfig mc = MainConfig.get();
         location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.break.name")), mc.getFloat("sound.break.volume"), mc.getFloat("sound.break.pitch"));
@@ -25,7 +24,7 @@ public class Gate {
 
         location.add(0,-1,0);
         StandManager lowerStand = new StandManager(location);
-        if (lowerStand.getStand() != null && lowerStand.getState() == State.CLOSED)
+        if (lowerStand.hasStand() && lowerStand.getState() == State.CLOSED)
             location.add(0,1,0).getBlock().setType(Material.BARRIER);
     }
 

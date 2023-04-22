@@ -1,7 +1,6 @@
 package com.github.justadeni.IronFenceGate.events;
 
 import com.github.justadeni.IronFenceGate.logic.StandManager;
-import com.github.justadeni.IronFenceGate.files.MainConfig;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,8 +16,8 @@ public class BlockUpdate implements Listener {
      * and less memory intensive, especially with
      * such frequent event and redstone
      */
-    private static ArrayList<Integer> redstoned = new ArrayList<>();
-    private static ArrayList<Integer> locked = new ArrayList<>();
+    private static final ArrayList<Integer> redstoned = new ArrayList<>();
+    private static final ArrayList<Integer> locked = new ArrayList<>();
 
     @EventHandler
     public static void onBlockUpdate(BlockPhysicsEvent e){
@@ -29,7 +28,7 @@ public class BlockUpdate implements Listener {
         locked.add(location.hashCode());
 
         StandManager standManager = new StandManager(location);
-        if (standManager.getStand() == null) {
+        if (standManager.hasStand()) {
             locked.remove(Integer.valueOf(location.hashCode()));
             return;
         }

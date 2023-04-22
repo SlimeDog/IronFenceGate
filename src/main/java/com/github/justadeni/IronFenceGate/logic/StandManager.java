@@ -1,6 +1,5 @@
 package com.github.justadeni.IronFenceGate.logic;
 
-import com.github.justadeni.IronFenceGate.IronFenceGate;
 import com.github.justadeni.IronFenceGate.enums.Direction;
 import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
@@ -16,9 +15,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.EulerAngle;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class StandManager {
 
@@ -89,8 +85,13 @@ public class StandManager {
         stand.getEquipment().setHelmet(itemStack);
     }
 
-    public ArmorStand getStand(){
+    private ArmorStand getStand(){
         return stand;
+    }
+
+    public void removeStand(){
+        if (hasStand())
+            stand.remove();
     }
 
     private boolean isOurs(ArmorStand armorStand){

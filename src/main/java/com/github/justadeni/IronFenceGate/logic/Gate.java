@@ -16,7 +16,7 @@ public class Gate {
 
     public static void delete(Location location, boolean drop, StandManager standManager){
         standManager.removeStand();
-        standManager.removeBarriers();
+        standManager.removeBarriers(1);
         MainConfig mc = MainConfig.get();
         location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.break.name")), mc.getFloat("sound.break.volume"), mc.getFloat("sound.break.pitch"));
         if (drop)

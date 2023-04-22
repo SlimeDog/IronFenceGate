@@ -1,6 +1,5 @@
 package com.github.justadeni.IronFenceGate.events;
 
-import com.github.justadeni.IronFenceGate.files.MessageConfig;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -26,10 +25,6 @@ public class EntityRightClick implements Listener {
         if (standManager.getStand() == null)
             return;
 
-        if (e.getPlayer().hasPermission("ironfencegate.use") || e.getPlayer().hasPermission("ironfencegate.admin"))
-            standManager.flipState(e.getPlayer().getLocation());
-        else
-            MessageConfig.get().sendMessage(e.getPlayer(), "in-game.nopermission");
+        standManager.flipState(e.getPlayer());
     }
-
 }

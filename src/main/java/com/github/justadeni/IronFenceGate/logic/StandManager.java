@@ -4,12 +4,14 @@ import com.github.justadeni.IronFenceGate.IronFenceGate;
 import com.github.justadeni.IronFenceGate.enums.Direction;
 import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
+import com.github.justadeni.IronFenceGate.files.MessageConfig;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -109,9 +111,15 @@ public class StandManager {
             return State.CLOSED;
     }
 
-    public void flipState(Location playerLoc){
+    public void flipState(Player player){
+
+        if (!player.hasPermission("ironfencegate.use") && !player.hasPermission("ironfencegate.admin")) {
+            MessageConfig.get().sendMessage(player, "in-game.nopermission");
+            return;
+        }
+
         Direction standDirection = Direction.getDirection(getYaw());
-        Direction playerDirection = Direction.getDirection(playerLoc);
+        Direction playerDirection = Direction.getDirection(player.getLocation());
 
         if (playerDirection.equals(standDirection)) {
             setYaw((int) Direction.getYaw(Direction.getOpposite(playerDirection)));

@@ -3,11 +3,11 @@ package com.github.justadeni.IronFenceGate.command;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
 import com.github.justadeni.IronFenceGate.files.MessageConfig;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
-import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.PlayerInventory;
 
 public class IFGCommand implements CommandExecutor {
     @Override
@@ -33,17 +33,12 @@ public class IFGCommand implements CommandExecutor {
             }
 
             if (sender instanceof Player p){
-                if (p.getInventory().getItemInMainHand().getType().isAir()){
 
-                    p.getInventory().setItemInMainHand(Recipe.recipes.get(0).getResult());
+                if (addItem(p))
                     mc.sendMessage(sender, "command.itemreceived");
-
-                } else if (p.getInventory().getItemInOffHand().getType().isAir()){
-                    p.getInventory().setItemInOffHand(Recipe.recipes.get(0).getResult());
-                    mc.sendMessage(sender, "command.itemreceived");
-                } else {
+                else
                     mc.sendMessage(sender, "command.handsfull");
-                }
+
             } else {
                 mc.sendMessage(sender, "command.consolecant");
             }
@@ -76,4 +71,26 @@ public class IFGCommand implements CommandExecutor {
 
         return true;
     }
+
+    private boolean addItem(Player player){
+        PlayerInventory inv = player.getInventory();
+        if (inv.getItemInMainHand().getType().isAir()){
+            inv.setItemInMainHand(Recipe.result());
+            return true;
+        }
+        if (inv.getItemInMainHand().isSimilar(Recipe.result())){
+            inv.getItemInMainHand().setAmount(inv.getItemInMainHand().getAmount()+1);
+            return true;
+        }
+        if (inv.getItemInOffHand().getType().isAir()){
+            inv.setItemInOffHand(Recipe.result());
+            return true;
+        }
+        if (inv.getItemInOffHand().isSimilar(Recipe.result())){
+            inv.getItemInOffHand().setAmount(inv.getItemInOffHand().getAmount()+1);
+            return true;
+        }
+        return false;
+    }
+
 }

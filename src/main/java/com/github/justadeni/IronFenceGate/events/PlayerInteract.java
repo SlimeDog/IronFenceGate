@@ -66,7 +66,6 @@ public class PlayerInteract implements Listener {
         ItemStack itemStack = e.getItem();
         Location location = e.getClickedBlock().getLocation().add(0.5,0,0.5);
         StandManager manager = new StandManager(location);
-        Direction opposite = Direction.getOpposite(Direction.getDirection(e.getPlayer().getLocation()));
         Location againstLoc = e.getClickedBlock().getRelative(e.getBlockFace()).getLocation().add(0.5,0,0.5);
 
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK){
@@ -77,14 +76,14 @@ public class PlayerInteract implements Listener {
 
                 if (manager.hasStand()){
                     if(hasPermission(e))
-                        manager.flipState(e.getPlayer().getLocation());
+                        manager.flipState(e.getPlayer());
                     return;
                 } else {
                     Location belowLoc = new Location(location.getWorld(), location.getX(), location.getY()-1, location.getZ());
                     StandManager belowManager = new StandManager(belowLoc);
                     if (belowManager.hasStand()){
                         if(hasPermission(e))
-                            belowManager.flipState(e.getPlayer().getLocation());
+                            belowManager.flipState(e.getPlayer());
                         return;
                     }
                 }
@@ -95,7 +94,7 @@ public class PlayerInteract implements Listener {
                     if (manager.hasStand()){
                         e.setCancelled(true);
                         if(hasPermission(e))
-                            manager.flipState(e.getPlayer().getLocation());
+                            manager.flipState(e.getPlayer());
                         return;
                     }
 
@@ -103,7 +102,7 @@ public class PlayerInteract implements Listener {
                     if (insideManager.hasStand()) {
                         e.setCancelled(true);
                         if(hasPermission(e))
-                            insideManager.flipState(e.getPlayer().getLocation());
+                            insideManager.flipState(e.getPlayer());
                         return;
                     }
 
@@ -113,7 +112,7 @@ public class PlayerInteract implements Listener {
                         if (location.getBlock().getType() == Material.BARRIER) {
                             e.setCancelled(true);
                             if(hasPermission(e))
-                                belowManager.flipState(e.getPlayer().getLocation());
+                                belowManager.flipState(e.getPlayer());
                             return;
                         }
                     }
@@ -138,12 +137,7 @@ public class PlayerInteract implements Listener {
 
             if (itemStack != null && itemStack.isSimilar(Recipe.result())){
                 if (manager.hasStand()){
-                    e.setCancelled(true);
-                    Gate.create(againstLoc);
-                    itemSubtract(e);
-                    StandManager standManager = new StandManager(againstLoc);
-                    standManager.setYaw((int) Direction.getYaw(opposite));
-                    delayBarriers(standManager);
+                    placeGate(againstLoc, e);
                     return;
                 }
 
@@ -151,7 +145,7 @@ public class PlayerInteract implements Listener {
                 if (insideManager.hasStand()) {
                     e.setCancelled(true);
                     if(hasPermission(e))
-                        insideManager.flipState(e.getPlayer().getLocation());
+                        insideManager.flipState(e.getPlayer());
                     return;
                 }
 
@@ -159,30 +153,14 @@ public class PlayerInteract implements Listener {
                 StandManager belowManager = new StandManager(belowLoc);
                 if (belowManager.hasStand()) {
                     if (belowLoc.getBlock().getType() == Material.BARRIER) {
-                        e.setCancelled(true);
-                        Gate.create(location);
-                        itemSubtract(e);
-                        StandManager standManager = new StandManager(location);
-                        standManager.setYaw((int) Direction.getYaw(opposite));
-                        delayBarriers(standManager);
-                        return;
+                        placeGate(location, e);
                     } else {
-                        e.setCancelled(true);
-                        Gate.create(againstLoc);
-                        itemSubtract(e);
-                        StandManager standManager = new StandManager(againstLoc);
-                        standManager.setYaw((int) Direction.getYaw(opposite));
-                        delayBarriers(standManager);
-                        return;
+                        placeGate(againstLoc, e);
                     }
+                    return;
                 }
 
-                e.setCancelled(true);
-                Gate.create(againstLoc);
-                itemSubtract(e);
-                StandManager standManager = new StandManager(againstLoc);
-                standManager.setYaw((int) Direction.getYaw(opposite));
-                delayBarriers(standManager);
+                placeGate(againstLoc, e);
                 return;
             }
         }
@@ -222,11 +200,21 @@ public class PlayerInteract implements Listener {
             player.getInventory().getItemInOffHand().setAmount(player.getInventory().getItemInOffHand().getAmount()-1);
     }
 
-    private static void delayBarriers(StandManager manager) {
+    private static void placeGate(Location location, PlayerInteractEvent e){
+
+        if (!ResourcesCheck.isLoaded(e.getPlayer()))
+            return;
+
+        e.setCancelled(true);
+        Gate.create(location);
+        itemSubtract(e);
+        StandManager standManager = new StandManager(location);
+        standManager.setYaw((int) Direction.getYaw(Direction.getOpposite(Direction.getDirection(e.getPlayer().getLocation()))));
+
         new BukkitRunnable() {
             @Override
             public void run() {
-                manager.addBarriers();
+                standManager.addBarriers();
             }
         }.runTaskLater(IronFenceGate.getInstance(), 2);
     }

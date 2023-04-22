@@ -1,5 +1,6 @@
 package com.github.justadeni.IronFenceGate.logic;
 
+import com.github.justadeni.IronFenceGate.IronFenceGate;
 import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
@@ -11,6 +12,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Gate {
 
@@ -24,8 +26,14 @@ public class Gate {
 
         location.add(0,-1,0);
         StandManager lowerStand = new StandManager(location);
-        if (lowerStand.hasStand() && lowerStand.getState() == State.CLOSED)
-            location.add(0,1,0).getBlock().setType(Material.BARRIER);
+        if (lowerStand.hasStand() && lowerStand.getState() == State.CLOSED) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    location.add(0,1,0).getBlock().setType(Material.BARRIER);
+                }
+            }.runTaskLater(IronFenceGate.getInstance(), 2);
+        }
     }
 
     public static void create(Location location){

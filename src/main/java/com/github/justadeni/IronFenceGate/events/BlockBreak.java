@@ -28,18 +28,16 @@ public class BlockBreak implements Listener {
         location.add(0,-1,0);
 
         StandManager manager = new StandManager(location);
-        if (manager.hasStand())
+        if (!manager.hasStand())
             return;
 
         if (manager.getState() == State.OPEN)
             return;
 
-        location.add(0,1,0);
-
         new BukkitRunnable(){
             @Override
             public void run() {
-                location.getBlock().setType(Material.BARRIER);
+                location.add(0,1,0).getBlock().setType(Material.BARRIER);
             }
         }.runTaskLater(IronFenceGate.getInstance(), 2);
     }

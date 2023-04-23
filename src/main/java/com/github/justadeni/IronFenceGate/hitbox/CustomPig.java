@@ -1,14 +1,25 @@
-package com.github.justadeni.IronFenceGate.logic;
+package com.github.justadeni.IronFenceGate.hitbox;
 
+import com.github.justadeni.IronFenceGate.animation.Task;
+import com.github.justadeni.IronFenceGate.logic.Gate;
+import com.github.justadeni.IronFenceGate.logic.StandManager;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.scoreboard.Team;
 
 public class CustomPig extends Pig {
 
@@ -31,12 +42,11 @@ public class CustomPig extends Pig {
         this.setNoGravity(true);
         this.setSilent(true);
         this.setDiscardFriction(true);
-        this.setHealth(1023);
+        this.setHealth(200);
         this.setXRot(0f);
+        //this.setInvisible(true);
         this.setPos(location.getX(), location.getY(), location.getZ());
     }
-
-    //Overrides of Slime class
 
     @Override
     public void push(Entity entity){}
@@ -58,15 +68,17 @@ public class CustomPig extends Pig {
     @Override
     protected float getSoundVolume() { return 0.0F; }
 
-    //Overrides for Mob class
-
     @Override
     public void checkDespawn(){}
 
-    //Overrides for Entity class
-
     @Override
     public boolean isColliding(BlockPos blockposition, BlockState iblockdata) {return false;}
+
+    @Override
+    public boolean canCollideWithBukkit(Entity entity) {return false;}
+
+    @Override
+    public boolean canBeCollidedWith(){return false;}
 
     @Override
     protected void doWaterSplashEffect() {}
@@ -84,15 +96,33 @@ public class CustomPig extends Pig {
     public void push(double d0, double d1, double d2) {}
 
     @Override
-    protected void markHurt() {
-        this.hurtMarked = false;
-    }
-
-    @Override
-    public boolean hurt(DamageSource damagesource, float f) {return false;}
-
-    @Override
     public boolean isPushable() {
         return false;
     }
+
+    @Override
+    public boolean hurt(DamageSource damagesource, float f) {
+        this.markHurt();
+        this.level.broadcastDamageEvent(this, damagesource);
+        if (!(damagesource.getEntity().getBukkitEntity() instanceof org.bukkit.entity.Player player))
+            return false;
+
+        Location location = this.getBukkitEntity().getLocation();
+        StandManager standManager = new StandManager(location);
+        if (!standManager.hasStand())
+            return false;
+
+        if (player.getGameMode().equals(GameMode.CREATIVE))
+            Gate.delete(location, false, standManager);
+        else {
+
+            if (Task.tracker.contains(location))
+                return false;
+
+            Task.tracker.add(location);
+            Task.track(location, player, standManager);
+        }
+        return false;
+    }
+
 }

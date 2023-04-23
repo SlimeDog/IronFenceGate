@@ -3,21 +3,19 @@ package com.github.justadeni.IronFenceGate.logic;
 import com.github.justadeni.IronFenceGate.IronFenceGate;
 import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
+import com.github.justadeni.IronFenceGate.hitbox.CustomPig;
+import com.github.justadeni.IronFenceGate.hitbox.NonCollision;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
 import net.minecraft.world.level.Level;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Pig;
-import org.bukkit.entity.Slime;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.checkerframework.checker.units.qual.C;
 
 public class Gate {
 
@@ -30,8 +28,10 @@ public class Gate {
             location.getWorld().dropItemNaturally(new Location(location.getWorld(), location.getX(), location.getY()+0.5, location.getZ()), Recipe.recipes.get(0).getResult());
 
         Pig pig = CustomPig.find(location);
-        if (pig != null)
+        if (pig != null) {
+            NonCollision.get().remove(pig);
             pig.remove();
+        }
 
         location.add(0,-1,0);
         StandManager lowerStand = new StandManager(location);
@@ -57,9 +57,10 @@ public class Gate {
         stand.setSmall(true);
         stand.setArms(false);
 
-        CustomPig customPig = new CustomPig(location);
+        CustomPig pig = new CustomPig(location);
+        NonCollision.get().add(pig.getBukkitEntity());
         Level world = ((CraftWorld) location.getWorld()).getHandle();
-        world.addFreshEntity(customPig);
+        world.addFreshEntity(pig);
 
         ItemStack itemStack = Recipe.recipes.get(0).getResult();
         ItemMeta itemMeta = itemStack.getItemMeta();

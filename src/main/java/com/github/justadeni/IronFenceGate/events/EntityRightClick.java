@@ -1,5 +1,6 @@
 package com.github.justadeni.IronFenceGate.events;
 
+import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -25,7 +26,9 @@ public class EntityRightClick implements Listener {
         if (!standManager.hasStand())
             return;
 
-        standManager.flipState(e.getPlayer());
+        if (standManager.getState() == State.OPEN)
+            standManager.flipState(e.getPlayer());
+
         e.setCancelled(true);
     }
 }

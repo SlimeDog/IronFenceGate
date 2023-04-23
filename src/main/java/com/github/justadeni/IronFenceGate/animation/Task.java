@@ -38,7 +38,7 @@ public class Task {
             public void run() {
                 try {
                     //If was removed and timeout checks
-                    if (!tracker.contains(location) || player == null || start + 2000 < current) {
+                    if (manager == null || !manager.hasStand() || !tracker.contains(location) || player == null || start + 2000 < current) {
                         end(location);
                         cancel();
                         return;

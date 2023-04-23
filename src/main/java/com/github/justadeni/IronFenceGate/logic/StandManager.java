@@ -1,6 +1,7 @@
 package com.github.justadeni.IronFenceGate.logic;
 
 import com.github.justadeni.IronFenceGate.IronFenceGate;
+import com.github.justadeni.IronFenceGate.entity.CustomArmorstand;
 import com.github.justadeni.IronFenceGate.enums.Direction;
 import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
@@ -25,28 +26,9 @@ public class StandManager {
 
     public StandManager(Location location){
         this.location = location;
-        stand = findStand();
+        stand = CustomArmorstand.findStand(location);
         if (stand != null)
             this.location = stand.getLocation();
-    }
-
-    private ArmorStand findStand(){
-        for (Entity e : location.getChunk().getEntities()){
-            if (e.getType() == EntityType.ARMOR_STAND){
-                if (e.getLocation().distanceSquared(location) <= 0.22){
-                    ArmorStand armorStand = (ArmorStand) e;
-                    if (isOurs(armorStand))
-                        return armorStand;
-                }
-            }
-        }
-        return null;
-    }
-
-    //Convenience method
-    public static boolean hasStand(Location loc){
-        StandManager manager = new StandManager(loc);
-        return manager.getStand() != null;
     }
 
     public boolean hasStand(){
@@ -60,17 +42,6 @@ public class StandManager {
     public void removeStand(){
         if (hasStand())
             stand.remove();
-    }
-
-    private boolean isOurs(ArmorStand armorStand){
-        try {
-            if (armorStand.getEquipment().getItem(EquipmentSlot.HEAD).getType() == Material.WARPED_FENCE_GATE)
-                return true;
-        } catch (NullPointerException e){
-            return false;
-        }
-
-        return false;
     }
 
     public static boolean isValidBlock(Material material){

@@ -5,7 +5,7 @@ import com.github.justadeni.IronFenceGate.command.TabComplete;
 import com.github.justadeni.IronFenceGate.events.*;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
 import com.github.justadeni.IronFenceGate.files.MessageConfig;
-import com.github.justadeni.IronFenceGate.hitbox.NonCollision;
+import com.github.justadeni.IronFenceGate.entity.hitbox.NonCollision;
 import com.github.justadeni.IronFenceGate.misc.Metrics;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
 import org.bukkit.Bukkit;

@@ -1,10 +1,11 @@
 package com.github.justadeni.IronFenceGate.logic;
 
 import com.github.justadeni.IronFenceGate.IronFenceGate;
+import com.github.justadeni.IronFenceGate.entity.CustomArmorstand;
 import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
-import com.github.justadeni.IronFenceGate.hitbox.CustomPig;
-import com.github.justadeni.IronFenceGate.hitbox.NonCollision;
+import com.github.justadeni.IronFenceGate.entity.hitbox.CustomPig;
+import com.github.justadeni.IronFenceGate.entity.hitbox.NonCollision;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
 import net.minecraft.world.level.Level;
 import org.bukkit.Location;
@@ -12,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
 import org.bukkit.entity.*;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -49,31 +51,25 @@ public class Gate {
 
     public static void create(Location location){
 
-        ArmorStand stand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
+        //ArmorStand stand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
 
-        stand.setGravity(false);
-        stand.setBasePlate(false);
-        stand.setRemoveWhenFarAway(false);
-        stand.setPersistent(true);
-        stand.setInvisible(true);
-        stand.setSmall(true);
-        stand.setArms(false);
-        stand.setInvulnerable(true);
-        stand.setVisualFire(false);
-        stand.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, PotionEffect.INFINITE_DURATION, 1, false, false));
-
-        CustomPig pig = new CustomPig(location);
-        NonCollision.get().add(pig.getBukkitEntity());
+        CustomArmorstand stand =  new CustomArmorstand(location);
         Level world = ((CraftWorld) location.getWorld()).getHandle();
-        world.addFreshEntity(pig);
+        world.addFreshEntity(stand, CreatureSpawnEvent.SpawnReason.CUSTOM);
 
-        ItemStack itemStack = Recipe.recipes.get(0).getResult();
+        ItemStack itemStack = Recipe.result();
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setCustomModelData(StandManager.getIdFirst()+1);
         itemStack.setItemMeta(itemMeta);
 
-        stand.getEquipment().setHelmet(itemStack);
-        stand.addEquipmentLock(EquipmentSlot.HEAD, ArmorStand.LockType.REMOVING_OR_CHANGING);
+        ArmorStand livingStand = (ArmorStand) stand.getBukkitEntity();
+        livingStand.getEquipment().setHelmet(itemStack);
+        livingStand.addEquipmentLock(EquipmentSlot.HEAD, org.bukkit.entity.ArmorStand.LockType.REMOVING_OR_CHANGING);
+
+        CustomPig pig = new CustomPig(location);
+        NonCollision.get().add(pig.getBukkitEntity());
+        world.addFreshEntity(pig);
+
         MainConfig mc = MainConfig.get();
         location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.place.name")), mc.getFloat("sound.place.volume"), mc.getFloat("sound.place.pitch"));
     }

@@ -1,25 +1,18 @@
-package com.github.justadeni.IronFenceGate.hitbox;
+package com.github.justadeni.IronFenceGate.entity.hitbox;
 
 import com.github.justadeni.IronFenceGate.animation.Task;
 import com.github.justadeni.IronFenceGate.logic.Gate;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.scoreboard.Team;
 
 public class CustomPig extends Pig {
 
@@ -44,7 +37,7 @@ public class CustomPig extends Pig {
         this.setDiscardFriction(true);
         this.setHealth(200);
         this.setXRot(0f);
-        //this.setInvisible(true);
+        this.setInvisible(true);
         this.setPos(location.getX(), location.getY(), location.getZ());
     }
 

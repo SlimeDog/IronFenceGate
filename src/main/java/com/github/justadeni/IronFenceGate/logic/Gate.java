@@ -56,6 +56,7 @@ public class Gate {
         stand.setInvisible(true);
         stand.setSmall(true);
         stand.setArms(false);
+        stand.setInvulnerable(true);
 
         CustomPig pig = new CustomPig(location);
         NonCollision.get().add(pig.getBukkitEntity());

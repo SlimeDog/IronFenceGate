@@ -10,6 +10,6 @@ public class PlayerJoin implements Listener {
     @EventHandler
     public static void onPlayerJoin(PlayerJoinEvent e){
         NonCollision.get().add(e.getPlayer());
-        e.getPlayer().setScoreboard(NonCollision.get().board);
+        e.getPlayer().setScoreboard(NonCollision.get().getBoard());
     }
 }

@@ -15,6 +15,8 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Gate {
@@ -57,6 +59,8 @@ public class Gate {
         stand.setSmall(true);
         stand.setArms(false);
         stand.setInvulnerable(true);
+        stand.setVisualFire(false);
+        stand.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, PotionEffect.INFINITE_DURATION, 1, false, false));
 
         CustomPig pig = new CustomPig(location);
         NonCollision.get().add(pig.getBukkitEntity());

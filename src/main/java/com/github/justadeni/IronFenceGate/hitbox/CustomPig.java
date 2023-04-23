@@ -102,8 +102,6 @@ public class CustomPig extends Pig {
 
     @Override
     public boolean hurt(DamageSource damagesource, float f) {
-        this.markHurt();
-        this.level.broadcastDamageEvent(this, damagesource);
         if (!(damagesource.getEntity().getBukkitEntity() instanceof org.bukkit.entity.Player player))
             return false;
 

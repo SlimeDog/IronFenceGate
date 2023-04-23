@@ -53,6 +53,26 @@ public class StandManager {
         return getStand() != null;
     }
 
+    private ArmorStand getStand(){
+        return stand;
+    }
+
+    public void removeStand(){
+        if (hasStand())
+            stand.remove();
+    }
+
+    private boolean isOurs(ArmorStand armorStand){
+        try {
+            if (armorStand.getEquipment().getItem(EquipmentSlot.HEAD).getType() == Material.WARPED_FENCE_GATE)
+                return true;
+        } catch (NullPointerException e){
+            return false;
+        }
+
+        return false;
+    }
+
     public static boolean isValidBlock(Material material){
         return  material.isOccluding() || material.name().endsWith("GLASS");
     }
@@ -85,26 +105,6 @@ public class StandManager {
         itemMeta.setCustomModelData(id+getIdFirst());
         itemStack.setItemMeta(itemMeta);
         stand.getEquipment().setHelmet(itemStack);
-    }
-
-    private ArmorStand getStand(){
-        return stand;
-    }
-
-    public void removeStand(){
-        if (hasStand())
-            stand.remove();
-    }
-
-    private boolean isOurs(ArmorStand armorStand){
-        try {
-            if (armorStand.getEquipment().getItem(EquipmentSlot.HEAD).getType() == Material.WARPED_FENCE_GATE)
-                return true;
-        } catch (NullPointerException e){
-            return false;
-        }
-
-        return false;
     }
 
     public State getState(){

@@ -27,6 +27,13 @@ public class Task {
             long current = System.currentTimeMillis();
             Material material = player.getInventory().getItemInMainHand().getType();
 
+            final int hardness = switch(material){
+                case IRON_PICKAXE -> 7; //takes about 1.6 sec to break
+                case DIAMOND_PICKAXE -> 9; //takes about 1.3 sec to break
+                case NETHERITE_PICKAXE -> 11; //takes about 1.1 sec to break
+                default -> 5;
+            };
+
             @Override
             public void run() {
                 try {
@@ -42,7 +49,7 @@ public class Task {
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                Gate.delete(location, true, manager);
+                                Gate.delete(location, hardness > 5, manager);
                             }
                         }.runTask(IronFenceGate.getInstance());
                         end(location);
@@ -52,12 +59,7 @@ public class Task {
 
                     current = System.currentTimeMillis();
 
-                    progress += 0.1 * switch (material) {
-                        case IRON_PICKAXE -> 7; //takes about 1.6 sec to break
-                        case DIAMOND_PICKAXE -> 9; //takes about 1.3 sec to break
-                        case NETHERITE_PICKAXE -> 11; //takes about 1.1 sec to break
-                        default -> 0;
-                    };
+                    progress += 0.1 * hardness;
 
                     //Total of 9 stages, how fast you reach them depends on pickaxe
                     int decaProgress = (int) Math.floor(progress) * 10;

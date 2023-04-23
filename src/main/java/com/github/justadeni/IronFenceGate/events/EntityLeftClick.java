@@ -16,29 +16,31 @@ public class EntityLeftClick implements Listener {
     @EventHandler
     public static void onEntityLeftClick(EntityDamageByEntityEvent e){
 
-        if (e.getEntity().getType() == EntityType.ARMOR_STAND) {
+        if (/*e.getEntity().getType() != EntityType.ARMOR_STAND && */e.getEntity().getType() != EntityType.PIG)
+            return;
 
-            Location location = e.getEntity().getLocation();
-            StandManager standManager = new StandManager(location);
-            if (!standManager.hasStand())
-                return;
+        Location location = e.getEntity().getLocation();
+        StandManager standManager = new StandManager(location);
+        if (!standManager.hasStand())
+            return;
 
-            if (e.getDamager().getType() != EntityType.PLAYER)
-                return;
+        if (e.getDamager().getType() != EntityType.PLAYER)
+            return;
 
-            Player player = ((Player) e.getDamager());
+        Player player = ((Player) e.getDamager());
 
-            if (player.getGameMode().equals(GameMode.CREATIVE))
+        if (player.getGameMode().equals(GameMode.CREATIVE))
                 Gate.delete(location, false, standManager);
-            else {
+        else {
 
-                if (Task.tracker.contains(location))
-                    return;
+            if (Task.tracker.contains(location))
+                return;
 
-                Task.tracker.add(location);
-                Task.track(location, player, standManager);
-            }
+            Task.tracker.add(location);
+            Task.track(location, player, standManager);
         }
+        e.setCancelled(true);
+
 
     }
 

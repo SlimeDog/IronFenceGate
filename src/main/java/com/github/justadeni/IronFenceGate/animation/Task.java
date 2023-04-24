@@ -51,7 +51,7 @@ public class Task {
                             public void run() {
                                 Gate.delete(location, hardness > 5, manager);
                             }
-                        }.runTask(IronFenceGate.getInstance());
+                        }.runTask(IronFenceGate.get());
                         end(location);
                         cancel();
                         return;
@@ -73,7 +73,7 @@ public class Task {
                     cancel();
                 }
             }
-        }.runTaskTimerAsynchronously(IronFenceGate.getInstance(), 0, 2);
+        }.runTaskTimerAsynchronously(IronFenceGate.get(), 0, 2);
     }
 
     private static void end(Location location){

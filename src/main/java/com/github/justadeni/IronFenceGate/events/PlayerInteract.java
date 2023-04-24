@@ -21,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.bukkit.inventory.EquipmentSlot.*;
 
@@ -86,6 +87,7 @@ public class PlayerInteract implements Listener {
                     if (belowManager.hasStand()){
                         if(hasPermission(e))
                             belowManager.flipState(e.getPlayer());
+                        
                         return;
                     }
                 }
@@ -97,6 +99,7 @@ public class PlayerInteract implements Listener {
                         e.setCancelled(true);
                         if(hasPermission(e))
                             manager.flipState(e.getPlayer());
+                        
                         return;
                     }
 
@@ -105,6 +108,7 @@ public class PlayerInteract implements Listener {
                         e.setCancelled(true);
                         if(hasPermission(e))
                             insideManager.flipState(e.getPlayer());
+                        
                         return;
                     }
 
@@ -115,6 +119,7 @@ public class PlayerInteract implements Listener {
                             e.setCancelled(true);
                             if(hasPermission(e))
                                 belowManager.flipState(e.getPlayer());
+                            
                             return;
                         }
                     }
@@ -130,6 +135,7 @@ public class PlayerInteract implements Listener {
                                 e.setCancelled(true);
                                 itemSubtract(e);
                                 location.getBlock().setType(itemStack.getType());
+                                
                                 return;
                             }
                         }
@@ -140,6 +146,7 @@ public class PlayerInteract implements Listener {
             if (itemStack != null && itemStack.isSimilar(Recipe.result())){
                 if (manager.hasStand()){
                     placeGate(againstLoc, e);
+                    
                     return;
                 }
 
@@ -148,6 +155,7 @@ public class PlayerInteract implements Listener {
                     e.setCancelled(true);
                     if(hasPermission(e))
                         insideManager.flipState(e.getPlayer());
+                    
                     return;
                 }
 
@@ -159,10 +167,12 @@ public class PlayerInteract implements Listener {
                     } else {
                         placeGate(againstLoc, e);
                     }
+                    
                     return;
                 }
 
                 placeGate(againstLoc, e);
+
                 return;
             }
         }
@@ -176,12 +186,15 @@ public class PlayerInteract implements Listener {
                     if (Task.tracker.contains(location))
                         return;
 
+
                     Task.tracker.add(location);
                     Task.track(location, e.getPlayer(), manager);
                 }
 
             }
         }
+
+        
     }
 
     private static boolean hasPermission(PlayerInteractEvent e){

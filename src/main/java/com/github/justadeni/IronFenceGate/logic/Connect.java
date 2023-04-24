@@ -58,7 +58,7 @@ public class Connect {
 
                 standManager.setId(id+standManager.getDecaId());
             }
-        }.runTaskLaterAsynchronously(IronFenceGate.getInstance(), 3);
+        }.runTaskLaterAsynchronously(IronFenceGate.get(), 3);
     }
 
     /**

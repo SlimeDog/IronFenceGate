@@ -37,14 +37,14 @@ public class Recipe {
         itemMeta.setLore(colored);
         itemStack.setItemMeta(itemMeta);
 
-        keylist.add(new NamespacedKey(IronFenceGate.getInstance(), "UpperIronFenceGate"));
+        keylist.add(new NamespacedKey(IronFenceGate.get(), "UpperIronFenceGate"));
         ShapedRecipe upperRecipe = new ShapedRecipe(keylist.get(0), itemStack);
         upperRecipe.shape("BIB", "BIB", "   ");
         upperRecipe.setIngredient('B', Material.IRON_BARS);
         upperRecipe.setIngredient('I', Material.IRON_INGOT);
         recipes.add(upperRecipe);
 
-        keylist.add(new NamespacedKey(IronFenceGate.getInstance(), "LowerIronFenceGate"));
+        keylist.add(new NamespacedKey(IronFenceGate.get(), "LowerIronFenceGate"));
         ShapedRecipe lowerRecipe = new ShapedRecipe(keylist.get(1), itemStack);
         lowerRecipe.shape("   ", "BIB", "BIB");
         lowerRecipe.setIngredient('B', Material.IRON_BARS);

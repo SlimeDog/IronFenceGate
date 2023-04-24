@@ -5,9 +5,10 @@ import com.github.justadeni.IronFenceGate.command.TabComplete;
 import com.github.justadeni.IronFenceGate.events.*;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
 import com.github.justadeni.IronFenceGate.files.MessageConfig;
-import com.github.justadeni.IronFenceGate.entity.hitbox.NonCollision;
+import com.github.justadeni.IronFenceGate.misc.NonCollision;
 import com.github.justadeni.IronFenceGate.misc.Metrics;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
+import com.github.justadeni.IronFenceGate.nms.entity.CustomEntities;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,7 +16,7 @@ public final class IronFenceGate extends JavaPlugin {
 
     private static IronFenceGate instance;
 
-    public static IronFenceGate getInstance(){
+    public static IronFenceGate get(){
         return instance;
     }
 
@@ -35,7 +36,6 @@ public final class IronFenceGate extends JavaPlugin {
         getCommand("ironfencegate").setExecutor(new IFGCommand());
         getCommand("ironfencegate").setTabCompleter(new TabComplete());
         getServer().getPluginManager().registerEvents(new PlayerInteract(), this);
-        //getServer().getPluginManager().registerEvents(new EntityLeftClick(), this);
         getServer().getPluginManager().registerEvents(new EntityRightClick(), this);
         getServer().getPluginManager().registerEvents(new BlockBreak(), this);
         getServer().getPluginManager().registerEvents(new BlockPlace(), this);
@@ -43,6 +43,11 @@ public final class IronFenceGate extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ResourcesCheck(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
         new NonCollision();
+    }
+
+    @Override
+    public void onLoad() {
+        CustomEntities.register();
     }
 
     @Override

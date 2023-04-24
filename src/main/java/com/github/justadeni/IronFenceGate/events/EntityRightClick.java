@@ -16,7 +16,7 @@ public class EntityRightClick implements Listener {
         if (e.getHand().equals(EquipmentSlot.OFF_HAND))
             return;
 
-        if (/*e.getRightClicked().getType() != EntityType.ARMOR_STAND && */e.getRightClicked().getType() != EntityType.PIG)
+        if (e.getRightClicked().getType() != EntityType.PIG)
             return;
 
         Location location = e.getRightClicked().getLocation();

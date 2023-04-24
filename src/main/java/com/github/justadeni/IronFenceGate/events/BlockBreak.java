@@ -34,7 +34,7 @@ public class BlockBreak implements Listener {
             public void run() {
                 location.add(0,1,0).getBlock().setType(Material.BARRIER);
             }
-        }.runTaskLater(IronFenceGate.getInstance(), 2);
+        }.runTaskLater(IronFenceGate.get(), 2);
     }
 
 }

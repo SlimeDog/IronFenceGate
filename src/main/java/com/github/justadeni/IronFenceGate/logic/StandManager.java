@@ -1,17 +1,16 @@
 package com.github.justadeni.IronFenceGate.logic;
 
 import com.github.justadeni.IronFenceGate.IronFenceGate;
-import com.github.justadeni.IronFenceGate.entity.CustomArmorstand;
+import com.github.justadeni.IronFenceGate.nms.entity.CustomArmorstand;
 import com.github.justadeni.IronFenceGate.enums.Direction;
 import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
 import com.github.justadeni.IronFenceGate.files.MessageConfig;
+import com.github.justadeni.IronFenceGate.nms.entity.CustomPig;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -26,7 +25,7 @@ public class StandManager {
 
     public StandManager(Location location){
         this.location = location;
-        stand = CustomArmorstand.findStand(location);
+        stand = CustomArmorstand.find(location);
         if (stand != null)
             this.location = stand.getLocation();
     }
@@ -42,10 +41,6 @@ public class StandManager {
     public void removeStand(){
         if (hasStand())
             stand.remove();
-    }
-
-    public static boolean isValidBlock(Material material){
-        return  material.isOccluding() || material.name().endsWith("GLASS");
     }
 
     public static boolean isValidBlock(ItemStack itemStack){
@@ -114,8 +109,9 @@ public class StandManager {
 
     public void open(){
         if (getState() == State.CLOSED){
-            setId(getId() + 4 + getDecaId());
             removeBarriers(1);
+            setId(getId() + 4 + getDecaId());
+            CustomPig.spawn(location);
             MainConfig mc = MainConfig.get();
             location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.open.name")), mc.getFloat("sound.open.volume"), mc.getFloat("sound.open.pitch"));
         }
@@ -123,8 +119,9 @@ public class StandManager {
 
     public void close(){
         if (getState() == State.OPEN){
-            setId(getId() - 4 + getDecaId());
             addBarriers(1);
+            setId(getId() - 4 + getDecaId());
+            CustomPig.remove(location);
             MainConfig mc = MainConfig.get();
             location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.close.name")), mc.getFloat("sound.close.volume"), mc.getFloat("sound.close.pitch"));
         }
@@ -139,15 +136,6 @@ public class StandManager {
         return (int) Math.toDegrees(stand.getHeadPose().getY());
     }
 
-    public int getAdjacentId(){
-        int id = getId();
-
-        if (id > 4)
-            id -= 4;
-
-        return id;
-    }
-
     public void addBarriers(int delay){
         new BukkitRunnable() {
             @Override
@@ -160,7 +148,7 @@ public class StandManager {
                 if (newloc.getBlock().getType() == Material.AIR)
                     newloc.getBlock().setType(Material.BARRIER);
             }
-        }.runTaskLater(IronFenceGate.getInstance(), delay);
+        }.runTaskLater(IronFenceGate.get(), delay);
     }
 
     public void removeBarriers(int delay){
@@ -175,7 +163,7 @@ public class StandManager {
                 if (newloc.getBlock().getType() == Material.BARRIER)
                     newloc.getBlock().setType(Material.AIR);
             }
-        }.runTaskLater(IronFenceGate.getInstance(), delay);
+        }.runTaskLater(IronFenceGate.get(), delay);
     }
 
 

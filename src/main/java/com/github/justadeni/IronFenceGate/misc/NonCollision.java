@@ -1,4 +1,4 @@
-package com.github.justadeni.IronFenceGate.entity.hitbox;
+package com.github.justadeni.IronFenceGate.misc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;

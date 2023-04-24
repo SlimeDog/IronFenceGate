@@ -1,6 +1,6 @@
 package com.github.justadeni.IronFenceGate.events;
 
-import com.github.justadeni.IronFenceGate.entity.hitbox.NonCollision;
+import com.github.justadeni.IronFenceGate.misc.NonCollision;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;

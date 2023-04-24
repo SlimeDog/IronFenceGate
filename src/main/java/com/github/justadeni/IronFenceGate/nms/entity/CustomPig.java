@@ -1,14 +1,17 @@
-package com.github.justadeni.IronFenceGate.entity.hitbox;
+package com.github.justadeni.IronFenceGate.nms.entity;
 
 import com.github.justadeni.IronFenceGate.animation.Task;
 import com.github.justadeni.IronFenceGate.logic.Gate;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
+import com.github.justadeni.IronFenceGate.misc.NonCollision;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -29,16 +32,49 @@ public class CustomPig extends Pig {
         return null;
     }
 
+    public static void spawn(Location location){
+        Level world = ((CraftWorld) location.getWorld()).getHandle();
+        CustomPig pig = new CustomPig(location);
+        NonCollision.get().add(pig.getBukkitEntity());
+        world.addFreshEntity(pig);
+    }
+
+    /*
+    public static void respawn(Location location){
+        org.bukkit.entity.Pig pig = find(location);
+        if (pig != null) {
+            NonCollision.get().remove(pig);
+            pig.remove();
+        }
+        spawn(location);
+    }
+    */
+    public static void remove(Location location){
+        org.bukkit.entity.Pig pig = find(location);
+        if (pig == null)
+            return;
+
+        NonCollision.get().remove(pig);
+        pig.remove();
+    }
+
+    public CustomPig(EntityType<?> entityType, Level world){
+        super(EntityType.PIG, world);
+    }
+
     public CustomPig(Location location) {
-        super(EntityType.PIG, ((CraftWorld) location.getWorld()).getHandle());
+        this(EntityType.PIG, ((CraftWorld) location.getWorld()).getHandle());
+        //super(EntityType.PIG, ((CraftWorld) location.getWorld()).getHandle());
         this.setNoAi(true);
         this.setNoGravity(true);
         this.setSilent(true);
         this.setDiscardFriction(true);
         this.setHealth(200);
-        this.setXRot(0f);
-        this.setInvisible(true);
+        //this.setInvisible(true);
+        this.setPersistenceRequired(true);
         this.setPos(location.getX(), location.getY(), location.getZ());
+        this.getBukkitEntity().setPersistent(true);
+        ((org.bukkit.entity.Pig) this.getBukkitEntity()).setRemoveWhenFarAway(false);
     }
 
     @Override
@@ -116,4 +152,9 @@ public class CustomPig extends Pig {
         return false;
     }
 
+    @Override
+    public void addAdditionalSaveData(CompoundTag nbttagcompound) {
+        super.addAdditionalSaveData(nbttagcompound);
+        nbttagcompound.putString("id", "minecraft:custom_pig"); // <= this line of code
+    }
 }

@@ -79,9 +79,10 @@ public class Task {
     private static void end(Location location){
         tracker.remove(location);
         StandManager manager = new StandManager(location);
-        if (manager.hasStand())
+        if (!manager.hasStand())
             return;
 
-        manager.setId(manager.getId());
+        manager.removeStand();
+        manager.removeBarriers(1);
     }
 }

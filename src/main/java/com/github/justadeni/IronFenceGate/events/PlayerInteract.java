@@ -78,7 +78,7 @@ public class PlayerInteract implements Listener {
 
                 if (manager.hasStand()){
                     if(hasPermission(e))
-                        manager.flipState(e.getPlayer());
+                        manager.open(e.getPlayer());
 
                     return;
                 } else {
@@ -86,7 +86,7 @@ public class PlayerInteract implements Listener {
                     StandManager belowManager = new StandManager(belowLoc);
                     if (belowManager.hasStand()){
                         if(hasPermission(e))
-                            belowManager.flipState(e.getPlayer());
+                            belowManager.open(e.getPlayer());
                         
                         return;
                     }
@@ -98,7 +98,7 @@ public class PlayerInteract implements Listener {
                     if (manager.hasStand()){
                         e.setCancelled(true);
                         if(hasPermission(e))
-                            manager.flipState(e.getPlayer());
+                            manager.open(e.getPlayer());
                         
                         return;
                     }
@@ -107,7 +107,7 @@ public class PlayerInteract implements Listener {
                     if (insideManager.hasStand()) {
                         e.setCancelled(true);
                         if(hasPermission(e))
-                            insideManager.flipState(e.getPlayer());
+                            insideManager.open(e.getPlayer());
                         
                         return;
                     }
@@ -118,7 +118,7 @@ public class PlayerInteract implements Listener {
                         if (location.getBlock().getType() == Material.BARRIER) {
                             e.setCancelled(true);
                             if(hasPermission(e))
-                                belowManager.flipState(e.getPlayer());
+                                belowManager.open(e.getPlayer());
                             
                             return;
                         }
@@ -154,7 +154,7 @@ public class PlayerInteract implements Listener {
                 if (insideManager.hasStand()) {
                     e.setCancelled(true);
                     if(hasPermission(e))
-                        insideManager.flipState(e.getPlayer());
+                        insideManager.open(e.getPlayer());
                     
                     return;
                 }
@@ -179,6 +179,7 @@ public class PlayerInteract implements Listener {
 
         if (e.getAction() == Action.LEFT_CLICK_BLOCK){
 
+            //First we check if player clicked gate block directly
             if (manager.hasStand()){
                 if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
                     Gate.delete(location, false, manager);
@@ -190,8 +191,23 @@ public class PlayerInteract implements Listener {
                     Task.tracker.add(location);
                     Task.track(location, e.getPlayer(), manager);
                 }
-
+                return;
             }
+
+            //Then we check if player clicked barrier that's above
+            if (e.getClickedBlock().getType() != Material.BARRIER)
+                return;
+
+            Location belowLoc = new Location(location.getWorld(), location.getX(), location.getY()-1, location.getZ());
+            StandManager belowManager = new StandManager(belowLoc);
+            if (!belowManager.hasStand())
+                return;
+
+            if (Task.tracker.contains(belowLoc))
+                return;
+
+            Task.tracker.add(belowLoc);
+            Task.track(belowLoc, e.getPlayer(), belowManager);
         }
 
         
@@ -207,11 +223,10 @@ public class PlayerInteract implements Listener {
 
     private static void itemSubtract(PlayerInteractEvent e){
         Player player = e.getPlayer();
-        EquipmentSlot hand = e.getHand();
 
-        if (hand == HAND)
+        if (e.getHand() == HAND)
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount()-1);
-        if (hand == OFF_HAND)
+        else
             player.getInventory().getItemInOffHand().setAmount(player.getInventory().getItemInOffHand().getAmount()-1);
     }
 

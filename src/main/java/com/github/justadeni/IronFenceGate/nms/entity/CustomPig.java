@@ -20,13 +20,13 @@ import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
 public class CustomPig extends Pig {
 
     public static org.bukkit.entity.Pig find(Location location){
-        for (org.bukkit.entity.Entity e : location.getChunk().getEntities()){
-            if (e.getType() == org.bukkit.entity.EntityType.PIG){
-                if (e.getLocation().distanceSquared(location) <= 0.22){
-                    org.bukkit.entity.Pig pig = (org.bukkit.entity.Pig) e;
-                    if (!pig.hasAI() && !pig.hasGravity())
-                        return pig;
+        for (org.bukkit.entity.Entity entity : location.getChunk().getEntities()){
+            if (entity.getType() == org.bukkit.entity.EntityType.PIG){
+                org.bukkit.entity.Pig pig = (org.bukkit.entity.Pig) entity;
+                if (pig.getLocation().distanceSquared(location) > 0.22) {
+                    continue;
                 }
+                return pig;
             }
         }
         return null;
@@ -39,16 +39,6 @@ public class CustomPig extends Pig {
         world.addFreshEntity(pig);
     }
 
-    /*
-    public static void respawn(Location location){
-        org.bukkit.entity.Pig pig = find(location);
-        if (pig != null) {
-            NonCollision.get().remove(pig);
-            pig.remove();
-        }
-        spawn(location);
-    }
-    */
     public static void remove(Location location){
         org.bukkit.entity.Pig pig = find(location);
         if (pig == null)
@@ -64,17 +54,28 @@ public class CustomPig extends Pig {
 
     public CustomPig(Location location) {
         this(EntityType.PIG, ((CraftWorld) location.getWorld()).getHandle());
-        //super(EntityType.PIG, ((CraftWorld) location.getWorld()).getHandle());
         this.setNoAi(true);
         this.setNoGravity(true);
         this.setSilent(true);
         this.setDiscardFriction(true);
         this.setHealth(200);
-        //this.setInvisible(true);
+        this.setInvisible(true);
         this.setPersistenceRequired(true);
         this.setPos(location.getX(), location.getY(), location.getZ());
         this.getBukkitEntity().setPersistent(true);
         ((org.bukkit.entity.Pig) this.getBukkitEntity()).setRemoveWhenFarAway(false);
+        timeout = System.currentTimeMillis();
+    }
+
+    private long timeout;
+
+    public boolean spamCheck(){
+        long current = System.currentTimeMillis();
+        if (current - timeout > 250){
+            timeout = current;
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -155,6 +156,19 @@ public class CustomPig extends Pig {
     @Override
     public void addAdditionalSaveData(CompoundTag nbttagcompound) {
         super.addAdditionalSaveData(nbttagcompound);
-        nbttagcompound.putString("id", "minecraft:custom_pig"); // <= this line of code
+        nbttagcompound.putString("id", "minecraft:custom_pig");
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag nbttagcompound) {
+        super.readAdditionalSaveData(nbttagcompound);
+        this.setInvisible(true);
+        NonCollision.get().add(this.getBukkitEntity());
+    }
+
+    @Override
+    public void remove(Entity.RemovalReason entity_removalreason) {
+        NonCollision.get().remove(this.getBukkitEntity());
+        super.remove(entity_removalreason);
     }
 }

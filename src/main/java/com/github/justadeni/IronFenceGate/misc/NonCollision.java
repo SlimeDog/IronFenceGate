@@ -34,6 +34,10 @@ public class NonCollision {
             team.removeEntry(entity.getUniqueId().toString());
     }
 
+    public boolean has(Entity entity){
+        return team.hasEntry(entity.getUniqueId().toString());
+    }
+
     public Scoreboard getBoard(){
         return board;
     }

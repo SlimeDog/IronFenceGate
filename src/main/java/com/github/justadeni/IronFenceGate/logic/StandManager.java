@@ -39,8 +39,14 @@ public class StandManager {
     }
 
     public void removeStand(){
-        if (hasStand())
-            stand.remove();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+
+                if (hasStand())
+                    stand.remove();
+            }
+        }.runTask(IronFenceGate.get());
     }
 
     public static boolean isValidBlock(ItemStack itemStack){
@@ -80,13 +86,61 @@ public class StandManager {
             return State.CLOSED;
     }
 
-    public void flipState(Player player){
+    public void open(){
+        if (getState() == State.OPEN)
+            return;
+
+        removeBarriers(1);
+        setId(getId() + 4 + getDecaId());
+        MainConfig mc = MainConfig.get();
+        location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.open.name")), mc.getFloat("sound.open.volume"), mc.getFloat("sound.open.pitch"));
+    }
+
+    public void open(Player player){
+        if (getState() == State.OPEN)
+            return;
 
         if (!player.hasPermission("ironfencegate.use") && !player.hasPermission("ironfencegate.admin")) {
             MessageConfig.get().sendMessage(player, "in-game.nopermission");
             return;
         }
 
+        adjustDirection(player);
+
+        removeBarriers(1);
+        setId(getId() + 4 + getDecaId());
+        MainConfig mc = MainConfig.get();
+        location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.open.name")), mc.getFloat("sound.open.volume"), mc.getFloat("sound.open.pitch"));
+    }
+
+    public void close(){
+        if (getState() == State.CLOSED)
+            return;
+
+        addBarriers(1);
+        setId(getId() - 4 + getDecaId());
+        MainConfig mc = MainConfig.get();
+        location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.close.name")), mc.getFloat("sound.close.volume"), mc.getFloat("sound.close.pitch"));
+    }
+
+    public void close(Player player){
+        if (getState() == State.CLOSED)
+            return;
+
+        if (!player.hasPermission("ironfencegate.use") && !player.hasPermission("ironfencegate.admin")) {
+            MessageConfig.get().sendMessage(player, "in-game.nopermission");
+            return;
+        }
+
+        adjustDirection(player);
+
+        addBarriers(1);
+        setId(getId() - 4 + getDecaId());
+        MainConfig mc = MainConfig.get();
+        location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.close.name")), mc.getFloat("sound.close.volume"), mc.getFloat("sound.close.pitch"));
+    }
+
+    private void adjustDirection(Player player){
         Direction standDirection = Direction.getDirection(getYaw());
         Direction playerDirection = Direction.getDirection(player.getLocation());
 
@@ -98,32 +152,6 @@ public class StandManager {
                 case 3,7 -> getId()-1;
                 default -> getId();
             });
-        }
-
-        if (getState() == State.CLOSED){
-            open();
-        } else {
-            close();
-        }
-    }
-
-    public void open(){
-        if (getState() == State.CLOSED){
-            removeBarriers(1);
-            setId(getId() + 4 + getDecaId());
-            CustomPig.spawn(location);
-            MainConfig mc = MainConfig.get();
-            location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.open.name")), mc.getFloat("sound.open.volume"), mc.getFloat("sound.open.pitch"));
-        }
-    }
-
-    public void close(){
-        if (getState() == State.OPEN){
-            addBarriers(1);
-            setId(getId() - 4 + getDecaId());
-            CustomPig.remove(location);
-            MainConfig mc = MainConfig.get();
-            location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.close.name")), mc.getFloat("sound.close.volume"), mc.getFloat("sound.close.pitch"));
         }
     }
 
@@ -145,7 +173,7 @@ public class StandManager {
 
                 Location newloc = location.add(0, 1, 0);
 
-                if (newloc.getBlock().getType() == Material.AIR)
+                if (newloc.getBlock().getType() == Material.AIR && !new StandManager(location).hasStand())
                     newloc.getBlock().setType(Material.BARRIER);
             }
         }.runTaskLater(IronFenceGate.get(), delay);
@@ -160,7 +188,7 @@ public class StandManager {
 
                 Location newloc = location.add(0,1,0);
 
-                if (newloc.getBlock().getType() == Material.BARRIER)
+                if (newloc.getBlock().getType() == Material.BARRIER && !new StandManager(location).hasStand())
                     newloc.getBlock().setType(Material.AIR);
             }
         }.runTaskLater(IronFenceGate.get(), delay);

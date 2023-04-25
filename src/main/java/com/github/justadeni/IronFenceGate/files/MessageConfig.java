@@ -23,7 +23,7 @@ public class MessageConfig extends Config{
             try {
                 FileUtils.copyURLToFile(IronFenceGate.class.getResource("/messages.yml"), new File(datafolder + "/messages.yml"));
                 file = new File(datafolder, "messages.yml");
-            } catch (IOException | NullPointerException e) {}
+            } catch (IOException | NullPointerException ignored) {}
         }
 
         messageConfiguration = YamlConfiguration.loadConfiguration(file);

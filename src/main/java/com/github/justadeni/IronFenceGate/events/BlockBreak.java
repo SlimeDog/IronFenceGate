@@ -20,6 +20,9 @@ public class BlockBreak implements Listener {
 
         Connect.around(location);
 
+        if (e.getBlock().getType() == Material.BARRIER)
+            return;
+
         location.add(0,-1,0);
 
         StandManager manager = new StandManager(location);

@@ -31,8 +31,7 @@ public class CustomArmorstand extends ArmorStand {
                 try {
                     if (stand.getEquipment().getItem(EquipmentSlot.HEAD).getType() == Material.WARPED_FENCE_GATE)
                         return stand;
-                } catch (NullPointerException ignored) {
-                }
+                } catch (NullPointerException ignored) {return null;}
             }
         }
         return null;
@@ -53,27 +52,9 @@ public class CustomArmorstand extends ArmorStand {
         livingStand.addEquipmentLock(EquipmentSlot.HEAD, org.bukkit.entity.ArmorStand.LockType.REMOVING_OR_CHANGING);
     }
 
-    /*
-    public static void respawn(Entity entity){
-        Location location = entity.getLocation();
-        entity.remove();
-        spawn(location);
-    }
-    */
-    /*
-    public static void remove(Location location){
-        org.bukkit.entity.ArmorStand stand = find(location);
-        if (stand == null)
-            return;
-
-        stand.remove();
-    }
-    */
-
     public CustomArmorstand (EntityType<?> entityType, Level world){
         super(EntityType.ARMOR_STAND, world);
     }
-
 
     public CustomArmorstand(Location location) {
         this(EntityType.ARMOR_STAND, ((CraftWorld) location.getWorld()).getHandle());
@@ -104,6 +85,6 @@ public class CustomArmorstand extends ArmorStand {
     @Override
     public void addAdditionalSaveData(CompoundTag nbttagcompound) {
         super.addAdditionalSaveData(nbttagcompound);
-        nbttagcompound.putString("id", "minecraft:custom_armor_stand"); // <= this line of code
+        nbttagcompound.putString("id", "minecraft:custom_armor_stand");
     }
 }

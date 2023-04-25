@@ -5,6 +5,7 @@ import com.github.justadeni.IronFenceGate.command.TabComplete;
 import com.github.justadeni.IronFenceGate.events.*;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
 import com.github.justadeni.IronFenceGate.files.MessageConfig;
+import com.github.justadeni.IronFenceGate.files.Resourcepack;
 import com.github.justadeni.IronFenceGate.misc.NonCollision;
 import com.github.justadeni.IronFenceGate.misc.Metrics;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
@@ -22,8 +23,9 @@ public final class IronFenceGate extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        instance = this;
+        new NonCollision();
         saveDefaultConfig();
+        Resourcepack.setup();
         MessageConfig.setup();
         MainConfig.setup();
         MainConfig mc = MainConfig.get();
@@ -42,11 +44,12 @@ public final class IronFenceGate extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockUpdate(), this);
         getServer().getPluginManager().registerEvents(new ResourcesCheck(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
-        new NonCollision();
     }
 
     @Override
     public void onLoad() {
+        if (instance == null)
+            instance = this;
         CustomEntities.register();
     }
 

@@ -37,21 +37,6 @@ public class Gate {
 
     public static void create(Location location){
 
-        //ArmorStand stand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
-        /*
-        CustomArmorstand stand =  new CustomArmorstand(location);
-        Level world = ((CraftWorld) location.getWorld()).getHandle();
-        world.addFreshEntity(stand, CreatureSpawnEvent.SpawnReason.CUSTOM);
-
-        ItemStack itemStack = Recipe.result();
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setCustomModelData(StandManager.getIdFirst()+1);
-        itemStack.setItemMeta(itemMeta);
-
-        ArmorStand livingStand = (ArmorStand) stand.getBukkitEntity();
-        livingStand.getEquipment().setHelmet(itemStack);
-        livingStand.addEquipmentLock(EquipmentSlot.HEAD, org.bukkit.entity.ArmorStand.LockType.REMOVING_OR_CHANGING);
-        */
         CustomArmorstand.spawn(location);
         CustomPig.spawn(location);
 

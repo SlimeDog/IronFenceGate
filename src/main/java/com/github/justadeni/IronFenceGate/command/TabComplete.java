@@ -13,10 +13,15 @@ public class TabComplete implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String s, String[] args) {
         ArrayList<String> completions = new ArrayList<>();
         if (args.length == 1) {
-            if (sender.hasPermission("ironfencegate.admin")) {
-                completions.add("reload");
+            if (sender.hasPermission("ironfencegate.admin") || sender.hasPermission("ironfencegate.get"))
                 completions.add("get");
+            if (sender.hasPermission("ironfencegate.admin") || sender.hasPermission("ironfencegate.help"))
                 completions.add("help");
+            if (sender.hasPermission("ironfencegate.admin"))
+                completions.add("reload");
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("get")){
+            if (sender.hasPermission("ironfencegate.admin") || sender.hasPermission("ironfencegate.get")) {
+                completions.add("number");
             }
         }
         return completions;

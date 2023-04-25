@@ -4,7 +4,7 @@ prefix: "[IronFenceGate ] "
 # Command-related messages
 command:
   consolecant: "Console cannot get an item"
-  handsfull: "Your hands are full"
+  invfull: "Your inventory is full"
   nopermission: "You do not have permission for execute this command"
   invalidargs: "Invalid command arguments"
   tooshort: "Insufficient command arguments"

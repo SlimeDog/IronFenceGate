@@ -1,16 +1,15 @@
 package com.github.justadeni.IronFenceGate.events;
 
-import com.github.justadeni.IronFenceGate.IronFenceGate;
 import com.github.justadeni.IronFenceGate.animation.Task;
 import com.github.justadeni.IronFenceGate.enums.Direction;
 import com.github.justadeni.IronFenceGate.logic.Connect;
 import com.github.justadeni.IronFenceGate.logic.Gate;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,10 +17,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import static org.bukkit.inventory.EquipmentSlot.*;
 
@@ -49,6 +44,7 @@ public class PlayerInteract implements Listener {
 
     @EventHandler
     public static void onPlayerInteract(PlayerInteractEvent e){
+
         if (e.getHand() == HAND)
             if (isAir(HAND, e))
                 if (!isAir(OFF_HAND,e))
@@ -71,7 +67,8 @@ public class PlayerInteract implements Listener {
         Location againstLoc = e.getClickedBlock().getRelative(e.getBlockFace()).getLocation().add(0.5,0,0.5);
 
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK){
-            //Placing our iron fence gate
+
+            //Empty hands
             if (itemStack == null){
                 if (e.getClickedBlock().getType() != Material.BARRIER)
                     return;
@@ -93,6 +90,7 @@ public class PlayerInteract implements Listener {
                 }
             }
 
+            //Placing something but not our fence gate
             if (itemStack != null && !itemStack.isSimilar(Recipe.result())){
                 if (!StandManager.isValidBlock(itemStack)) {
                     if (manager.hasStand()){
@@ -125,13 +123,25 @@ public class PlayerInteract implements Listener {
                     }
                 }
 
+                //Placing a real block
                 if (StandManager.isValidBlock(itemStack)) {
+
                     if (!manager.hasStand()){
                         Location belowLoc = new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ());
                         StandManager belowManager = new StandManager(belowLoc);
 
                         if (belowManager.hasStand()) {
                             if (location.getBlock().getType() == Material.BARRIER) {
+
+                                //No space to put block
+                                if (!isValidPlaceable(location)) {
+                                    e.setCancelled(true);
+                                    if(hasPermission(e))
+                                        belowManager.open(e.getPlayer());
+
+                                    return;
+                                }
+
                                 e.setCancelled(true);
                                 itemSubtract(e);
                                 location.getBlock().setType(itemStack.getType());
@@ -139,10 +149,20 @@ public class PlayerInteract implements Listener {
                                 return;
                             }
                         }
+                    } else {
+                        //No space to put block
+                        if (!isValidPlaceable(location)) {
+                            e.setCancelled(true);
+                            if (hasPermission(e))
+                                manager.open(e.getPlayer());
+
+                            return;
+                        }
                     }
                 }
             }
 
+            //Placing our iron fence gate
             if (itemStack != null && itemStack.isSimilar(Recipe.result())){
                 if (manager.hasStand()){
                     placeGate(againstLoc, e);
@@ -245,6 +265,16 @@ public class PlayerInteract implements Listener {
 
         Connect.around(location);
         Connect.one(location);
+    }
+
+    private static boolean isValidPlaceable(Location location){
+
+        for (Entity entity : location.getChunk().getEntities()){
+            if (entity.getLocation().distanceSquared(location) <= 0.22)
+                return false;
+        }
+
+        return true;
     }
 
 }

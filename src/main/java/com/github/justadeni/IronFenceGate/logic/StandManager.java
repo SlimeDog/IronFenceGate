@@ -6,7 +6,6 @@ import com.github.justadeni.IronFenceGate.enums.Direction;
 import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
 import com.github.justadeni.IronFenceGate.files.MessageConfig;
-import com.github.justadeni.IronFenceGate.nms.entity.CustomPig;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -171,10 +170,10 @@ public class StandManager {
                 if (location.getBlock().getType() == Material.AIR)
                     location.getBlock().setType(Material.BARRIER);
 
-                Location newloc = location.add(0, 1, 0);
+                Location aboveLoc = new Location(location.getWorld(), location.getX(), location.getY()+1, location.getZ());
 
-                if (newloc.getBlock().getType() == Material.AIR && !new StandManager(location).hasStand())
-                    newloc.getBlock().setType(Material.BARRIER);
+                if (aboveLoc.getBlock().getType() == Material.AIR && !new StandManager(aboveLoc).hasStand())
+                    aboveLoc.getBlock().setType(Material.BARRIER);
             }
         }.runTaskLater(IronFenceGate.get(), delay);
     }
@@ -186,10 +185,10 @@ public class StandManager {
                 if (location.getBlock().getType() == Material.BARRIER)
                     location.getBlock().setType(Material.AIR);
 
-                Location newloc = location.add(0,1,0);
+                Location aboveLoc = new Location(location.getWorld(), location.getX(), location.getY()+1, location.getZ());
 
-                if (newloc.getBlock().getType() == Material.BARRIER && !new StandManager(location).hasStand())
-                    newloc.getBlock().setType(Material.AIR);
+                if (aboveLoc.getBlock().getType() == Material.BARRIER && !new StandManager(aboveLoc).hasStand())
+                    aboveLoc.getBlock().setType(Material.AIR);
             }
         }.runTaskLater(IronFenceGate.get(), delay);
     }

@@ -3,10 +3,7 @@ package com.github.justadeni.IronFenceGate.events;
 import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
 import com.github.justadeni.IronFenceGate.misc.NonCollision;
-import com.github.justadeni.IronFenceGate.nms.entity.CustomPig;
-import net.minecraft.world.entity.animal.Pig;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_19_R3.entity.CraftLivingEntity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,10 +21,6 @@ public class EntityRightClick implements Listener {
             return;
 
         if (!NonCollision.get().has(e.getRightClicked()))
-            return;
-
-        CustomPig pig = (CustomPig) ((CraftLivingEntity) e.getRightClicked()).getHandle();
-        if (!pig.spamCheck())
             return;
 
         Location location = e.getRightClicked().getLocation();

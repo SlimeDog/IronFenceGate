@@ -64,18 +64,6 @@ public class CustomPig extends Pig {
         this.setPos(location.getX(), location.getY(), location.getZ());
         this.getBukkitEntity().setPersistent(true);
         ((org.bukkit.entity.Pig) this.getBukkitEntity()).setRemoveWhenFarAway(false);
-        timeout = System.currentTimeMillis();
-    }
-
-    private long timeout;
-
-    public boolean spamCheck(){
-        long current = System.currentTimeMillis();
-        if (current - timeout > 250){
-            timeout = current;
-            return true;
-        }
-        return false;
     }
 
     @Override

@@ -37,13 +37,13 @@ public class CustomEntities {
 
         try {
             // Unfreeze registry
-            IronFenceGate.get().log("Unfreezing entity type registry (1/2)...");
+            //IronFenceGate.get().log("Unfreezing entity type registry (1/2)...");
             // l = private boolean frozen
             Field frozen = MappedRegistry.class.getDeclaredField("l");
             frozen.setAccessible(true);
             frozen.set(entityTypeRegistry, false);
 
-            IronFenceGate.get().log("Unfreezing entity type registry (2/2)...");
+            //IronFenceGate.get().log("Unfreezing entity type registry (2/2)...");
             // m = private Map<T, Holder.Reference<T>> unregisteredIntrusiveHolders;
             Field unregisteredHolderMap = MappedRegistry.class.getDeclaredField("m");
             unregisteredHolderMap.setAccessible(true);
@@ -58,7 +58,7 @@ public class CustomEntities {
                     .sized(0.25F, 0.9875F)
                     .clientTrackingRange(10);
 
-            IronFenceGate.get().log("Building entities");
+            //IronFenceGate.get().log("Building entities");
             EntityType<Entity> custompig = customPigBuilder.build("custom_pig");
             EntityType<Entity> customarmorstand = customArmorstandBuilder.build("custom_armor_stand");
 
@@ -78,7 +78,9 @@ public class CustomEntities {
             register.invoke(null, "custom_pig", customPigBuilder);
             register.invoke(null, "custom_armor_stand", customArmorstandBuilder);
             // Re-freeze registry
-            IronFenceGate.get().log("Re-freezing entity type registry...");
+            //IronFenceGate.get().log("Re-freezing entity type registry...");
+            IronFenceGate.get().log("Please disregard these errors. We are \n aware of them and they are completely harmless.");
+
             frozen.set(entityTypeRegistry, true);
             unregisteredHolderMap.set(BuiltInRegistries.ENTITY_TYPE, null);
 

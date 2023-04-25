@@ -50,7 +50,10 @@ public class IFGCommand implements CommandExecutor {
             }
             return true;
         }
-        mc.sendMessage(sender, "command.invalidargs");
+        if (args.length == 2) {
+            mc.sendMessage(sender, "command.invalidargs");
+            return true;
+        }
 
         if (args[0].equalsIgnoreCase("reload")) {
             if (!sender.hasPermission("ironfencegate.reload") && !sender.hasPermission("ironfencegate.admin")) {

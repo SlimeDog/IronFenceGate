@@ -9,19 +9,19 @@ import org.bukkit.scoreboard.Team;
 public class NonCollision {
 
     private static NonCollision nonCollision;
-    private ScoreboardManager manager;
-    private Scoreboard board;
-    private Team team;
+    private static ScoreboardManager manager;
+    private static Scoreboard board;
+    private static Team team;
 
-    public NonCollision() {
-        this.manager = Bukkit.getScoreboardManager();
-        this.board = manager.getNewScoreboard();
-        this.team = board.registerNewTeam("NonCollision");
+    public static void setup() {
+        manager = Bukkit.getScoreboardManager();
+        board = manager.getNewScoreboard();
+        team = board.registerNewTeam("NonCollision");
 
         team.setCanSeeFriendlyInvisibles(false);
         team.setAllowFriendlyFire(true);
         team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OTHER_TEAMS);
-        nonCollision = this;
+        nonCollision = new NonCollision();
     }
 
     public void add(Entity entity){

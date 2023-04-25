@@ -23,7 +23,7 @@ public final class IronFenceGate extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        new NonCollision();
+        NonCollision.setup();
         saveDefaultConfig();
         Resourcepack.setup();
         MessageConfig.setup();

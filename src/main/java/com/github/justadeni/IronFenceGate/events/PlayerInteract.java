@@ -130,7 +130,7 @@ public class PlayerInteract implements Listener {
                         Location belowLoc = new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ());
                         StandManager belowManager = new StandManager(belowLoc);
 
-                        if (belowManager.hasStand())
+                        if (!belowManager.hasStand())
                             return;
 
                         if (location.getBlock().getType() != Material.BARRIER)
@@ -138,7 +138,7 @@ public class PlayerInteract implements Listener {
 
                         //No space to put block
                         e.setCancelled(true);
-                        if (!isValidPlaceable(location)) {
+                        if (!isValidPlaceable(againstLoc)) {
 
                             if (hasPermission(e))
                                 belowManager.open(e.getPlayer());
@@ -151,16 +151,13 @@ public class PlayerInteract implements Listener {
 
                         return;
 
-
-                    } else {
                         //No space to put block
-                        if (!isValidPlaceable(location)) {
-                            e.setCancelled(true);
-                            if (hasPermission(e))
-                                manager.open(e.getPlayer());
+                    } else if (!isValidPlaceable(againstLoc)) {
+                        e.setCancelled(true);
+                        if (hasPermission(e))
+                            manager.open(e.getPlayer());
 
-                            return;
-                        }
+                        return;
                     }
                 }
             }
@@ -168,6 +165,14 @@ public class PlayerInteract implements Listener {
             //Placing our iron fence gate
             if (itemStack != null && itemStack.isSimilar(Recipe.result())){
                 if (manager.hasStand()){
+                    if (!isValidPlaceable(againstLoc)) {
+                        e.setCancelled(true);
+                        if (hasPermission(e))
+                            manager.open(e.getPlayer());
+
+                        return;
+                    }
+
                     placeGate(againstLoc, e);
                     
                     return;

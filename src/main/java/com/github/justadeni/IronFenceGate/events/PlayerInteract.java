@@ -126,29 +126,32 @@ public class PlayerInteract implements Listener {
                 //Placing a real block
                 if (StandManager.isValidBlock(itemStack)) {
 
-                    if (!manager.hasStand()){
+                    if (!manager.hasStand()) {
                         Location belowLoc = new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ());
                         StandManager belowManager = new StandManager(belowLoc);
 
-                        if (belowManager.hasStand()) {
-                            if (location.getBlock().getType() == Material.BARRIER) {
+                        if (belowManager.hasStand())
+                            return;
 
-                                //No space to put block
-                                if (!isValidPlaceable(location)) {
-                                    e.setCancelled(true);
-                                    if(hasPermission(e))
-                                        belowManager.open(e.getPlayer());
+                        if (location.getBlock().getType() != Material.BARRIER)
+                            return;
 
-                                    return;
-                                }
+                        //No space to put block
+                        e.setCancelled(true);
+                        if (!isValidPlaceable(location)) {
 
-                                e.setCancelled(true);
-                                itemSubtract(e);
-                                location.getBlock().setType(itemStack.getType());
-                                
-                                return;
-                            }
+                            if (hasPermission(e))
+                                belowManager.open(e.getPlayer());
+
+                            return;
                         }
+
+                        itemSubtract(e);
+                        location.getBlock().setType(itemStack.getType());
+
+                        return;
+
+
                     } else {
                         //No space to put block
                         if (!isValidPlaceable(location)) {

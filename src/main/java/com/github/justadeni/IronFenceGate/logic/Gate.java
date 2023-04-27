@@ -1,6 +1,7 @@
 package com.github.justadeni.IronFenceGate.logic;
 
 import com.github.justadeni.IronFenceGate.IronFenceGate;
+import com.github.justadeni.IronFenceGate.misc.LocUtil;
 import com.github.justadeni.IronFenceGate.nms.entity.CustomArmorstand;
 import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
@@ -23,13 +24,12 @@ public class Gate {
 
         CustomPig.remove(location);
 
-        location.add(0,-1,0);
-        StandManager lowerStand = new StandManager(location);
+        StandManager lowerStand = new StandManager(LocUtil.alter(location, 0,-1,0));
         if (lowerStand.hasStand() && lowerStand.getState() == State.CLOSED) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    location.add(0,1,0).getBlock().setType(Material.BARRIER);
+                    location.getBlock().setType(Material.BARRIER);
                 }
             }.runTaskLater(IronFenceGate.get(), 2);
         }

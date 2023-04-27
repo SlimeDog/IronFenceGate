@@ -4,6 +4,7 @@ import com.github.justadeni.IronFenceGate.IronFenceGate;
 import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.logic.Connect;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
+import com.github.justadeni.IronFenceGate.misc.LocUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -16,16 +17,14 @@ public class BlockBreak implements Listener {
     @EventHandler
     public static void onBlockBreak(BlockBreakEvent e){
 
-        Location location = e.getBlock().getLocation().add(0.5,0,0.5);
+        Location location = LocUtil.center(e.getBlock().getLocation());
 
         Connect.around(location);
 
         if (e.getBlock().getType() == Material.BARRIER)
             return;
 
-        location.add(0,-1,0);
-
-        StandManager manager = new StandManager(location);
+        StandManager manager = new StandManager(LocUtil.alter(location, 0,-1,0));
         if (!manager.hasStand())
             return;
 
@@ -35,7 +34,7 @@ public class BlockBreak implements Listener {
         new BukkitRunnable(){
             @Override
             public void run() {
-                location.add(0,1,0).getBlock().setType(Material.BARRIER);
+                location.getBlock().setType(Material.BARRIER);
             }
         }.runTaskLater(IronFenceGate.get(), 2);
     }

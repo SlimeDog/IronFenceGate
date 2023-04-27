@@ -5,6 +5,7 @@ import com.github.justadeni.IronFenceGate.enums.Direction;
 import com.github.justadeni.IronFenceGate.logic.Connect;
 import com.github.justadeni.IronFenceGate.logic.Gate;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
+import com.github.justadeni.IronFenceGate.misc.LocUtil;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -62,9 +63,9 @@ public class PlayerInteract implements Listener {
             return;
 
         ItemStack itemStack = e.getItem();
-        Location location = e.getClickedBlock().getLocation().add(0.5,0,0.5);
+        Location location = LocUtil.center(e.getClickedBlock().getLocation());
         StandManager manager = new StandManager(location);
-        Location againstLoc = e.getClickedBlock().getRelative(e.getBlockFace()).getLocation().add(0.5,0,0.5);
+        Location againstLoc = LocUtil.center(e.getClickedBlock().getRelative(e.getBlockFace()).getLocation());
 
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK){
 

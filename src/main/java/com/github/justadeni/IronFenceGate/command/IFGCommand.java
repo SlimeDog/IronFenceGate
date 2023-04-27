@@ -2,7 +2,9 @@ package com.github.justadeni.IronFenceGate.command;
 
 import com.github.justadeni.IronFenceGate.files.MainConfig;
 import com.github.justadeni.IronFenceGate.files.MessageConfig;
+import com.github.justadeni.IronFenceGate.misc.LocUtil;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
+import org.apache.commons.lang.LocaleUtils;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -84,7 +86,7 @@ public class IFGCommand implements CommandExecutor {
 
     private boolean addItem(Player player, int amount){
         PlayerInventory inv = player.getInventory();
-        Location location = player.getLocation().add(0,0.3,0);
+        Location location = LocUtil.alter(player.getLocation(), 0,0.3,0);
         HashMap<Integer, ItemStack> ifgslots = new HashMap<>();
         ArrayList<Integer> emptyslots = new ArrayList<>();
 

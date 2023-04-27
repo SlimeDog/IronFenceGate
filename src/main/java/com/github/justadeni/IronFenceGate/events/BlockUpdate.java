@@ -1,6 +1,7 @@
 package com.github.justadeni.IronFenceGate.events;
 
 import com.github.justadeni.IronFenceGate.logic.StandManager;
+import com.github.justadeni.IronFenceGate.misc.LocUtil;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,7 +22,7 @@ public class BlockUpdate implements Listener {
 
     @EventHandler
     public static void onBlockUpdate(BlockPhysicsEvent e){
-        Location location = e.getBlock().getLocation().add(0.5,0,0.5);
+        Location location = LocUtil.center(e.getBlock().getLocation());
         if (locked.contains(location.hashCode()))
             return;
 
@@ -36,14 +37,14 @@ public class BlockUpdate implements Listener {
         if (e.getBlock().isBlockPowered()) {
             if (!redstoned.contains(location.hashCode())) {
                 redstoned.add(location.hashCode());
-                standManager.open();
+                standManager.open(null);
             }
         } else {
             Iterator<Integer> iterator = redstoned.iterator();
             while (iterator.hasNext()) {
                 int hash = iterator.next();
                 if (location.hashCode() == hash) {
-                    standManager.close();
+                    standManager.close(null);
                     iterator.remove();
                     locked.remove(Integer.valueOf(location.hashCode()));
                     break;

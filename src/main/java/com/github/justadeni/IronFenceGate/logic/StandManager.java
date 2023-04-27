@@ -84,7 +84,7 @@ public class StandManager {
         else
             return State.CLOSED;
     }
-
+    /*
     public void open(){
         if (getState() == State.OPEN)
             return;
@@ -94,24 +94,25 @@ public class StandManager {
         MainConfig mc = MainConfig.get();
         location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.open.name")), mc.getFloat("sound.open.volume"), mc.getFloat("sound.open.pitch"));
     }
-
+    */
     public void open(Player player){
         if (getState() == State.OPEN)
             return;
 
-        if (!player.hasPermission("ironfencegate.use") && !player.hasPermission("ironfencegate.admin")) {
-            MessageConfig.get().sendMessage(player, "in-game.nopermission");
-            return;
+        if (player != null) {
+            if (!player.hasPermission("ironfencegate.use") && !player.hasPermission("ironfencegate.admin")) {
+                MessageConfig.get().sendMessage(player, "in-game.nopermission");
+                return;
+            }
+            adjustDirection(player);
         }
-
-        adjustDirection(player);
 
         removeBarriers(1);
         setId(getId() + 4 + getDecaId());
         MainConfig mc = MainConfig.get();
         location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.open.name")), mc.getFloat("sound.open.volume"), mc.getFloat("sound.open.pitch"));
     }
-
+    /*
     public void close(){
         if (getState() == State.CLOSED)
             return;
@@ -121,17 +122,18 @@ public class StandManager {
         MainConfig mc = MainConfig.get();
         location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.close.name")), mc.getFloat("sound.close.volume"), mc.getFloat("sound.close.pitch"));
     }
-
+    */
     public void close(Player player){
         if (getState() == State.CLOSED)
             return;
 
-        if (!player.hasPermission("ironfencegate.use") && !player.hasPermission("ironfencegate.admin")) {
-            MessageConfig.get().sendMessage(player, "in-game.nopermission");
-            return;
+        if (player != null) {
+            if (!player.hasPermission("ironfencegate.use") && !player.hasPermission("ironfencegate.admin")) {
+                MessageConfig.get().sendMessage(player, "in-game.nopermission");
+                return;
+            }
+            adjustDirection(player);
         }
-
-        adjustDirection(player);
 
         addBarriers(1);
         setId(getId() - 4 + getDecaId());
@@ -146,11 +148,11 @@ public class StandManager {
         if (playerDirection.equals(standDirection)) {
             setYaw((int) Direction.getYaw(Direction.getOpposite(playerDirection)));
 
-            setId(switch (getId() + getDecaId()){
+            setId(switch (getId()){
                 case 2,6 -> getId()+1;
                 case 3,7 -> getId()-1;
                 default -> getId();
-            });
+            }+ getDecaId());
         }
     }
 

@@ -98,9 +98,6 @@ public class CustomArmorstand extends ArmorStand {
     public void playerTouch(Player entityhuman) {}
 
     @Override
-    public void tick() {}
-
-    @Override
     protected float getSoundVolume() { return 0.0F; }
 
     @Override

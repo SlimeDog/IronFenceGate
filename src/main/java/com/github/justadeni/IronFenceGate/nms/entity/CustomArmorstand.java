@@ -2,12 +2,15 @@ package com.github.justadeni.IronFenceGate.nms.entity;
 
 import com.github.justadeni.IronFenceGate.logic.StandManager;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
@@ -86,5 +89,49 @@ public class CustomArmorstand extends ArmorStand {
     public void addAdditionalSaveData(CompoundTag nbttagcompound) {
         super.addAdditionalSaveData(nbttagcompound);
         nbttagcompound.putString("id", "minecraft:custom_armor_stand");
+    }
+
+    @Override
+    public void push(net.minecraft.world.entity.Entity entity){}
+
+    @Override
+    public void playerTouch(Player entityhuman) {}
+
+    @Override
+    public void tick() {}
+
+    @Override
+    protected float getSoundVolume() { return 0.0F; }
+
+    @Override
+    public void checkDespawn(){}
+
+    @Override
+    public boolean isColliding(BlockPos blockposition, BlockState iblockdata) {return false;}
+
+    @Override
+    public boolean canCollideWithBukkit(net.minecraft.world.entity.Entity entity) {return false;}
+
+    @Override
+    public boolean canBeCollidedWith(){return false;}
+
+    @Override
+    protected void doWaterSplashEffect() {}
+
+    @Override
+    public boolean isInWater() {return false;}
+
+    @Override
+    public boolean isInLava() {return false;}
+
+    @Override
+    protected boolean updateInWaterStateAndDoFluidPushing() {return false;}
+
+    @Override
+    public void push(double d0, double d1, double d2) {}
+
+    @Override
+    public boolean isPushable() {
+        return false;
     }
 }

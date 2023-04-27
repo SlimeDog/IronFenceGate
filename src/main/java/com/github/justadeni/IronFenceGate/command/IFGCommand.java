@@ -4,7 +4,6 @@ import com.github.justadeni.IronFenceGate.files.MainConfig;
 import com.github.justadeni.IronFenceGate.files.MessageConfig;
 import com.github.justadeni.IronFenceGate.misc.LocUtil;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
-import org.apache.commons.lang.LocaleUtils;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -123,24 +122,25 @@ public class IFGCommand implements CommandExecutor {
         }
         //Then we put it into free slots
         if (amount != 0){
-            int divided = (int) Math.floor(amount/64f);
-            int rest = amount-64*divided;
+            int divided = amount <= emptyslots.size()*64 ? (int) Math.floor(amount/64f) : emptyslots.size()*64;
+            int rest = amount < emptyslots.size()*64 ? amount-64*divided : 0;
 
-            ItemStack itemStack = Recipe.result().clone();
+            amount -= divided*64 + rest;
+
             for (int slot : emptyslots){
                 if (divided == 0 && rest == 0)
                     break;
 
+                ItemStack itemStack = Recipe.result().clone();
                 if (divided > 0) {
                     itemStack.setAmount(64);
                     divided--;
-                } else {
+                } else if (rest > 0){
                     itemStack.setAmount(rest);
                     rest = 0;
                 }
                 ifgslots.put(slot, itemStack);
             }
-            amount = divided*64 + rest;
         }
 
         //We put the items in player's inventory

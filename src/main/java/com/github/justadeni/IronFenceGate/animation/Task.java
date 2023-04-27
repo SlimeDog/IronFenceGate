@@ -21,9 +21,9 @@ public class Task {
         new BukkitRunnable() {
             final MainConfig mc = MainConfig.get();
             //from 1 to 9 stages of breaking
-            double progress=0.0;
+            double progress = 0.0;
             //first index marks start time, second gets updated every function run
-            long start=System.currentTimeMillis();
+            long start = System.currentTimeMillis();
             long current = System.currentTimeMillis();
             Material material = player.getInventory().getItemInMainHand().getType();
 

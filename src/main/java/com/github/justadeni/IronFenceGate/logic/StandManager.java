@@ -84,17 +84,7 @@ public class StandManager {
         else
             return State.CLOSED;
     }
-    /*
-    public void open(){
-        if (getState() == State.OPEN)
-            return;
 
-        removeBarriers(1);
-        setId(getId() + 4 + getDecaId());
-        MainConfig mc = MainConfig.get();
-        location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.open.name")), mc.getFloat("sound.open.volume"), mc.getFloat("sound.open.pitch"));
-    }
-    */
     public void open(Player player){
         if (getState() == State.OPEN)
             return;
@@ -112,17 +102,7 @@ public class StandManager {
         MainConfig mc = MainConfig.get();
         location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.open.name")), mc.getFloat("sound.open.volume"), mc.getFloat("sound.open.pitch"));
     }
-    /*
-    public void close(){
-        if (getState() == State.CLOSED)
-            return;
 
-        addBarriers(1);
-        setId(getId() - 4 + getDecaId());
-        MainConfig mc = MainConfig.get();
-        location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.close.name")), mc.getFloat("sound.close.volume"), mc.getFloat("sound.close.pitch"));
-    }
-    */
     public void close(Player player){
         if (getState() == State.CLOSED)
             return;

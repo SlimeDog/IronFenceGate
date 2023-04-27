@@ -253,6 +253,9 @@ public class PlayerInteract implements Listener {
     private static void itemSubtract(PlayerInteractEvent e){
         Player player = e.getPlayer();
 
+        if (player.getGameMode() == GameMode.CREATIVE)
+            return;
+
         if (e.getHand() == HAND)
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount()-1);
         else

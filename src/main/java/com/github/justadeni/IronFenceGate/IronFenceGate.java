@@ -9,6 +9,7 @@ import com.github.justadeni.IronFenceGate.files.Resourcepack;
 import com.github.justadeni.IronFenceGate.misc.NonCollision;
 import com.github.justadeni.IronFenceGate.misc.Metrics;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
+import com.github.justadeni.IronFenceGate.misc.LogFilter;
 import com.github.justadeni.IronFenceGate.nms.entity.CustomEntities;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -44,12 +45,16 @@ public final class IronFenceGate extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockUpdate(), this);
         getServer().getPluginManager().registerEvents(new ResourcesCheck(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+
     }
 
     @Override
     public void onLoad() {
         if (instance == null)
             instance = this;
+
+        new LogFilter();
+
         CustomEntities.register();
     }
 

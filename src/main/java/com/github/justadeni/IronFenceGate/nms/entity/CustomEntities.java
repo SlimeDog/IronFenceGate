@@ -79,7 +79,6 @@ public class CustomEntities {
             register.invoke(null, "custom_armor_stand", customArmorstandBuilder);
             // Re-freeze registry
             //IronFenceGate.get().log("Re-freezing entity type registry...");
-            IronFenceGate.get().log("Please disregard these errors. We are \n aware of them and they are completely harmless.");
 
             frozen.set(entityTypeRegistry, true);
             unregisteredHolderMap.set(BuiltInRegistries.ENTITY_TYPE, null);

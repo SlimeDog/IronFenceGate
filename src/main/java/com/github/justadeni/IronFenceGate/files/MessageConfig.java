@@ -27,7 +27,6 @@ public class MessageConfig extends Config{
         }
 
         messageConfiguration = YamlConfiguration.loadConfiguration(file);
-        messageConfig = new MessageConfig();
     }
 
     public static MessageConfig getInstance(){

@@ -31,7 +31,7 @@ public class Task {
                 case IRON_PICKAXE -> 7; //takes about 1.6 sec to break
                 case DIAMOND_PICKAXE -> 9; //takes about 1.3 sec to break
                 case NETHERITE_PICKAXE -> 11; //takes about 1.1 sec to break
-                default -> 5;
+                default -> 3;
             };
 
             @Override

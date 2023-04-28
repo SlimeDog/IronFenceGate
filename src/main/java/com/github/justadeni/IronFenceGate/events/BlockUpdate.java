@@ -12,11 +12,6 @@ import java.util.Iterator;
 
 public class BlockUpdate implements Listener {
 
-    /**
-     * Storing and comparing hashes is much easier
-     * and less memory intensive, especially with
-     * such frequent event and redstone
-     */
     private static final ArrayList<Integer> redstoned = new ArrayList<>();
     private static final ArrayList<Integer> locked = new ArrayList<>();
 

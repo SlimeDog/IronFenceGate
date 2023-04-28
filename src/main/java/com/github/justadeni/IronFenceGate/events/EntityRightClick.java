@@ -2,7 +2,7 @@ package com.github.justadeni.IronFenceGate.events;
 
 import com.github.justadeni.IronFenceGate.enums.State;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
-import com.github.justadeni.IronFenceGate.misc.NonCollision;
+import com.github.justadeni.IronFenceGate.logic.NonCollision;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -20,7 +20,7 @@ public class EntityRightClick implements Listener {
         if (e.getRightClicked().getType() != EntityType.PIG)
             return;
 
-        if (!NonCollision.get().has(e.getRightClicked()))
+        if (!NonCollision.getInstance().has(e.getRightClicked()))
             return;
 
         Location location = e.getRightClicked().getLocation();

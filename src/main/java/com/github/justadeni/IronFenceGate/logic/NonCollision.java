@@ -1,4 +1,4 @@
-package com.github.justadeni.IronFenceGate.misc;
+package com.github.justadeni.IronFenceGate.logic;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -8,12 +8,12 @@ import org.bukkit.scoreboard.Team;
 
 public class NonCollision {
 
-    private static NonCollision nonCollision;
-    private static ScoreboardManager manager;
-    private static Scoreboard board;
-    private static Team team;
+    private static volatile NonCollision nonCollision;
+    private ScoreboardManager manager;
+    private Scoreboard board;
+    private Team team;
 
-    public static void setup() {
+    private NonCollision() {
         manager = Bukkit.getScoreboardManager();
         board = manager.getNewScoreboard();
         team = board.registerNewTeam("NonCollision");
@@ -21,7 +21,13 @@ public class NonCollision {
         team.setCanSeeFriendlyInvisibles(false);
         team.setAllowFriendlyFire(true);
         team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OTHER_TEAMS);
-        nonCollision = new NonCollision();
+    }
+
+    public static NonCollision getInstance(){
+        NonCollision cached = nonCollision;
+        if (cached == null)
+            cached = nonCollision = new NonCollision();
+        return cached;
     }
 
     public void add(Entity entity){
@@ -40,9 +46,5 @@ public class NonCollision {
 
     public Scoreboard getBoard(){
         return board;
-    }
-
-    public static NonCollision get(){
-        return nonCollision;
     }
 }

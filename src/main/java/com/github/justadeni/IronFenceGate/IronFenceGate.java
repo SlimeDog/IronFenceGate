@@ -6,7 +6,7 @@ import com.github.justadeni.IronFenceGate.events.*;
 import com.github.justadeni.IronFenceGate.files.MainConfig;
 import com.github.justadeni.IronFenceGate.files.MessageConfig;
 import com.github.justadeni.IronFenceGate.files.Resourcepack;
-import com.github.justadeni.IronFenceGate.misc.NonCollision;
+import com.github.justadeni.IronFenceGate.logic.NonCollision;
 import com.github.justadeni.IronFenceGate.misc.Metrics;
 import com.github.justadeni.IronFenceGate.misc.Recipe;
 import com.github.justadeni.IronFenceGate.misc.LogFilter;
@@ -24,7 +24,7 @@ public final class IronFenceGate extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        NonCollision.setup();
+        NonCollision.getInstance();
         saveDefaultConfig();
         Resourcepack.setup();
         MessageConfig.getInstance();

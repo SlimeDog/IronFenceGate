@@ -3,7 +3,7 @@ package com.github.justadeni.IronFenceGate.nms.entity;
 import com.github.justadeni.IronFenceGate.animation.Task;
 import com.github.justadeni.IronFenceGate.logic.Gate;
 import com.github.justadeni.IronFenceGate.logic.StandManager;
-import com.github.justadeni.IronFenceGate.misc.NonCollision;
+import com.github.justadeni.IronFenceGate.logic.NonCollision;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.damagesource.DamageSource;
@@ -35,7 +35,7 @@ public class CustomPig extends Pig {
     public static void spawn(Location location){
         Level world = ((CraftWorld) location.getWorld()).getHandle();
         CustomPig pig = new CustomPig(location);
-        NonCollision.get().add(pig.getBukkitEntity());
+        NonCollision.getInstance().add(pig.getBukkitEntity());
         world.addFreshEntity(pig);
     }
 
@@ -44,7 +44,7 @@ public class CustomPig extends Pig {
         if (pig == null)
             return;
 
-        NonCollision.get().remove(pig);
+        NonCollision.getInstance().remove(pig);
         pig.remove();
     }
 
@@ -151,12 +151,12 @@ public class CustomPig extends Pig {
     public void readAdditionalSaveData(CompoundTag nbttagcompound) {
         super.readAdditionalSaveData(nbttagcompound);
         this.setInvisible(true);
-        NonCollision.get().add(this.getBukkitEntity());
+        NonCollision.getInstance().add(this.getBukkitEntity());
     }
 
     @Override
     public void remove(Entity.RemovalReason entity_removalreason) {
-        NonCollision.get().remove(this.getBukkitEntity());
+        NonCollision.getInstance().remove(this.getBukkitEntity());
         super.remove(entity_removalreason);
     }
 }

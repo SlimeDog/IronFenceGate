@@ -22,7 +22,7 @@ public final class Gate {
         MainConfig mc = MainConfig.getInstance();
         location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.break.name")), mc.getFloat("sound.break.volume"), mc.getFloat("sound.break.pitch"));
         if (drop)
-            location.getWorld().dropItemNaturally(new Location(location.getWorld(), location.getX(), location.getY()+0.5, location.getZ()), Recipe.result());
+            location.getWorld().dropItemNaturally(new Location(location.getWorld(), location.getX(), location.getY()+0.5, location.getZ()), Recipe.getInstance().getResult());
 
         CustomPig.remove(location);
 

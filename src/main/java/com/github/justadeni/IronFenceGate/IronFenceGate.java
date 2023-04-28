@@ -32,9 +32,9 @@ public final class IronFenceGate extends JavaPlugin {
         if (mc.getBoolean("enable-metrics")) {
             Metrics metrics = new Metrics(this, 18193);
         }
-        Recipe.makeRecipes();
-        Bukkit.addRecipe(Recipe.recipes.get(0));
-        Bukkit.addRecipe(Recipe.recipes.get(1));
+        Recipe recipe = Recipe.getInstance();
+        Bukkit.addRecipe(recipe.getRecipe(0));
+        Bukkit.addRecipe(recipe.getRecipe(1));
         getCommand("ironfencegate").setExecutor(new IFGCommand());
         getCommand("ironfencegate").setTabCompleter(new TabComplete());
         getServer().getPluginManager().registerEvents(new PlayerInteract(), this);
@@ -59,8 +59,9 @@ public final class IronFenceGate extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Bukkit.removeRecipe(Recipe.keylist.get(0));
-        Bukkit.removeRecipe(Recipe.keylist.get(1));
+        Recipe recipe = Recipe.getInstance();
+        Bukkit.removeRecipe(recipe.getNamespacedKey(0));
+        Bukkit.removeRecipe(recipe.getNamespacedKey(1));
     }
 
     public void log(String msg){

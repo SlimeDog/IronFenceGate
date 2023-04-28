@@ -46,7 +46,7 @@ public class CustomArmorstand extends ArmorStand {
         Level world = ((CraftWorld) location.getWorld()).getHandle();
         world.addFreshEntity(stand, CreatureSpawnEvent.SpawnReason.CUSTOM);
 
-        ItemStack itemStack = Recipe.result();
+        ItemStack itemStack = Recipe.getInstance().getResult();
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setCustomModelData(StandManager.IDFIRST+1);
         itemStack.setItemMeta(itemMeta);

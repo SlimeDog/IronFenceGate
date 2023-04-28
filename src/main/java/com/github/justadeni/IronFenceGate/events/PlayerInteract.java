@@ -85,7 +85,7 @@ public class PlayerInteract implements Listener {
             }
 
             //Placing something but not our fence gate
-            if (itemStack != null && !itemStack.isSimilar(Recipe.result())){
+            if (itemStack != null && !itemStack.isSimilar(Recipe.getInstance().getResult())){
                 if (!StandManager.isValidBlock(itemStack)) {
                     if (manager.hasStand()){
                         e.setCancelled(true);
@@ -157,7 +157,7 @@ public class PlayerInteract implements Listener {
             }
 
             //Placing our iron fence gate
-            if (itemStack != null && itemStack.isSimilar(Recipe.result())){
+            if (itemStack != null && itemStack.isSimilar(Recipe.getInstance().getResult())){
                 if (manager.hasStand()){
                     if (!isValidPlaceable(againstLoc)) {
                         e.setCancelled(true);

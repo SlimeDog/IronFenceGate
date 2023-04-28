@@ -95,7 +95,7 @@ public class IFGCommand implements CommandExecutor {
                 emptyslots.add(i);
                 continue;
             }
-            if (itemStack.isSimilar(Recipe.result()) && itemStack.getAmount() < 64){
+            if (itemStack.isSimilar(Recipe.getInstance().getResult()) && itemStack.getAmount() < 64){
                 ifgslots.put(i, itemStack);
                 continue;
             }
@@ -131,7 +131,7 @@ public class IFGCommand implements CommandExecutor {
                 if (divided == 0 && rest == 0)
                     break;
 
-                ItemStack itemStack = Recipe.result().clone();
+                ItemStack itemStack = Recipe.getInstance().getResult().clone();
                 if (divided > 0) {
                     itemStack.setAmount(64);
                     divided--;
@@ -150,7 +150,7 @@ public class IFGCommand implements CommandExecutor {
 
         //Finally we drop the rest on the ground
         if (amount != 0){
-            ItemStack itemStack = Recipe.result().clone();
+            ItemStack itemStack = Recipe.getInstance().getResult().clone();
             itemStack.setAmount(64);
             location.getWorld().dropItemNaturally(location, itemStack);
 

@@ -14,15 +14,12 @@ import java.util.ArrayList;
 
 public class Recipe {
 
-    public static ArrayList<NamespacedKey> keylist = new ArrayList<>();
+    private static volatile Recipe recipe;
 
-    public static ArrayList<ShapedRecipe> recipes = new ArrayList<>();
+    private ArrayList<NamespacedKey> keylist = new ArrayList<>();
+    private ArrayList<ShapedRecipe> recipes = new ArrayList<>();
 
-    public static ItemStack result(){
-        return recipes.get(0).getResult();
-    }
-
-    public static void makeRecipes() {
+    private Recipe(){
         MainConfig mc = MainConfig.getInstance();
 
         ItemStack itemStack = new ItemStack(Material.WARPED_FENCE_GATE);
@@ -50,6 +47,25 @@ public class Recipe {
         lowerRecipe.setIngredient('B', Material.IRON_BARS);
         lowerRecipe.setIngredient('I', Material.IRON_INGOT);
         recipes.add(lowerRecipe);
+    }
+
+    public ItemStack getResult(){
+        return recipes.get(0).getResult();
+    }
+
+    public ShapedRecipe getRecipe(int index){
+        return recipes.get(index);
+    }
+
+    public NamespacedKey getNamespacedKey(int index){
+        return keylist.get(index);
+    }
+
+    public static Recipe getInstance(){
+        Recipe cached = recipe;
+        if (cached == null)
+            cached = recipe = new Recipe();
+        return cached;
     }
 
 }

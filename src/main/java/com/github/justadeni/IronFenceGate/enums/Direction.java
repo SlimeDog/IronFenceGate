@@ -42,12 +42,12 @@ public enum Direction{
     }
 
     public static float getYaw(Direction direction){
-        return direction.id;
+        return direction.angle;
     }
 
-    private final int id;
+    private final int angle;
 
     private Direction(int id){
-        this.id = id;
+        this.angle = id;
     }
 }

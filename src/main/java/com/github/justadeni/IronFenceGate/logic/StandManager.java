@@ -125,7 +125,7 @@ public class StandManager {
         Direction standDirection = Direction.getDirection(getYaw());
         Direction playerDirection = Direction.getDirection(player.getLocation());
 
-        if (playerDirection.equals(standDirection)) {
+        if (playerDirection == standDirection) {
             setYaw((int) Direction.getYaw(Direction.getOpposite(playerDirection)));
 
             setId(switch (getId()){

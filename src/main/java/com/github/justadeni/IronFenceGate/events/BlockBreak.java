@@ -15,11 +15,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class BlockBreak implements Listener {
 
     @EventHandler
-    public static void onBlockBreak(BlockBreakEvent e){
+    public void onBlockBreak(BlockBreakEvent e){
 
         Location location = LocUtil.center(e.getBlock().getLocation());
 
-        Connect.around(location);
+        new Connect(location).around();
 
         if (e.getBlock().getType() == Material.BARRIER)
             return;

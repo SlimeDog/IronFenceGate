@@ -21,7 +21,7 @@ public class BlockUpdate implements Listener {
     private static final ArrayList<Integer> locked = new ArrayList<>();
 
     @EventHandler
-    public static void onBlockUpdate(BlockPhysicsEvent e){
+    public void onBlockUpdate(BlockPhysicsEvent e){
         Location location = LocUtil.center(e.getBlock().getLocation());
         if (locked.contains(location.hashCode()))
             return;

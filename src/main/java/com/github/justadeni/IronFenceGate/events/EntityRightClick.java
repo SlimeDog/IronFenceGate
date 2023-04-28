@@ -13,8 +13,8 @@ import org.bukkit.inventory.EquipmentSlot;
 public class EntityRightClick implements Listener {
 
     @EventHandler
-    public static void onEntityRightClick(PlayerInteractAtEntityEvent e){
-        if (e.getHand().equals(EquipmentSlot.OFF_HAND))
+    public void onEntityRightClick(PlayerInteractAtEntityEvent e){
+        if (e.getHand() == EquipmentSlot.OFF_HAND)
             return;
 
         if (e.getRightClicked().getType() != EntityType.PIG)

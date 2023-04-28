@@ -7,56 +7,63 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class Connect {
 
-    public static void one(Location location){
-        new Connect().reconnect(location);
-    }
+    private final List<String> WHITELISTED = Collections.unmodifiableList(Arrays.asList("_FENCE", "_WALL", "IRON_BARS"));
 
-    public static void around(Location location){
-        Connect connect = new Connect();
-        for (Location loc : getLocsAround(location)) {
-            connect.reconnect(loc);
-        }
+    private final Location location;
+
+    public Connect(Location location){
+        this.location = location;
     }
 
     /**
      * Figures out orientation of the fence gate and connection to blocks to the right and left
-     * @param location location of gate
      */
-    private void reconnect(Location location){
+    public void around(){
 
         new BukkitRunnable() {
+
+            final List<Location> locations = Arrays.asList(
+                    location,
+                    new Location(location.getWorld(), location.getX()-1, location.getY(), location.getZ()),
+                    new Location(location.getWorld(), location.getX()+1, location.getY(), location.getZ()),
+                    new Location(location.getWorld(), location.getX(), location.getY(), location.getZ()-1),
+                    new Location(location.getWorld(), location.getX(), location.getY(), location.getZ()+1));
+
             @Override
             public void run() {
 
-                StandManager standManager = new StandManager(location);
-                if (!standManager.hasStand()) {
-                    return;
+                for (Location potentialLoc : locations) {
+                    StandManager standManager = new StandManager(potentialLoc);
+                    if (!standManager.hasStand()) {
+                        return;
+                    }
+
+                    Direction direction = Direction.getDirection(standManager.getYaw());
+
+                    int id = 0;
+                    if (standManager.getState() == State.OPEN)
+                        id = 4;
+
+                    boolean leftSolid = isSolid(potentialLoc, direction, false);
+                    boolean rightSolid = isSolid(potentialLoc, direction, true);
+
+                    if (leftSolid && rightSolid)
+                        id += 4;
+                    else if (rightSolid)
+                        id += 2;
+                    else if (leftSolid)
+                        id += 3;
+                    else
+                        id += 1;
+
+                    standManager.setId(id + standManager.getDecaId());
                 }
-
-                Direction direction = Direction.getDirection(standManager.getYaw());
-
-                int id = 0;
-                if (standManager.getState() == State.OPEN)
-                    id = 4;
-
-                boolean leftSolid = isSolid(location, direction, false);
-                boolean rightSolid = isSolid(location, direction, true);
-
-                if (leftSolid && rightSolid)
-                    id += 4;
-                else if (rightSolid)
-                    id += 2;
-                else if (leftSolid)
-                    id += 3;
-                else
-                    id += 1;
-
-                standManager.setId(id+standManager.getDecaId());
             }
         }.runTaskLaterAsynchronously(IronFenceGate.get(), 3);
     }
@@ -68,10 +75,8 @@ public class Connect {
      * @param right whether it should check to it's right, if not then left
      * @return returns true if our block can be connected to
      */
-    private static boolean isSolid(Location location, Direction direction, boolean right){
-        int i = 1;
-        if (right)
-            i = -1;
+    private boolean isSolid(Location location, Direction direction, boolean right){
+        int i = right ? -1 : 1;
 
         Block block = switch (direction){
             case SOUTH -> location.getBlock().getRelative(i,0,0);
@@ -81,21 +86,10 @@ public class Connect {
         };
 
         String materialName = block.getType().name();
-        for (String potential : whitelisted)
+        for (String potential : WHITELISTED)
             if (materialName.endsWith(potential))
                 return true;
 
         return false;
-    }
-
-    private static final ArrayList<String> whitelisted = new ArrayList<>(Arrays.asList("_FENCE", "_WALL", "IRON_BARS"));
-
-    private static ArrayList<Location> getLocsAround(Location location){
-        ArrayList<Location> locations = new ArrayList<>(4);
-        locations.add(new Location(location.getWorld(), location.getX()-1, location.getY(), location.getZ()));
-        locations.add(new Location(location.getWorld(), location.getX()+1, location.getY(), location.getZ()));
-        locations.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ()-1));
-        locations.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ()+1));
-        return locations;
     }
 }

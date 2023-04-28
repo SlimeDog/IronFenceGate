@@ -31,9 +31,20 @@ permissions:
   ironfencegate.admin:
     description: Allows reload
     default: op
+    children:
+      ironfencegate.get: true
+      ironfencegate.help: true
+      ironfencegate.use: true
+      ironfencegate.reload: true
   ironfencegate.get:
     description: Allows getting an item
     default: op
   ironfencegate.use:
     description: Allows using a fence gate
     default: true
+  ironfencegate.help:
+    description: Allows calling /ifg help
+    default: false
+  ironfencegate.reload:
+    description: Allows for reloading plugin configuration
+    default: op

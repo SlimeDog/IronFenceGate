@@ -128,7 +128,7 @@ public class CustomPig extends Pig {
         if (!standManager.hasStand())
             return false;
 
-        if (player.getGameMode().equals(GameMode.CREATIVE))
+        if (player.getGameMode() == GameMode.CREATIVE)
             Gate.delete(location, false, standManager);
         else {
 

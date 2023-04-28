@@ -8,12 +8,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 public class BlockPlace implements Listener {
+
     @EventHandler
-    public static void onBlockPlace(BlockPlaceEvent e) {
+    public void onBlockPlace(BlockPlaceEvent e) {
 
         Location location = LocUtil.center(e.getBlockPlaced().getLocation());
 
-        Connect.around(location);
-        Connect.one(location);
+        new Connect(location).around();
     }
 }

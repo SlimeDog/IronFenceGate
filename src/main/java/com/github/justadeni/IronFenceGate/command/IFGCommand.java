@@ -35,7 +35,7 @@ public class IFGCommand implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("get")){
             if (sender instanceof Player p){
-                if (((Player) sender).getGameMode() != GameMode.CREATIVE && !sender.hasPermission("ironfencegate.get") && !sender.hasPermission("ironfencegate.admin")){
+                if (((Player) sender).getGameMode() != GameMode.CREATIVE && !sender.hasPermission("ironfencegate.get")){
                     mc.sendMessage(sender, "command.nopermission");
                     return true;
                 }
@@ -57,7 +57,7 @@ public class IFGCommand implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("reload")) {
-            if (!sender.hasPermission("ironfencegate.reload") && !sender.hasPermission("ironfencegate.admin")) {
+            if (!sender.hasPermission("ironfencegate.reload")) {
                 mc.sendMessage(sender, "command.nopermission");
                 return true;
             }
@@ -69,7 +69,7 @@ public class IFGCommand implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("help")) {
-            if (!sender.hasPermission("ironfencegate.help") && !sender.hasPermission("ironfencegate.admin")) {
+            if (!sender.hasPermission("ironfencegate.help")) {
                 mc.sendMessage(sender, "command.nopermission");
                 return true;
             }

@@ -12,12 +12,14 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class Gate {
+public final class Gate {
+
+    private Gate(){}
 
     public static void delete(Location location, boolean drop, StandManager standManager){
         standManager.removeStand();
         standManager.removeBarriers(1);
-        MainConfig mc = MainConfig.get();
+        MainConfig mc = MainConfig.getInstance();
         location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.break.name")), mc.getFloat("sound.break.volume"), mc.getFloat("sound.break.pitch"));
         if (drop)
             location.getWorld().dropItemNaturally(new Location(location.getWorld(), location.getX(), location.getY()+0.5, location.getZ()), Recipe.result());
@@ -40,7 +42,7 @@ public class Gate {
         CustomArmorstand.spawn(location);
         CustomPig.spawn(location);
 
-        MainConfig mc = MainConfig.get();
+        MainConfig mc = MainConfig.getInstance();
         location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.place.name")), mc.getFloat("sound.place.volume"), mc.getFloat("sound.place.pitch"));
     }
 }

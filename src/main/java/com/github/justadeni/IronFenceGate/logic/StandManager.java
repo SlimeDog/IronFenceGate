@@ -16,8 +16,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
+import org.yaml.snakeyaml.events.Event;
 
 public class StandManager {
+
+    public static final Integer IDFIRST = 5000;
 
     private Location location;
     private ArmorStand stand;
@@ -52,28 +55,23 @@ public class StandManager {
         return  itemStack.getType().isOccluding() || itemStack.getType().name().endsWith("GLASS");
     }
 
-    //Hardcoded the first id of item in resource pack
-    public static int getIdFirst(){
-        return 5000;
-    }
-
     public int getDecaId(){
         ItemStack itemStack = stand.getEquipment().getItem(EquipmentSlot.HEAD);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        int total = itemMeta.getCustomModelData()-getIdFirst();
+        int total = itemMeta.getCustomModelData()-IDFIRST;
         return Math.floorDiv(total,10)*10;
     }
 
     public int getId(){
         ItemStack itemStack = stand.getEquipment().getItem(EquipmentSlot.HEAD);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        return itemMeta.getCustomModelData()-getIdFirst()-getDecaId();
+        return itemMeta.getCustomModelData()-IDFIRST-getDecaId();
     }
 
     public void setId(int id){
         ItemStack itemStack = stand.getEquipment().getItem(EquipmentSlot.HEAD);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setCustomModelData(id+getIdFirst());
+        itemMeta.setCustomModelData(id+IDFIRST);
         itemStack.setItemMeta(itemMeta);
         stand.getEquipment().setHelmet(itemStack);
     }
@@ -91,7 +89,7 @@ public class StandManager {
 
         if (player != null) {
             if (!player.hasPermission("ironfencegate.use") && !player.hasPermission("ironfencegate.admin")) {
-                MessageConfig.get().sendMessage(player, "in-game.nopermission");
+                MessageConfig.getInstance().sendMessage(player, "in-game.nopermission");
                 return;
             }
             adjustDirection(player);
@@ -99,7 +97,7 @@ public class StandManager {
 
         removeBarriers(1);
         setId(getId() + 4 + getDecaId());
-        MainConfig mc = MainConfig.get();
+        MainConfig mc = MainConfig.getInstance();
         location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.open.name")), mc.getFloat("sound.open.volume"), mc.getFloat("sound.open.pitch"));
     }
 
@@ -109,7 +107,7 @@ public class StandManager {
 
         if (player != null) {
             if (!player.hasPermission("ironfencegate.use") && !player.hasPermission("ironfencegate.admin")) {
-                MessageConfig.get().sendMessage(player, "in-game.nopermission");
+                MessageConfig.getInstance().sendMessage(player, "in-game.nopermission");
                 return;
             }
             adjustDirection(player);
@@ -117,7 +115,7 @@ public class StandManager {
 
         addBarriers(1);
         setId(getId() - 4 + getDecaId());
-        MainConfig mc = MainConfig.get();
+        MainConfig mc = MainConfig.getInstance();
         location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.close.name")), mc.getFloat("sound.close.volume"), mc.getFloat("sound.close.pitch"));
     }
 

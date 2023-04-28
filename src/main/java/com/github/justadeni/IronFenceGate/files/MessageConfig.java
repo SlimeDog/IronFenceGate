@@ -11,12 +11,12 @@ import java.io.IOException;
 
 public class MessageConfig extends Config{
 
-    private static File file;
-    private static FileConfiguration messageConfiguration;
+    private static volatile MessageConfig messageConfig;
 
-    private static MessageConfig messageConfig;
+    private File file;
+    private FileConfiguration messageConfiguration;
 
-    public static void setup() {
+    private MessageConfig(){
         File datafolder = Bukkit.getServer().getPluginManager().getPlugin("IronFenceGate").getDataFolder();
         file = new File(datafolder, "messages.yml");
         if (!file.exists()) {
@@ -30,8 +30,11 @@ public class MessageConfig extends Config{
         messageConfig = new MessageConfig();
     }
 
-    public static MessageConfig get(){
-        return messageConfig;
+    public static MessageConfig getInstance(){
+        MessageConfig cached = messageConfig;
+        if (cached == null)
+            cached = messageConfig = new MessageConfig();
+        return cached;
     }
 
     @Override
@@ -41,7 +44,7 @@ public class MessageConfig extends Config{
 
     @Override
     public void reload(){
-        setup();
+        messageConfig = new MessageConfig();
     }
 
 }

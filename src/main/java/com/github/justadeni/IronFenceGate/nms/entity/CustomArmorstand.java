@@ -31,10 +31,11 @@ public class CustomArmorstand extends ArmorStand {
                 if (stand.hasBasePlate() || stand.hasGravity())
                     continue;
 
-                try {
+
+                if (stand.getEquipment().getHelmet() != null)
                     if (stand.getEquipment().getItem(EquipmentSlot.HEAD).getType() == Material.WARPED_FENCE_GATE)
                         return stand;
-                } catch (NullPointerException ignored) {return null;}
+
             }
         }
         return null;
@@ -47,7 +48,7 @@ public class CustomArmorstand extends ArmorStand {
 
         ItemStack itemStack = Recipe.result();
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setCustomModelData(StandManager.getIdFirst()+1);
+        itemMeta.setCustomModelData(StandManager.IDFIRST+1);
         itemStack.setItemMeta(itemMeta);
 
         org.bukkit.entity.ArmorStand livingStand = (org.bukkit.entity.ArmorStand) stand.getBukkitEntity();

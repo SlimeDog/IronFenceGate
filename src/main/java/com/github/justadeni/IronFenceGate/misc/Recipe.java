@@ -23,12 +23,12 @@ public class Recipe {
     }
 
     public static void makeRecipes() {
-        MainConfig mc = MainConfig.get();
+        MainConfig mc = MainConfig.getInstance();
 
         ItemStack itemStack = new ItemStack(Material.WARPED_FENCE_GATE);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(mc.getStringColors("item.name"));
-        itemMeta.setCustomModelData(StandManager.getIdFirst()+1);
+        itemMeta.setCustomModelData(StandManager.IDFIRST+1);
 
         ArrayList<String> colored = new ArrayList<>();
         for (String line : mc.getList("item.lore")){

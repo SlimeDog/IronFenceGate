@@ -44,20 +44,13 @@ public class PlayerInteract implements Listener {
      */
 
     @EventHandler
-    public static void onPlayerInteract(PlayerInteractEvent e){
+    public void onPlayerInteract(PlayerInteractEvent e){
 
-        if (e.getHand() == HAND)
-            if (isAir(HAND, e))
-                if (!isAir(OFF_HAND,e))
-                    return;
+        if (e.getHand() == HAND && !isItem(HAND, e) && isItem(OFF_HAND,e))
+            return;
 
-        if (e.getHand() == OFF_HAND) {
-            if (isAir(OFF_HAND, e))
-                return;
-
-            if (!isAir(HAND, e))
-                return;
-        }
+        if (e.getHand() == OFF_HAND && (isItem(HAND, e) || !isItem(OFF_HAND, e)))
+            return;
 
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK)
             return;
@@ -241,13 +234,9 @@ public class PlayerInteract implements Listener {
 
         
     }
-    /*
-    private static boolean hasPermission(PlayerInteractEvent e){
-        return e.getPlayer().hasPermission("ironfencegate.use"));
-    }
-    */
-    private static boolean isAir(EquipmentSlot hand, PlayerInteractEvent e){
-        return hand == HAND ? e.getPlayer().getInventory().getItemInMainHand().getType().isAir() : e.getPlayer().getInventory().getItemInOffHand().getType().isAir();
+
+    private static boolean isItem(EquipmentSlot hand, PlayerInteractEvent e){
+        return e.getPlayer().getInventory().getItem(hand) != null;
     }
 
     private static void itemSubtract(PlayerInteractEvent e){

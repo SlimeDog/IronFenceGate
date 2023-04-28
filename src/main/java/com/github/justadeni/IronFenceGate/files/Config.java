@@ -9,13 +9,9 @@ import java.util.ArrayList;
 
 public abstract class Config {
 
-    public void reload(){
-        IronFenceGate.get().reloadConfig();
-    }
+    public abstract FileConfiguration fileConfiguration();
 
-    public FileConfiguration fileConfiguration(){
-        return IronFenceGate.get().getConfig();
-    }
+    public abstract void reload();
 
     public boolean getBoolean(String path){
         return fileConfiguration().getBoolean(path);

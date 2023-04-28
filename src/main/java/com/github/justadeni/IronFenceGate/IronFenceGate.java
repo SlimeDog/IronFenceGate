@@ -27,9 +27,8 @@ public final class IronFenceGate extends JavaPlugin {
         NonCollision.setup();
         saveDefaultConfig();
         Resourcepack.setup();
-        MessageConfig.setup();
-        MainConfig.setup();
-        MainConfig mc = MainConfig.get();
+        MessageConfig.getInstance();
+        MainConfig mc = MainConfig.getInstance();
         if (mc.getBoolean("enable-metrics")) {
             Metrics metrics = new Metrics(this, 18193);
         }

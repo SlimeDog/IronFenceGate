@@ -1,19 +1,30 @@
 package com.github.justadeni.IronFenceGate.files;
 
-public class MainConfig extends Config{
-    /**
-     * For performance reasons,
-     * ConfigManager is instantiated
-     * once and then only accessed through
-     * this static instance
-     */
-    private static MainConfig mainConfig;
+import com.github.justadeni.IronFenceGate.IronFenceGate;
+import org.bukkit.configuration.file.FileConfiguration;
 
-    public static void setup(){
-        mainConfig = new MainConfig();
+public class MainConfig extends Config{
+
+    private static volatile MainConfig mainConfig;
+
+    private MainConfig(){
+        mainConfig = this;
     }
 
-    public static MainConfig get(){
-        return mainConfig;
+    public static MainConfig getInstance(){
+        MainConfig cached = mainConfig;
+        if (cached == null)
+            cached = mainConfig = new MainConfig();
+        return cached;
+    }
+
+    @Override
+    public FileConfiguration fileConfiguration() {
+        return IronFenceGate.get().getConfig();
+    }
+
+    @Override
+    public void reload() {
+        IronFenceGate.get().reloadConfig();
     }
 }

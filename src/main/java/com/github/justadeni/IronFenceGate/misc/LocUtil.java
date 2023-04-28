@@ -2,7 +2,9 @@ package com.github.justadeni.IronFenceGate.misc;
 
 import org.bukkit.Location;
 
-public class LocUtil {
+public final class LocUtil {
+
+    private LocUtil(){}
 
     public static Location alter(Location location, double x, double y, double z){
         return new Location(location.getWorld(), location.getX()+x, location.getY()+y, location.getZ()+z);

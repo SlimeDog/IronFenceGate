@@ -22,7 +22,7 @@ public class IFGCommand implements CommandExecutor {
         if (!s.equalsIgnoreCase("ifg") && !s.equalsIgnoreCase("ironfencegate"))
             return true;
 
-        MessageConfig mc = MessageConfig.get();
+        MessageConfig mc = MessageConfig.getInstance();
 
         if (args.length == 0) {
             mc.sendMessage(sender, "command.tooshort");
@@ -62,8 +62,8 @@ public class IFGCommand implements CommandExecutor {
                 return true;
             }
 
-            MainConfig.get().reload();
-            MessageConfig.get().reload();
+            MainConfig.getInstance().reload();
+            MessageConfig.getInstance().reload();
             mc.sendMessage(sender, "command.configreloaded");
             return true;
         }

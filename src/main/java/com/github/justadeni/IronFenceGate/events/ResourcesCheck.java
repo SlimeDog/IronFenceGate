@@ -20,7 +20,7 @@ public class ResourcesCheck implements Listener {
 
     @EventHandler
     public static void onResourcesCheck(PlayerResourcePackStatusEvent e){
-        MessageConfig mc = MessageConfig.get();
+        MessageConfig mc = MessageConfig.getInstance();
         Player p = e.getPlayer();
 
         if (e.getStatus() == DECLINED){

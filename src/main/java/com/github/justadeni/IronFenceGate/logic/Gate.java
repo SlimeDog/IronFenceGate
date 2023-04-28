@@ -1,6 +1,7 @@
 package com.github.justadeni.IronFenceGate.logic;
 
 import com.github.justadeni.IronFenceGate.IronFenceGate;
+import com.github.justadeni.IronFenceGate.enums.Direction;
 import com.github.justadeni.IronFenceGate.misc.LocUtil;
 import com.github.justadeni.IronFenceGate.nms.entity.CustomArmorstand;
 import com.github.justadeni.IronFenceGate.enums.State;
@@ -10,6 +11,7 @@ import com.github.justadeni.IronFenceGate.misc.Recipe;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public final class Gate {
@@ -37,12 +39,19 @@ public final class Gate {
         }
     }
 
-    public static void create(Location location){
+    public static void create(Location location, Player player){
 
         CustomArmorstand.spawn(location);
         CustomPig.spawn(location);
 
         MainConfig mc = MainConfig.getInstance();
         location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.place.name")), mc.getFloat("sound.place.volume"), mc.getFloat("sound.place.pitch"));
+
+        StandManager standManager = new StandManager(location);
+        standManager.setYaw((int) Direction.getYaw(Direction.getOpposite(Direction.getDirection(player.getLocation()))));
+
+        standManager.addBarriers(2);
+
+        new Connect(location).around();
     }
 }

@@ -7,9 +7,7 @@ public class MainConfig extends Config{
 
     private static volatile MainConfig mainConfig;
 
-    private MainConfig(){
-        mainConfig = this;
-    }
+    private MainConfig(){}
 
     public static MainConfig getInstance(){
         MainConfig cached = mainConfig;

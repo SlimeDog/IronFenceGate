@@ -140,7 +140,7 @@ public class PlayerInteract implements Listener {
                             return;
                         }
 
-                        itemSubtract(e);
+                        itemSubtract(e.getPlayer(), e.getHand());
                         location.getBlock().setType(itemStack.getType());
 
                         return;
@@ -167,7 +167,12 @@ public class PlayerInteract implements Listener {
                         return;
                     }
 
-                    placeGate(againstLoc, e);
+                    if (!ResourcesCheck.isLoaded(e.getPlayer()))
+                        return;
+
+                    e.setCancelled(true);
+                    Gate.create(againstLoc, e.getPlayer());
+                    itemSubtract(e.getPlayer(), e.getHand());
                     
                     return;
                 }
@@ -183,17 +188,18 @@ public class PlayerInteract implements Listener {
 
                 Location belowLoc = new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ());
                 StandManager belowManager = new StandManager(belowLoc);
+
+                if (!ResourcesCheck.isLoaded(e.getPlayer()))
+                    return;
+
                 if (belowManager.hasStand()) {
                     if (belowLoc.getBlock().getType() == Material.BARRIER) {
-                        placeGate(location, e);
-                    } else {
-                        placeGate(againstLoc, e);
+                        Gate.create(location, e.getPlayer());
                     }
-                    
-                    return;
                 }
-
-                placeGate(againstLoc, e);
+                e.setCancelled(true);
+                Gate.create(againstLoc, e.getPlayer());
+                itemSubtract(e.getPlayer(), e.getHand());
 
                 return;
             }
@@ -239,32 +245,11 @@ public class PlayerInteract implements Listener {
         return e.getPlayer().getInventory().getItem(hand) != null;
     }
 
-    private static void itemSubtract(PlayerInteractEvent e){
-        Player player = e.getPlayer();
-
+    private static void itemSubtract(Player player, EquipmentSlot hand){
         if (player.getGameMode() == GameMode.CREATIVE)
             return;
 
-        if (e.getHand() == HAND)
-            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount()-1);
-        else
-            player.getInventory().getItemInOffHand().setAmount(player.getInventory().getItemInOffHand().getAmount()-1);
-    }
-
-    private static void placeGate(Location location, PlayerInteractEvent e){
-
-        if (!ResourcesCheck.isLoaded(e.getPlayer()))
-            return;
-
-        e.setCancelled(true);
-        Gate.create(location);
-        itemSubtract(e);
-        StandManager standManager = new StandManager(location);
-        standManager.setYaw((int) Direction.getYaw(Direction.getOpposite(Direction.getDirection(e.getPlayer().getLocation()))));
-
-        standManager.addBarriers(2);
-
-        new Connect(location).around();
+        player.getInventory().getItem(hand).setAmount(player.getInventory().getItem(hand).getAmount()-1);
     }
 
     private static boolean isValidPlaceable(Location location){

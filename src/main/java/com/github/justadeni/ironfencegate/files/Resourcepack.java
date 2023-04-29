@@ -18,7 +18,10 @@ public class Resourcepack {
         if (!file.exists()) {
             try {
                 FileUtils.copyURLToFile(IronFenceGate.class.getResource("/IronFenceGate-v1.zip"), new File(datafolder + "/IronFenceGate-v1.zip"));
-            } catch (IOException | NullPointerException ignored) {}
+            } catch (IOException | NullPointerException e) {
+                IronFenceGate.getInstance().log("Error while copying resourcepack");
+                e.printStackTrace();
+            }
         }
     }
 

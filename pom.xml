@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.justadeni</groupId>
-    <artifactId>IronFenceGate</artifactId>
+    <artifactId>ironfencegate</artifactId>
     <version>0.9.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 

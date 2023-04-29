@@ -11,17 +11,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class Connect {
+public final class Connect {
 
-    private final List<String> WHITELISTED = Collections.unmodifiableList(Arrays.asList("_FENCE", "_WALL", "IRON_BARS"));
+    private static final List<String> WHITELISTED = Collections.unmodifiableList(Arrays.asList("_FENCE", "_WALL", "IRON_BARS"));
 
-    private final Location location;
+    private Connect(){}
 
-    public Connect(Location location){
-        this.location = location;
-    }
-
-    public void around(){
+    public static void around(Location location){
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -70,7 +66,7 @@ public class Connect {
      * @param right whether it should check to it's right, if not then left
      * @return returns true if our block can be connected to
      */
-    private boolean isSolid(Location location, Direction direction, boolean right){
+    private static boolean isSolid(Location location, Direction direction, boolean right){
         int i = right ? -1 : 1;
 
         Block block = switch (direction){

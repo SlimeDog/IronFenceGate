@@ -19,7 +19,7 @@ public class BlockBreak implements Listener {
 
         Location location = LocUtil.center(e.getBlock().getLocation());
 
-        new Connect(location).around();
+        Connect.around(location);
 
         if (e.getBlock().getType() == Material.BARRIER)
             return;

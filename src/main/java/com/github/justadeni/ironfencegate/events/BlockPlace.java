@@ -14,6 +14,6 @@ public class BlockPlace implements Listener {
 
         Location location = LocUtil.center(e.getBlockPlaced().getLocation());
 
-        new Connect(location).around();
+        Connect.around(location);
     }
 }

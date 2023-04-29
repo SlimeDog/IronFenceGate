@@ -52,6 +52,6 @@ public final class Gate {
 
         standManager.addBarriers(2);
 
-        new Connect(location).around();
+        Connect.around(location);
     }
 }

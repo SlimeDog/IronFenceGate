@@ -13,8 +13,8 @@ import java.util.List;
 
 public class BlockUpdate implements Listener {
 
-    private static final List<Integer> redstoned = new ArrayList<>();
-    private static final List<Integer> locked = new ArrayList<>();
+    private final List<Integer> redstoned = new ArrayList<>();
+    private final List<Integer> locked = new ArrayList<>();
 
     @EventHandler
     public void onBlockUpdate(BlockPhysicsEvent e){

@@ -25,7 +25,7 @@ public class StandManager {
 
     public StandManager(Location location){
         this.location = location;
-        stand = new Finder(location).armorStand();
+        stand = Finder.armorStand(location);
         if (stand != null)
             this.location = stand.getLocation();
     }

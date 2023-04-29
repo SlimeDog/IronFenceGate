@@ -1,5 +1,6 @@
 package com.github.justadeni.ironfencegate;
 
+import com.github.justadeni.ironfencegate.animation.Task;
 import com.github.justadeni.ironfencegate.command.IFGCommand;
 import com.github.justadeni.ironfencegate.command.TabComplete;
 import com.github.justadeni.ironfencegate.events.BlockBreak;
@@ -43,7 +44,7 @@ public final class IronFenceGate extends JavaPlugin {
         Bukkit.addRecipe(recipe.getRecipe(1));
         getCommand("ironfencegate").setExecutor(new IFGCommand());
         getCommand("ironfencegate").setTabCompleter(new TabComplete());
-        getServer().getPluginManager().registerEvents(new PlayerInteract(), this);
+        getServer().getPluginManager().registerEvents(new PlayerInteract(new Task()), this);
         getServer().getPluginManager().registerEvents(new EntityRightClick(), this);
         getServer().getPluginManager().registerEvents(new BlockBreak(), this);
         getServer().getPluginManager().registerEvents(new BlockPlace(), this);

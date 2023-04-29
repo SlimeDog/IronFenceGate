@@ -28,7 +28,7 @@ public class CustomPig extends Pig {
     }
 
     public static void remove(Location location){
-        org.bukkit.entity.Pig pig = new Finder(location).pig();
+        org.bukkit.entity.Pig pig = Finder.pig(location);
         if (pig == null)
             return;
 
@@ -47,7 +47,7 @@ public class CustomPig extends Pig {
         this.setSilent(true);
         this.setDiscardFriction(true);
         this.setHealth(200);
-        //this.setInvisible(true);
+        this.setInvisible(true);
         this.setPersistenceRequired(true);
         this.setPos(location.getX(), location.getY(), location.getZ());
         this.getBukkitEntity().setPersistent(true);
@@ -112,18 +112,20 @@ public class CustomPig extends Pig {
             return false;
 
         Location location = this.getBukkitEntity().getLocation();
-        StandManager standManager = new StandManager(location);
-        if (!standManager.hasStand())
+        StandManager manager = new StandManager(location);
+        if (!manager.hasStand())
             return false;
 
         if (player.getGameMode() == GameMode.CREATIVE)
-            Gate.delete(location, false, standManager);
+            Gate.delete(location, false, manager);
         else {
 
-            if (Task.contains(location))
+            Task task = new Task();
+
+            if (task.contains(location))
                 return false;
 
-            new Task(location, player, standManager);
+            task.track(location, player, manager);
         }
         return false;
     }

@@ -17,52 +17,39 @@ public class Task {
 
     private static final List<Location> tracker = new ArrayList<>();
 
-    public static boolean contains(Location location){
+    public boolean contains(Location location){
         return tracker.contains(location);
     }
 
-    final Location location;
-    final StandManager manager;
+    private final MainConfig mc;
 
-    final MainConfig mc;
-    final long start;
-    final Material material;
-    final double hardness;
-
-    long current;
-    double progress;
-
-    public Task(Location location, Player player, StandManager manager){
-        this.location = location;
-        this.manager = manager;
-
+    public Task(){
         mc = MainConfig.getInstance();
-        start = System.currentTimeMillis();
-        material = player.getInventory().getItemInMainHand().getType();
-        hardness = switch(material){
-            case IRON_PICKAXE -> 0.7; //takes about 1.6 sec to break
-            case DIAMOND_PICKAXE -> 0.9; //takes about 1.3 sec to break
-            case NETHERITE_PICKAXE -> 0.11; //takes about 1.1 sec to break
-            default -> 0.3;
-        };
-
-        current = System.currentTimeMillis();
-        progress = 0.0;
-
-        tracker.add(location);
-
-        track();
     }
 
-    private void track(){
+    public void track(Location location, Player player, StandManager manager){
+        tracker.add(location);
+
         new BukkitRunnable() {
+
+            final long start = System.currentTimeMillis();
+            final Material material = player.getInventory().getItemInMainHand().getType();
+            final double hardness = switch(material){
+                case IRON_PICKAXE -> 0.7; //takes about 1.6 sec to break
+                case DIAMOND_PICKAXE -> 0.9; //takes about 1.3 sec to break
+                case NETHERITE_PICKAXE -> 0.11; //takes about 1.1 sec to break
+                default -> 0.3;
+            };
+
+            long current = System.currentTimeMillis();
+            double progress = 0.0;
 
             @Override
             public void run() {
                 try {
                     //If was removed and timeout checks
                     if (manager == null || !manager.hasStand() || !tracker.contains(location) || start + 2000 < current) {
-                        end();
+                        end(location, hardness);
                         cancel();
                         return;
                     }
@@ -72,10 +59,9 @@ public class Task {
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                Gate.delete(location, hardness > 0.5, manager);
+                                end(location, hardness);
                             }
                         }.runTask(IronFenceGate.getInstance());
-                        end();
                         cancel();
                         return;
                     }
@@ -92,20 +78,24 @@ public class Task {
                     }
 
                 } catch (NullPointerException e){
-                    end();
+                    end(location, hardness);
                     cancel();
                 }
             }
         }.runTaskTimerAsynchronously(IronFenceGate.getInstance(), 0, 2);
     }
 
-    private void end(){
+    private void end(Location location, double hardness){
         tracker.remove(location);
         StandManager manager = new StandManager(location);
         if (!manager.hasStand())
             return;
 
-        manager.removeStand();
-        manager.removeBarriers(1);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Gate.delete(location, hardness > 0.5, manager);
+            }
+        }.runTask(IronFenceGate.getInstance());
     }
 }

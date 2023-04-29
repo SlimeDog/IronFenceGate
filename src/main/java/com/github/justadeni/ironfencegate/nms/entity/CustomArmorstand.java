@@ -48,7 +48,7 @@ public class CustomArmorstand extends ArmorStand {
         stand.setBasePlate(false);
         stand.setRemoveWhenFarAway(false);
         stand.setPersistent(true);
-        //stand.setInvisible(true);
+        stand.setInvisible(true);
         stand.setSmall(true);
         stand.setArms(false);
         stand.setInvulnerable(true);

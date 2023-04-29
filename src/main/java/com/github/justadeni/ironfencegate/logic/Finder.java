@@ -8,15 +8,11 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Pig;
 import org.bukkit.inventory.EquipmentSlot;
 
-public class Finder {
+public final class Finder {
 
-    Location location;
+    private Finder(){}
 
-    public Finder(Location location){
-        this.location = location;
-    }
-
-    public ArmorStand armorStand(){
+    public static ArmorStand armorStand(Location location){
         for (Entity entity : location.getChunk().getEntities()){
             if (entity instanceof ArmorStand stand) {
                 if (stand.getLocation().distanceSquared(location) > 0.22)
@@ -25,16 +21,19 @@ public class Finder {
                 if (stand.hasBasePlate() || stand.hasGravity())
                     continue;
 
-                if (stand.getEquipment().getHelmet() != null)
-                    if (stand.getEquipment().getItem(EquipmentSlot.HEAD).getType() == Material.WARPED_FENCE_GATE)
-                        return stand;
+                if (stand.getEquipment().getHelmet() == null)
+                    continue;
 
+                if (stand.getEquipment().getItem(EquipmentSlot.HEAD).getType() != Material.WARPED_FENCE_GATE)
+                    continue;
+
+                return stand;
             }
         }
         return null;
     }
 
-    public Pig pig(){
+    public static Pig pig(Location location){
         for (Entity entity : location.getChunk().getEntities()){
             if (entity.getType() != EntityType.PIG)
                 continue;

@@ -41,6 +41,12 @@ public class PlayerInteract implements Listener {
      *                                                    -----> Is barrier -> Place
      */
 
+    private final Task task;
+
+    public PlayerInteract(Task task){
+        this.task = task;
+    }
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e){
 
@@ -210,11 +216,10 @@ public class PlayerInteract implements Listener {
                 if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
                     Gate.delete(location, false, manager);
                 } else {
-                    if (Task.contains(location))
+                    if (task.contains(location))
                         return;
 
-
-                    new Task(location, e.getPlayer(), manager);
+                    task.track(location, e.getPlayer(), manager);
                 }
                 return;
             }
@@ -228,10 +233,10 @@ public class PlayerInteract implements Listener {
             if (!belowManager.hasStand())
                 return;
 
-            if (Task.contains(belowLoc))
+            if (task.contains(belowLoc))
                 return;
 
-            new Task(belowLoc, e.getPlayer(), belowManager);
+            task.track(belowLoc, e.getPlayer(), belowManager);
         }
 
         

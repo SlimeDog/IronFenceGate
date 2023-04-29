@@ -28,7 +28,6 @@ public class MessageConfig extends Config{
                 e.printStackTrace();
             }
         }
-
         messageConfiguration = YamlConfiguration.loadConfiguration(file);
     }
 

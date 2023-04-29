@@ -197,8 +197,11 @@ public class PlayerInteract implements Listener {
                     return;
 
                 if (belowManager.hasStand()) {
-                    if (belowLoc.getBlock().getType() == Material.BARRIER) {
+                    if (location.getBlock().getType() == Material.BARRIER) {
+                        e.setCancelled(true);
                         Gate.create(location, e.getPlayer());
+                        itemSubtract(e.getPlayer(), e.getHand());
+                        return;
                     }
                 }
                 e.setCancelled(true);

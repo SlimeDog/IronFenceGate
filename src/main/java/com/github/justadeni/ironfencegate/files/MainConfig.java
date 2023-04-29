@@ -7,7 +7,9 @@ public class MainConfig extends Config{
 
     private static volatile MainConfig mainConfig;
 
-    private MainConfig(){}
+    private MainConfig(){
+        IronFenceGate.getInstance().saveDefaultConfig();
+    }
 
     public static MainConfig getInstance(){
         MainConfig cached = mainConfig;

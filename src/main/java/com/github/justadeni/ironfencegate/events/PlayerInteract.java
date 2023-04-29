@@ -171,7 +171,7 @@ public class PlayerInteract implements Listener {
                         return;
                     }
 
-                    if (!ResourcesCheck.isLoaded(e.getPlayer()))
+                    if (!ResourcesCheck.getInstance().isLoaded(e.getPlayer()))
                         return;
 
                     e.setCancelled(true);
@@ -193,7 +193,7 @@ public class PlayerInteract implements Listener {
                 Location belowLoc = new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ());
                 StandManager belowManager = new StandManager(belowLoc);
 
-                if (!ResourcesCheck.isLoaded(e.getPlayer()))
+                if (!ResourcesCheck.getInstance().isLoaded(e.getPlayer()))
                     return;
 
                 if (belowManager.hasStand()) {

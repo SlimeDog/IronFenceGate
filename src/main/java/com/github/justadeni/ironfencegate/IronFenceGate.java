@@ -31,9 +31,11 @@ public final class IronFenceGate extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        //Initializing these classes at enable so that they create their files/team
         NonCollision.getInstance();
         Resourcepack.getInstance();
         MessageConfig.getInstance();
+
         MainConfig mc = MainConfig.getInstance();
         if (mc.getBoolean("enable-metrics")) {
             Metrics metrics = new Metrics(this, 18193);

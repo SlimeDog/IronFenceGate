@@ -67,6 +67,9 @@ public class StandManager {
     }
 
     public void setId(int id){
+        if (!hasStand())
+            return;
+
         ItemStack itemStack = stand.getEquipment().getItem(EquipmentSlot.HEAD);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setCustomModelData(id+IDFIRST);

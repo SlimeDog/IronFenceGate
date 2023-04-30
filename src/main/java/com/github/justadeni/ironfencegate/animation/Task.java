@@ -46,40 +46,34 @@ public class Task {
 
             @Override
             public void run() {
-                try {
-                    //If was removed and timeout checks
-                    if (manager == null || !manager.hasStand() || !tracker.contains(location) || start + 2000 < current) {
-                        end(location, hardness);
-                        cancel();
-                        return;
-                    }
-
-                    if (progress >= 9.0) {
-                        //This is the only thing that has to run sync
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                end(location, hardness);
-                            }
-                        }.runTask(IronFenceGate.getInstance());
-                        cancel();
-                        return;
-                    }
-
-                    current = System.currentTimeMillis();
-
-                    progress += hardness;
-
-                    //Total of 9 stages, how fast you reach them depends on pickaxe
-                    int decaProgress = (int) Math.floor(progress)*10;
-                    if (decaProgress > manager.getDecaId()) {
-                        manager.setId(manager.getId() + decaProgress);
-                        location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.breaking.name")), mc.getFloat("sound.breaking.volume"), mc.getFloat("sound.breaking.pitch"));
-                    }
-
-                } catch (NullPointerException e){
+                //If was removed and timeout checks
+                if (manager == null || !manager.hasStand() || !tracker.contains(location) || start + 2000 < current) {
                     end(location, hardness);
                     cancel();
+                    return;
+                }
+
+                if (progress >= 9.0) {
+                    //This is the only thing that has to run sync
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            end(location, hardness);
+                        }
+                    }.runTask(IronFenceGate.getInstance());
+                    cancel();
+                    return;
+                }
+
+                current = System.currentTimeMillis();
+
+                progress += hardness;
+
+                //Total of 9 stages, how fast you reach them depends on pickaxe
+                int decaProgress = (int) Math.floor(progress)*10;
+                if (decaProgress > manager.getDecaId()) {
+                    manager.setId(manager.getId() + decaProgress);
+                    location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.breaking.name")), mc.getFloat("sound.breaking.volume"), mc.getFloat("sound.breaking.pitch"));
                 }
             }
         }.runTaskTimerAsynchronously(IronFenceGate.getInstance(), 0, 2);

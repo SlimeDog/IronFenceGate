@@ -1,17 +1,14 @@
 package com.github.justadeni.ironfencegate.events;
 
-import com.github.justadeni.ironfencegate.files.MainConfig;
 import com.github.justadeni.ironfencegate.files.MessageConfig;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
+import org.bukkit.event.player.PlayerResourcePackStatusEvent.Status;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.bukkit.event.player.PlayerResourcePackStatusEvent.Status.DECLINED;
-import static org.bukkit.event.player.PlayerResourcePackStatusEvent.Status.FAILED_DOWNLOAD;
 
 public class ResourcesCheck implements Listener {
 
@@ -36,13 +33,13 @@ public class ResourcesCheck implements Listener {
         MessageConfig mc = MessageConfig.getInstance();
         Player p = e.getPlayer();
 
-        if (e.getStatus() == DECLINED){
+        if (e.getStatus() == Status.DECLINED){
             mc.sendMessage(p, "in-game.packdeclined");
             unloadedPlayers.add(p.getName());
             return;
         }
 
-        if (e.getStatus() == FAILED_DOWNLOAD){
+        if (e.getStatus() == Status.FAILED_DOWNLOAD){
             mc.sendMessage(p, "in-game.packfailedload");
             unloadedPlayers.add(p.getName());
             return;

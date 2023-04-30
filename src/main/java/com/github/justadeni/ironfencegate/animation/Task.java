@@ -54,13 +54,7 @@ public class Task {
                 }
 
                 if (progress >= 9.0) {
-                    //This is the only thing that has to run sync
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            end(location, hardness);
-                        }
-                    }.runTask(IronFenceGate.getInstance());
+                    end(location, hardness);
                     cancel();
                     return;
                 }
@@ -76,7 +70,7 @@ public class Task {
                     location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.breaking.name")), mc.getFloat("sound.breaking.volume"), mc.getFloat("sound.breaking.pitch"));
                 }
             }
-        }.runTaskTimerAsynchronously(IronFenceGate.getInstance(), 0, 2);
+        }.runTaskTimer(IronFenceGate.getInstance(), 0, 2);
     }
 
     private void end(Location location, double hardness){
@@ -85,11 +79,7 @@ public class Task {
         if (!manager.hasStand())
             return;
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Gate.delete(location, hardness > 0.5, manager);
-            }
-        }.runTask(IronFenceGate.getInstance());
+
+        Gate.delete(location, hardness > 0.5, manager);
     }
 }

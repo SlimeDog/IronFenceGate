@@ -31,7 +31,7 @@ public final class IronFenceGate extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        //Initializing these classes at enable so that they create their files/team
+        //Initializing these singletons at enable so that they create their files/team
         NonCollision.getInstance();
         Resourcepack.getInstance();
         MessageConfig.getInstance();

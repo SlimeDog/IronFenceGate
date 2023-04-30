@@ -39,14 +39,8 @@ public class StandManager {
     }
 
     public void removeStand(){
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-
-                if (hasStand())
-                    stand.remove();
-            }
-        }.runTask(IronFenceGate.getInstance());
+        if (hasStand())
+            stand.remove();
     }
 
     public static boolean isValidBlock(ItemStack itemStack){

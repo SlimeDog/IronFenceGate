@@ -222,7 +222,7 @@ public class PlayerInteract implements Listener {
                     if (task.contains(location))
                         return;
 
-                    task.track(location, e.getPlayer(), manager);
+                    task.new Track(location, e.getPlayer(), manager);
                 }
                 return;
             }
@@ -239,7 +239,7 @@ public class PlayerInteract implements Listener {
             if (task.contains(belowLoc))
                 return;
 
-            task.track(belowLoc, e.getPlayer(), belowManager);
+            task.new Track(belowLoc, e.getPlayer(), belowManager);
         }
 
         

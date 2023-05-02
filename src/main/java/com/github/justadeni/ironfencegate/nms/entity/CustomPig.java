@@ -125,7 +125,7 @@ public class CustomPig extends Pig {
             if (task.contains(location))
                 return false;
 
-            task.track(location, player, manager);
+            task.new Track(location, player, manager);
         }
         return false;
     }

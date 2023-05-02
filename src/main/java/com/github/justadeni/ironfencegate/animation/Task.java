@@ -35,10 +35,13 @@ public class Task {
             final long start = System.currentTimeMillis();
             final Material material = player.getInventory().getItemInMainHand().getType();
             final double hardness = switch(material){
-                case IRON_PICKAXE -> 0.7; //takes about 1.6 sec to break
-                case DIAMOND_PICKAXE -> 0.9; //takes about 1.3 sec to break
-                case NETHERITE_PICKAXE -> 0.11; //takes about 1.1 sec to break
-                default -> 0.3;
+                case WOODEN_PICKAXE -> 0.24;
+                case STONE_PICKAXE -> 0.473;
+                case IRON_PICKAXE -> 0.72;
+                case DIAMOND_PICKAXE -> 0.947;
+                case NETHERITE_PICKAXE -> 0.106;
+                case GOLDEN_PICKAXE -> 0.139;
+                default -> 0.035;
             };
 
             long current = System.currentTimeMillis();
@@ -47,14 +50,14 @@ public class Task {
             @Override
             public void run() {
                 //If was removed and timeout checks
-                if (manager == null || !manager.hasStand() || !tracker.contains(location) || start + 2000 < current) {
-                    end(location, hardness);
+                if (manager == null || !manager.hasStand() || !tracker.contains(location) || start + 30000 < current) {
+                    end(location, hardness > 0.035);
                     cancel();
                     return;
                 }
 
                 if (progress >= 9.0) {
-                    end(location, hardness);
+                    end(location, hardness > 0.035);
                     cancel();
                     return;
                 }
@@ -73,13 +76,13 @@ public class Task {
         }.runTaskTimer(IronFenceGate.getInstance(), 0, 2);
     }
 
-    private void end(Location location, double hardness){
+    private void end(Location location, boolean drop){
         tracker.remove(location);
         StandManager manager = new StandManager(location);
         if (!manager.hasStand())
             return;
 
 
-        Gate.delete(location, hardness > 0.5, manager);
+        Gate.delete(location, drop, manager);
     }
 }

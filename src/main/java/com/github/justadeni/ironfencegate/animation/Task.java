@@ -35,13 +35,13 @@ public class Task {
             final long start = System.currentTimeMillis();
             final Material material = player.getInventory().getItemInMainHand().getType();
             final double hardness = switch(material){
-                case WOODEN_PICKAXE -> 0.24;
-                case STONE_PICKAXE -> 0.473;
-                case IRON_PICKAXE -> 0.72;
-                case DIAMOND_PICKAXE -> 0.947;
-                case NETHERITE_PICKAXE -> 0.106;
-                case GOLDEN_PICKAXE -> 0.139;
-                default -> 0.035;
+                case WOODEN_PICKAXE -> 0.24;        //3.75 seconds
+                case STONE_PICKAXE -> 0.473;        //1.9 seconds
+                case IRON_PICKAXE -> 0.72;          //1.25 seconds
+                case DIAMOND_PICKAXE -> 0.947;      //0.95 seconds
+                case NETHERITE_PICKAXE -> 0.106;    //0.85 seconds
+                case GOLDEN_PICKAXE -> 0.139;       //0.65 seconds
+                default -> 0.035;                   // ~25 seconds
             };
 
             long current = System.currentTimeMillis();

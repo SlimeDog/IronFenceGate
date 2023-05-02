@@ -39,8 +39,8 @@ public class Task {
                 case STONE_PICKAXE -> 0.473;        //1.9 seconds
                 case IRON_PICKAXE -> 0.72;          //1.25 seconds
                 case DIAMOND_PICKAXE -> 0.947;      //0.95 seconds
-                case NETHERITE_PICKAXE -> 0.106;    //0.85 seconds
-                case GOLDEN_PICKAXE -> 0.139;       //0.65 seconds
+                case NETHERITE_PICKAXE -> 1.058;    //0.85 seconds
+                case GOLDEN_PICKAXE -> 1.384;       //0.65 seconds
                 default -> 0.035;                   // ~25 seconds
             };
 

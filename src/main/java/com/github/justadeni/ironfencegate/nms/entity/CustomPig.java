@@ -20,13 +20,6 @@ import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
 
 public class CustomPig extends Pig {
 
-    public static void spawn(Location location){
-        Level world = ((CraftWorld) location.getWorld()).getHandle();
-        CustomPig pig = new CustomPig(location);
-        NonCollision.getInstance().add(pig.getBukkitEntity());
-        world.addFreshEntity(pig);
-    }
-
     public static void remove(Location location){
         org.bukkit.entity.Pig pig = Finder.pig(location);
         if (pig == null)
@@ -52,6 +45,9 @@ public class CustomPig extends Pig {
         this.setPos(location.getX(), location.getY(), location.getZ());
         this.getBukkitEntity().setPersistent(true);
         ((org.bukkit.entity.Pig) this.getBukkitEntity()).setRemoveWhenFarAway(false);
+
+        ((CraftWorld) location.getWorld()).getHandle().addFreshEntity(this);
+        NonCollision.getInstance().add(this.getBukkitEntity());
     }
 
     @Override

@@ -10,12 +10,12 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
+import java.util.Vector;
 import java.util.List;
 
 public class Task {
 
-    private static final List<Location> tracker = new ArrayList<>();
+    private static final List<Location> tracker = new Vector<>();
 
     public boolean contains(Location location){
         return tracker.contains(location);
@@ -36,15 +36,15 @@ public class Task {
                 final long start = System.currentTimeMillis();
                 final Material material = player.getInventory().getItemInMainHand().getType();
                 final double hardness = switch (material) {
-                    default -> 0.035;                   // ~25 seconds
+                    default -> 0.035;                   //25.0 seconds
                     case WOODEN_PICKAXE -> 0.24;        //3.75 seconds
-                    case STONE_PICKAXE -> 0.473;        //1.9 seconds
+                    case STONE_PICKAXE -> 0.473;        //1.9  seconds
                     case IRON_PICKAXE -> 0.72;          //1.25 seconds
                     case DIAMOND_PICKAXE -> 0.947;      //0.95 seconds
                     case NETHERITE_PICKAXE -> 1.058;    //0.85 seconds
                     case GOLDEN_PICKAXE -> 1.384;       //0.65 seconds
                 };
-
+                final boolean drop = hardness >= 0.72;
                 long current = System.currentTimeMillis();
                 double progress = 0.0;
 
@@ -52,13 +52,13 @@ public class Task {
                 public void run() {
                     //If was removed and timeout checks
                     if (manager == null || !manager.hasStand() || !tracker.contains(location) || start + 30000 < current) {
-                        end(location, hardness > 0.035);
+                        end(location, drop);
                         cancel();
                         return;
                     }
 
                     if (progress >= 9.0) {
-                        end(location, hardness > 0.035);
+                        end(location, drop);
                         cancel();
                         return;
                     }

@@ -10,11 +10,12 @@ import org.bukkit.event.block.BlockPhysicsEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 public class BlockUpdate implements Listener {
 
     private final List<Integer> redstoned = new ArrayList<>();
-    private final List<Integer> locked = new ArrayList<>();
+    private final List<Integer> locked = new Vector<>();
 
     @EventHandler
     public void onBlockUpdate(BlockPhysicsEvent e){

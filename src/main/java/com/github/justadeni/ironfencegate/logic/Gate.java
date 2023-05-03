@@ -41,8 +41,8 @@ public final class Gate {
 
     public static void create(Location location, Player player){
 
-        CustomArmorstand.spawn(location);
-        CustomPig.spawn(location);
+        new CustomArmorstand(location);
+        new CustomPig(LocUtil.alter(location, 0,0.0876,0));
 
         MainConfig mc = MainConfig.getInstance();
         location.getWorld().playSound(location, Sound.valueOf(mc.getString("sound.place.name")), mc.getFloat("sound.place.volume"), mc.getFloat("sound.place.pitch"));

@@ -21,21 +21,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class CustomArmorstand extends ArmorStand {
 
-    public static void spawn(Location location){
-        CustomArmorstand stand =  new CustomArmorstand(location);
-        Level world = ((CraftWorld) location.getWorld()).getHandle();
-        world.addFreshEntity(stand, CreatureSpawnEvent.SpawnReason.CUSTOM);
-
-        ItemStack itemStack = Recipe.getInstance().getResult();
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setCustomModelData(StandManager.IDFIRST+1);
-        itemStack.setItemMeta(itemMeta);
-
-        org.bukkit.entity.ArmorStand livingStand = (org.bukkit.entity.ArmorStand) stand.getBukkitEntity();
-        livingStand.getEquipment().setHelmet(itemStack);
-        livingStand.addEquipmentLock(EquipmentSlot.HEAD, org.bukkit.entity.ArmorStand.LockType.REMOVING_OR_CHANGING);
-    }
-
     public CustomArmorstand (EntityType<?> entityType, Level world){
         super(EntityType.ARMOR_STAND, world);
     }
@@ -57,6 +42,17 @@ public class CustomArmorstand extends ArmorStand {
         this.setYBodyRot(0);
         this.setXRot(0);
         this.setRot(0,0);
+
+        ((CraftWorld) location.getWorld()).getHandle().addFreshEntity(this, CreatureSpawnEvent.SpawnReason.CUSTOM);
+
+        ItemStack itemStack = Recipe.getInstance().getResult();
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setCustomModelData(StandManager.IDFIRST+1);
+        itemStack.setItemMeta(itemMeta);
+
+        org.bukkit.entity.ArmorStand livingStand = (org.bukkit.entity.ArmorStand) this.getBukkitEntity();
+        livingStand.getEquipment().setHelmet(itemStack);
+        livingStand.addEquipmentLock(EquipmentSlot.HEAD, org.bukkit.entity.ArmorStand.LockType.REMOVING_OR_CHANGING);
     }
 
     @Override

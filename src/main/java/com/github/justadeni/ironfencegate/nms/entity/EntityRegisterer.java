@@ -28,7 +28,10 @@ public final class EntityRegisterer {
     public static void register(){
 
         // In case plugin gets reloaded
-        if (BuiltInRegistries.ENTITY_TYPE.getOptional(new ResourceLocation("custom_pig")).isPresent())
+        //if (BuiltInRegistries.ENTITY_TYPE.getOptional(new ResourceLocation("custom_pig")).isPresent())
+        //    return;
+
+        if (EntityType.byString("CUSTOM_PIG").isPresent())
             return;
 
         // Get entity type registry

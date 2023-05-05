@@ -8,6 +8,9 @@ import com.github.justadeni.ironfencegate.logic.NonCollision;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Pig;
@@ -48,6 +51,51 @@ public class CustomPig extends Pig {
 
         ((CraftWorld) location.getWorld()).getHandle().addFreshEntity(this);
         NonCollision.getInstance().add(this.getBukkitEntity());
+    }
+
+    @Override
+    public boolean hurt(DamageSource damagesource, float f) {
+
+        Location location = this.getBukkitEntity().getLocation();
+        StandManager manager = new StandManager(location);
+
+        if (!damagesource.is(DamageTypes.PLAYER_ATTACK)){
+            Gate.delete(location, false, manager);
+            return true;
+        }
+
+        org.bukkit.entity.Player player = (org.bukkit.entity.Player) damagesource.getEntity().getBukkitEntity();
+        if (!manager.hasStand())
+            return false;
+
+        if (player.getGameMode() == GameMode.CREATIVE || damagesource.isIndirect()) {
+            Gate.delete(location, false, manager);
+            return true;
+        }
+
+        Task task = new Task();
+
+        task.new Track(location, player, manager);
+        return false;
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag nbttagcompound) {
+        super.addAdditionalSaveData(nbttagcompound);
+        nbttagcompound.putString("id", "minecraft:custom_pig");
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag nbttagcompound) {
+        super.readAdditionalSaveData(nbttagcompound);
+        this.setInvisible(true);
+        NonCollision.getInstance().add(this.getBukkitEntity());
+    }
+
+    @Override
+    public void remove(Entity.RemovalReason entity_removalreason) {
+        NonCollision.getInstance().remove(this.getBukkitEntity());
+        super.remove(entity_removalreason);
     }
 
     @Override
@@ -100,48 +148,5 @@ public class CustomPig extends Pig {
     @Override
     public boolean isPushable() {
         return false;
-    }
-
-    @Override
-    public boolean hurt(DamageSource damagesource, float f) {
-        if (!(damagesource.getEntity().getBukkitEntity() instanceof org.bukkit.entity.Player player))
-            return false;
-
-        Location location = this.getBukkitEntity().getLocation();
-        StandManager manager = new StandManager(location);
-        if (!manager.hasStand())
-            return false;
-
-        if (player.getGameMode() == GameMode.CREATIVE)
-            Gate.delete(location, false, manager);
-        else {
-
-            Task task = new Task();
-
-            if (task.contains(location))
-                return false;
-
-            task.new Track(location, player, manager);
-        }
-        return false;
-    }
-
-    @Override
-    public void addAdditionalSaveData(CompoundTag nbttagcompound) {
-        super.addAdditionalSaveData(nbttagcompound);
-        nbttagcompound.putString("id", "minecraft:custom_pig");
-    }
-
-    @Override
-    public void readAdditionalSaveData(CompoundTag nbttagcompound) {
-        super.readAdditionalSaveData(nbttagcompound);
-        this.setInvisible(true);
-        NonCollision.getInstance().add(this.getBukkitEntity());
-    }
-
-    @Override
-    public void remove(Entity.RemovalReason entity_removalreason) {
-        NonCollision.getInstance().remove(this.getBukkitEntity());
-        super.remove(entity_removalreason);
     }
 }

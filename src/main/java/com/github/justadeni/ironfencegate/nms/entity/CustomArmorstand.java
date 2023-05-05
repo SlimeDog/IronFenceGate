@@ -1,19 +1,26 @@
 package com.github.justadeni.ironfencegate.nms.entity;
 
+import com.github.justadeni.ironfencegate.animation.Task;
+import com.github.justadeni.ironfencegate.logic.Finder;
+import com.github.justadeni.ironfencegate.logic.Gate;
 import com.github.justadeni.ironfencegate.logic.StandManager;
+import com.github.justadeni.ironfencegate.misc.LocUtil;
 import com.github.justadeni.ironfencegate.misc.Recipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
+import org.bukkit.entity.Pig;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -57,8 +64,32 @@ public class CustomArmorstand extends ArmorStand {
 
     @Override
     public boolean hurt(DamageSource damagesource, float f) {
-        if (damagesource.is(DamageTypeTags.IS_FIRE))
+
+        if (damagesource.is(DamageTypes.ON_FIRE) || damagesource.is(DamageTypes.IN_FIRE)) {
             this.clearFire();
+            return false;
+        }
+
+        Location location = this.getBukkitEntity().getLocation();
+        StandManager manager = new StandManager(location);
+
+        if (!damagesource.is(DamageTypes.PLAYER_ATTACK)){
+            Gate.delete(location, false, manager);
+            return true;
+        }
+
+        org.bukkit.entity.Player player = (org.bukkit.entity.Player) damagesource.getEntity().getBukkitEntity();
+        if (!manager.hasStand())
+            return false;
+
+        if (player.getGameMode() == GameMode.CREATIVE || damagesource.isIndirect()) {
+            Gate.delete(location, false, manager);
+            return true;
+        }
+
+        Task task = new Task();
+
+        task.new Track(location, player, manager);
         return false;
     }
 
@@ -66,6 +97,24 @@ public class CustomArmorstand extends ArmorStand {
     public void addAdditionalSaveData(CompoundTag nbttagcompound) {
         super.addAdditionalSaveData(nbttagcompound);
         nbttagcompound.putString("id", "minecraft:custom_armor_stand");
+    }
+
+    @Override
+    public void remove(Entity.RemovalReason entity_removalreason) {
+        if (entity_removalreason == RemovalReason.KILLED) {
+            Location location = this.getBukkitEntity().getLocation();
+
+            if (location.getBlock().getType() == Material.BARRIER)
+                location.getBlock().setType(Material.AIR);
+
+            if (LocUtil.alter(location, 0, 1, 0).getBlock().getType() == Material.BARRIER)
+                LocUtil.alter(location, 0, 1, 0).getBlock().setType(Material.AIR);
+
+            Pig pig = Finder.pig(location);
+            if (pig != null)
+                pig.remove();
+        }
+        super.remove(entity_removalreason);
     }
 
     @Override

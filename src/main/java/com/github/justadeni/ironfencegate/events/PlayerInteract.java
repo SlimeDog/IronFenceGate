@@ -219,9 +219,6 @@ public class PlayerInteract implements Listener {
                 if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
                     Gate.delete(location, false, manager);
                 } else {
-                    if (task.contains(location))
-                        return;
-
                     task.new Track(location, e.getPlayer(), manager);
                 }
                 return;
@@ -234,9 +231,6 @@ public class PlayerInteract implements Listener {
             Location belowLoc = new Location(location.getWorld(), location.getX(), location.getY()-1, location.getZ());
             StandManager belowManager = new StandManager(belowLoc);
             if (!belowManager.hasStand())
-                return;
-
-            if (task.contains(belowLoc))
                 return;
 
             task.new Track(belowLoc, e.getPlayer(), belowManager);

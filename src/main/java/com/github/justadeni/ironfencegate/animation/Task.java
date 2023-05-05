@@ -17,9 +17,9 @@ public class Task {
 
     private static final List<Location> tracker = new Vector<>();
 
-    public boolean contains(Location location){
-        return tracker.contains(location);
-    }
+    //public boolean contains(Location location){
+    //    return tracker.contains(location);
+    //}
 
     private final MainConfig mc;
 
@@ -29,6 +29,10 @@ public class Task {
 
     public class Track{
         public Track(Location location, Player player, StandManager manager) {
+
+            if (tracker.contains(location))
+                return;
+
             tracker.add(location);
 
             new BukkitRunnable() {

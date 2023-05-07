@@ -80,15 +80,15 @@ public class Task {
                 }
             }.runTaskTimer(IronFenceGate.getInstance(), 0, 2);
         }
-    }
 
-    private void end(Location location, boolean drop){
-        tracker.remove(location);
-        StandManager manager = new StandManager(location);
-        if (!manager.hasStand())
-            return;
+        private void end(Location location, boolean drop){
+            tracker.remove(location);
+            StandManager manager = new StandManager(location);
+            if (!manager.hasStand())
+                return;
 
 
-        Gate.delete(location, drop, manager);
+            Gate.delete(location, drop, manager);
+        }
     }
 }

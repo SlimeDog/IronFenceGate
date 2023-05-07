@@ -43,10 +43,6 @@ public class StandManager {
             stand.remove();
     }
 
-    public static boolean isValidBlock(ItemStack itemStack){
-        return  itemStack.getType().isOccluding() || itemStack.getType().name().endsWith("GLASS");
-    }
-
     public int getDecaId(){
         ItemStack itemStack = stand.getEquipment().getItem(EquipmentSlot.HEAD);
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -106,6 +102,9 @@ public class StandManager {
                 return;
             }
             adjustDirection(player);
+
+            if (player.getLocation().distanceSquared(stand.getLocation()) <= 0.249)
+                player.setNoDamageTicks(20);
         }
 
         addBarriers(1);

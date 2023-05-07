@@ -39,8 +39,11 @@ public class StandManager {
     }
 
     public void removeStand(){
-        if (hasStand())
-            stand.remove();
+        try {
+            if (hasStand())
+                stand.remove();
+        //No need to catch harmless (and rare) error. Caused by race condition
+        } catch (NullPointerException ignored){}
     }
 
     public int getDecaId(){

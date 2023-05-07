@@ -149,20 +149,20 @@ public class PlayerInteract implements Listener {
                 return;
             }
 
-            if (!isValidPlaceable(againstLoc, e.getPlayer())) {
-
-                e.setCancelled(true);
-
-                if (hasPermission)
-                    clickedManager.open(e.getPlayer());
-
+            if (isValidPlaceable(againstLoc, e.getPlayer()) && e.getPlayer().isSneaking())
                 return;
-            }
+
+            e.setCancelled(true);
+
+            if (hasPermission)
+                clickedManager.open(e.getPlayer());
+
+            return;
         }
 
         if (handMaterialType == ItemType.IRON_FENCE_GATE){
             if (hasIFGclicked){
-                if (!isValidPlaceable(againstLoc, e.getPlayer())) {
+                if (!isValidPlaceable(againstLoc, e.getPlayer()) || !e.getPlayer().isSneaking()) {
                     e.setCancelled(true);
                     if (hasPermission)
                         clickedManager.open(e.getPlayer());

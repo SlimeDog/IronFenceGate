@@ -1,0 +1,50 @@
+name: ${project.name}
+version: ${project.version}
+main: ${project.groupId}.${project.artifactId}.${project.name}
+description: ${project.description}
+authors: [justADeni, mart-r, SlimeDog]
+api-version: 1.19
+load: POSTWORLD
+commands:
+  ironfencegate:
+    aliases: [ifg]
+    description: Finally, an iron fence gate
+    usage: /ironfencegate
+  ironfencegate get:
+    description: Get an iron fence gate
+    usage: /ironfencegate get [<number>]
+  ironfencegate reload:
+    description: Reload the configuration
+    usage: /ironfencegate reload to reload config
+  ironfencegate help:
+    description: Show command help
+    usage: /ironfencegate help
+permissions:
+  ironfencegate.*:
+    description: Allows use of all commands.
+    default: false
+    children:
+      ironfencegate.get: true
+      ironfencegate.help: true
+      ironfencegate.use: true
+      ironfencegate.reload: true
+  ironfencegate.admin:
+    description: Allows reload
+    default: op
+    children:
+      ironfencegate.get: true
+      ironfencegate.help: true
+      ironfencegate.use: true
+      ironfencegate.reload: true
+  ironfencegate.get:
+    description: Allows getting an item
+    default: op
+  ironfencegate.use:
+    description: Allows using a fence gate
+    default: true
+  ironfencegate.help:
+    description: Allows calling /ifg help
+    default: false
+  ironfencegate.reload:
+    description: Allows for reloading plugin configuration
+    default: op

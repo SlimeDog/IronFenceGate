@@ -1,0 +1,58 @@
+# IronFenceGate configuration
+#
+# Updated and maintained by justADeni and SlimeDog
+
+# Supported MC versions:
+# https://github.com/SlimeDog/IronFenceGate/wiki
+# Default configuration:
+# https://github.com/SlimeDog/IronFenceGate/blob/master/main/src/main/resources/config.yml
+#
+# IronFenceGate does not rewrite the configuration files if they exist, so changes must be made
+# manually.
+
+# ========== CHECK FOR UPDATES =====================================================================
+# If you do not want notification of available updates in the console log, you may disable it here.
+check-for-updates: true
+
+# ========== BSTATS METRICS ========================================================================
+# By default, the plugin collects and transmits anonymous statistics to bstats.org.
+# Data collection may be disabled here, or generally in the bStats/config.yml.
+#
+enable-metrics: true
+
+# ========== ITEM ========================================================================
+# Change name and lore of the item
+# Lore can have multiple lines
+# If you want lore to be empty, simply put [] after lore:
+# These accept traditional '&' colorcodes
+item:
+  name: "Iron gate"
+  lore:
+    - "Connects to iron fences"
+    - "wooden fences and walls"
+
+# ========== SOUND ========================================================================
+# List of all available sounds can be found at https://www.digminecraft.com/lists/sound_list_pc.php
+sound:
+  place:
+    name: BLOCK_METAL_PLACE
+    volume: 1.0
+    pitch: 1.2
+  break:
+    name: BLOCK_METAL_BREAK
+    volume: 1.0
+    pitch: 1.2
+  breaking:
+    name: BLOCK_METAL_HIT
+    volume: 0.25
+    pitch: 0.75
+  open:
+    name: BLOCK_IRON_DOOR_OPEN
+    volume: 0.9
+    pitch: 1.0
+  close:
+    name: BLOCK_IRON_DOOR_CLOSE
+    volume: 0.9
+    pitch: 1.0
+
+
